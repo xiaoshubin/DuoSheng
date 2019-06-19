@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/action_common_bar"/>
+    <Switch
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/white"
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height"
+        android:text="接收消息通知" />
+    <Switch
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/white"
+        android:id="@+id/switch2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height"
+        android:text="收益消息" />
+    <View style="@style/HorizontalLine"/>
+    <Switch
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/white"
+        android:id="@+id/switch3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height"
+        android:text="新粉丝消息" />
+
+
+</LinearLayout>

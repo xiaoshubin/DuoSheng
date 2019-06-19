@@ -1,0 +1,154 @@
+apply plugin: 'com.android.application'
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    signingConfigs{
+        release{
+            keyAlias 'bin'
+            keyPassword '123456'
+            storeFile file('../xiao.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.qiqia.duosheng"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "67c0c2ce56c18c08c612d4ab", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all{
+            outputFileName  = "${applicationId.subSequence(applicationId.lastIndexOf(".")+1,applicationId.length())}_v${versionName}_${releaseTime()}_${baseName}.apk"
+        }
+    }
+
+}
+
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation ('com.android.support:design:28.0.0'){
+            exclude group: 'com.android.support', module: 'design'
+    }
+    implementation ('com.android.support:appcompat-v7:28.0.0'){
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //合并
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    //我的工具和网络
+    implementation project(path: ':smallcake-utils')
+    implementation project(path: ':smallcake-okhttp3')
+    //片段fragment
+    implementation 'me.yokeyword:fragmentation:1.3.6'
+    implementation 'me.yokeyword:fragmentation-swipeback:1.3.6'
+    //ButterKnife（10.0必须适配AndroidX）
+    implementation 'com.jakewharton:butterknife:9.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+
+    //依赖注入框架
+    implementation 'com.google.dagger:dagger:2.17'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.17"
+    //沉浸式状态栏
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta01'
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta01'
+    //banner
+    implementation 'com.youth.banner:banner:1.4.10'
+    //图片
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    //适配器
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    //数据库
+    implementation 'org.litepal.android:core:2.0.0'
+    //微信开放平台
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
+    //权限管理
+    implementation 'com.yanzhenjie.permission:support:2.0.1'
+    //Apollo的核心库,事件通知
+    implementation 'com.github.lsxiao.Apollo:core:1.0.2'
+    annotationProcessor "com.github.lsxiao.Apollo:processor:1.0.2"
+    //popwindow
+    implementation 'com.lxj:xpopup:1.7.1'
+    //极光推送
+    implementation 'cn.jiguang.sdk:jpush:3.3.0'
+    implementation 'cn.jiguang.sdk:jcore:2.0.1'
+    implementation 'cn.jiguang.sdk:jshare:1.6.0'
+    //阿里百川淘宝授权登陆
+    implementation 'com.alibaba.alipay:alipaySingle:20160825@jar'
+    implementation 'com.ali.auth.sdk:alibabauth_core:1.1.4@jar'
+    implementation 'com.ali.auth.sdk:alibabauth_ui:1.1.4@aar'
+    implementation 'com.ali.auth.sdk:alibabauth_ext:1.1.4@jar'
+    implementation 'com.ali.auth.sdk:alibabauth_accountlink:1.1.4@jar'
+    implementation 'com.taobao.android:securityguardaar3:5.1.81@aar'
+    implementation 'com.taobao.android:securitybodyaar3:5.1.25@aar'
+    implementation 'com.taobao.android:mtopsdk_allinone_open:1.2.2.4@jar'
+    implementation 'com.taobao.android:alibc_applink:2.0.0.9@jar'
+    implementation 'com.taobao.android:utdid4all:1.1.5.3_proguard@jar'
+    implementation 'com.alibaba.mtl:app-monitor-sdk:2.5.1.3_for_bc_proguard@jar'
+    implementation 'com.alibaba.sdk.android:alibc_trade_sdk:3.1.3.5@aar'
+    implementation files('libs/fastjson-1.2.9.jar')
+    //文字字体颜色
+    implementation "com.hanks:htextview-base:0.1.6"
+    implementation "com.hanks:htextview-rainbow:0.1.6"
+    //zxing
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+    implementation 'com.google.zxing:core:3.3.3'
+    //html解析器
+    implementation 'org.jsoup:jsoup:1.12.1'
+    //垂直滚动TabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+    //qq空间分享
+    implementation files('libs/open_sdk_r6019_lite.jar')
+    //新手引导蒙版
+    implementation project(path: ':guideview')
+    //生命周期监听
+    implementation "android.arch.lifecycle:common-java8:1.1.1"
+    //图片压缩
+    implementation 'top.zibin:Luban:1.1.8'
+    //滚动控件
+    implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    //TabLayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+
+}

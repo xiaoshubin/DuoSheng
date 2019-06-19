@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">多省</string>
+    <string name="use_moe_saving_more">用多省·省多多！</string>
+    <string name="wx_login">微信登录</string>
+    <string name="phone_quit_login">手机快速登录</string>
+    <string name="menu">菜单</string>
+    <string name="back">返回</string>
+    <string name="login">登录</string>
+    <string name="phone_login">手机登录</string>
+    <string name="input_phone_number">请输入手机号码</string>
+    <string name="check_code">短信验证码</string>
+    <string name="get_check_code">获取验证码</string>
+    <string name="invite_code">邀请码</string>
+    <string name="new_user_need_invite_code">新用户需要填写邀请码</string>
+    <string name="no_invite_code">没有邀请码？</string>
+    <string name="no_invite_desc">多省APP是老会员机制，新会员必须填写邀请码才能正常使用。您可以联系推荐您下载的朋友，他发给您邀请码。</string>
+    <string name="no_invite_">没有邀请码？</string>
+    <string name="share_accessibility_service_title">多省【多图分享，自动选图】</string>
+    <string name="share_accessibility_service_desc">\n到[设置->辅助功能->无障碍~>多省(多图分享,自动选图] ]去开启分享朋友圈自动选图功能。\n\n开启该服务后，可分享多图到朋友圈(自动粘贴文字，自动选择图片，无需手动操作)。\n\n 个别型号的手机，退出APP后，手机会关闭该功能导致失效。出现该情况时，您可以尝试关闭并重新打开该服务，或者重启手机。\n</string>
+
+    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="vip_level">会员级别</string>
+    <string-array name="main_menu_names">
+        <item>淘宝</item>
+        <item>天猫超市</item>
+        <item>天猫国际</item>
+        <item>天猫生鲜</item>
+        <item>聚划算</item>
+        <item>购物车</item>
+        <item>疯抢榜单</item>
+        <item>大额券</item>
+        <item>高佣榜</item>
+        <item>白菜价</item>
+    </string-array>
+
+    <string name="behavior_sample_title">com.qiqia.duosheng.custom.SampleTitleBehavior</string>
+
+</resources>

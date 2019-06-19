@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <include layout="@layout/action_common_bar"/>
+    <TextView
+        android:layout_margin="30dp"
+        android:textColor="@color/text_black"
+        android:textSize="24sp"
+        android:text="@string/phone_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height">
+    <TextView
+        android:drawableRight="@mipmap/icon_sarr"
+        android:textSize="14sp"
+        android:textColor="@color/text_black"
+        android:text="+86"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_phone"
+            android:maxLength="11"
+            android:textSize="14sp"
+            android:inputType="number"
+            android:hint="@string/input_phone_number"
+            android:background="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@style/HorizontalLine"
+        />
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height">
+        <EditText
+            android:id="@+id/et_code"
+            android:maxLength="6"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:hint="@string/check_code"
+            android:background="@color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_check_code"
+            android:textColor="@color/text_orange"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@style/HorizontalLine"
+        />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_margin="30dp"
+        android:background="@drawable/round_gray_btn_bg"
+        android:text="@string/login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height" />
+
+    <TextView
+        android:gravity="center"
+        android:padding="8dp"
+        android:id="@+id/tv_err"
+        android:textSize="14sp"
+        android:textColor="@color/red"
+        tools:text="@string/get_check_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

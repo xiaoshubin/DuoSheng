@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/ele_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/electricity_bar_height" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:src="@mipmap/icon_back" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/iv_back"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tools:text="@string/back" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:text="@string/app_name" />
+
+            <LinearLayout
+                android:id="@+id/layout_search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/round_gray_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:padding="4dp"
+                    android:src="@mipmap/icon_search_little" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:hint="搜索商品名或粘贴宝贝标题"
+                    android:maxLines="1"
+                    android:paddingLeft="8dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:text="取消"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <q.rorbin.verticaltablayout.VerticalTabLayout
+           android:padding="4dp"
+            android:id="@+id/tab_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:indicator_color="@color/colorAccent"
+            app:indicator_corners="50dp"
+            app:indicator_gravity="fill"
+            app:tab_margin="8dp"
+            app:tab_height="32dp"
+            app:tab_mode="scrollable" />
+        <View style="@style/VerticalLine"/>
+        <com.qiqia.duosheng.custom.VerticalViewPager
+            android:background="@color/white"
+            android:id="@+id/view_pager"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

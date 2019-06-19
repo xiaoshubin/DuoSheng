@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_marginTop="16dp"
+        android:id="@+id/iv_close"
+        android:padding="16dp"
+        android:layout_gravity="left"
+        android:src="@mipmap/icon_clean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name" />
+    <ImageView
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/app_name" />
+    <TextView
+        android:textColor="@color/text_gray"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_msg"
+        android:text="@string/use_moe_saving_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+    <RelativeLayout
+        android:paddingBottom="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_above="@+id/line_phone_login"
+        android:id="@+id/line_wx_login"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/round_black_btn_bg"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height">
+        <ImageView
+            android:src="@mipmap/icon_wechat"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="@string/wx_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/line_phone_login"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height">
+        <ImageView
+            android:src="@mipmap/icon_mobile"
+            android:layout_width="14dp"
+            android:layout_height="14dp" />
+        <TextView
+            android:textColor="@color/text_light_gray"
+            android:textSize="14sp"
+            android:text="@string/phone_quit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:src="@mipmap/icon_arr"
+            android:layout_width="14dp"
+            android:layout_height="14dp" />
+    </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

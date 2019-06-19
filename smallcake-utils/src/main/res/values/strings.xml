@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">small_utils</string>
+    <string name="data_loading">数据加载中...</string>
+</resources>

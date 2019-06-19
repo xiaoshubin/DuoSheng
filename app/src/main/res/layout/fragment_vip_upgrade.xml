@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <include layout="@layout/action_common_bar"/>
+    <android.support.v4.widget.NestedScrollView
+        android:background="#393839"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_vip_top_bg"
+                android:layout_width="match_parent"
+                android:layout_height="180dp" />
+            <RelativeLayout
+                android:layout_marginTop="-150dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- 中间文字描述 -->
+                <RelativeLayout
+                    android:layout_marginTop="-56dp"
+                    android:layout_below="@+id/layout_top"
+                    android:background="@mipmap/icon_vip_middle_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                    <TextView
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/text_vip_gold"
+                        android:textSize="20sp"
+                        android:text="600名以上VIP会员调过多省APP实现\n0投入兼职月收入3000元+"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/layout_top"
+                    android:paddingTop="16dp"
+                    android:layout_marginTop="136dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/round9_white_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:paddingTop="48dp"
+                        android:background="@mipmap/vip_equity_top_bg_"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:drawablePadding="8dp"
+                            android:drawableRight="@mipmap/title_vip_pic_right"
+                            android:drawableLeft="@mipmap/title_vip_pic_left"
+                            android:textColor="@color/text_vip_gold"
+                            android:textSize="24sp"
+                            android:text="会员权益"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <RelativeLayout
+                            android:paddingTop="16dp"
+                            android:paddingRight="32dp"
+                            android:paddingLeft="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_icon1"
+                                android:src="@mipmap/vip_equity_icon1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:lineSpacingExtra="6dp"
+                                android:id="@+id/tv_equity1"
+                                android:layout_marginLeft="16dp"
+                                android:textColor="@color/text_black"
+                                android:text="自购物奖励\n佣金提升至82%\n您是普通会员，自购物佣金为10元，升级\n为VIP会员后，佣金将提升为16元"
+                                android:layout_toRightOf="@+id/iv_icon1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                        <RelativeLayout
+                            android:paddingTop="32dp"
+                            android:paddingRight="32dp"
+                            android:paddingLeft="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_icon2"
+                                android:src="@mipmap/vip_equity_icon2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:lineSpacingExtra="6dp"
+                                android:id="@+id/tv_equity2"
+                                android:layout_marginLeft="16dp"
+                                android:textColor="@color/text_black"
+                                android:text="自购物奖励\n佣金提升至82%\n您是普通会员，自购物佣金为10元，升级\n为VIP会员后，佣金将提升为16元"
+                                android:layout_toRightOf="@+id/iv_icon2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:paddingTop="32dp"
+                            android:paddingRight="32dp"
+                            android:paddingLeft="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_icon3"
+                                android:src="@mipmap/vip_equity_icon3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:lineSpacingExtra="6dp"
+                                android:id="@+id/tv_equity3"
+                                android:layout_marginLeft="16dp"
+                                android:textColor="@color/text_black"
+                                android:text="自购物奖励\n佣金提升至82%\n您是普通会员，自购物佣金为10元，升级\n为VIP会员后，佣金将提升为16元"
+                                android:layout_toRightOf="@+id/iv_icon3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:paddingBottom="32dp"
+                            android:paddingTop="32dp"
+                            android:paddingRight="32dp"
+                            android:paddingLeft="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_icon4"
+                                android:src="@mipmap/vip_equity_icon4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:lineSpacingExtra="6dp"
+                                android:id="@+id/tv_equity4"
+                                android:layout_marginLeft="16dp"
+                                android:textColor="@color/text_black"
+                                android:text="自购物奖励\n佣金提升至82%\n您是普通会员，自购物佣金为10元，升级\n为VIP会员后，佣金将提升为16元"
+                                android:layout_toRightOf="@+id/iv_icon4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+                <!--顶部VIP card部分-->
+                <RelativeLayout
+                    android:id="@+id/layout_card"
+                    android:layout_margin="16dp"
+                    android:padding="8dp"
+                    android:background="@mipmap/icon_vip_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_top_upgrade"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="16dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/upgrade_vip_btn_bg"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/text_vip_gold"
+                        android:textSize="20sp"
+                        android:text="立即升级"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <com.hanks.htextview.rainbow.RainbowTextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_UlName"
+                        android:layout_centerInParent="true"
+                        android:textColor="#744E34"
+                        android:textSize="30sp"
+                        tools:text="超级VIP会员"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:paddingBottom="16dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/text_vip_gold"
+                        android:textSize="20sp"
+                        android:text="升级多省VIP会员享多项特权"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="-56dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/round9_white_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@mipmap/vip_up_contidion_bg"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginTop="32dp"
+                        android:layout_centerHorizontal="true"
+                        android:drawablePadding="8dp"
+                        android:drawableRight="@mipmap/title_vip_pic_right"
+                        android:drawableLeft="@mipmap/title_vip_pic_left"
+                        android:textColor="@color/text_vip_gold"
+                        android:textSize="24sp"
+                        android:text="升级要求"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="32dp"
+                        android:paddingTop="32dp"
+                        android:paddingRight="32dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@mipmap/first_contidion_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:lineSpacingExtra="6dp"
+                            android:id="@+id/tv_up1"
+                            android:layout_marginLeft="8dp"
+                            android:textColor="@color/text_black"
+                            android:text="直属下级会员≥30人\n当前：0人"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="32dp"
+                    android:paddingRight="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/sencond_contidion_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:lineSpacingExtra="6dp"
+                        android:id="@+id/tv_up2"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/text_black"
+                        android:text="非直属会员(下下级会员)≥60人\n当前：0人"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="32dp"
+                    android:paddingRight="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/third_contidion_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:lineSpacingExtra="6dp"
+                        android:id="@+id/tv_up3"
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/text_black"
+                        android:text="累计收益≥200元\n当前：0人"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <TextView
+
+                    android:background="@drawable/bottom_lightgold_btn_bg"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@color/text_vip_gold"
+                    android:textSize="14sp"
+                    android:text="以上要求需同时满足即可升级"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="bottom"
+                android:layout_marginTop="48dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+                <TextView
+                    android:id="@+id/tv_state"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="bottom"
+                    android:background="@mipmap/foot_gray_btn_bg"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:text="当前状态：已达标"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/tv_bottom_upgrade"
+                    android:background="@drawable/gold_grad_btn_bg"
+                    android:gravity="center"
+                    android:textColor="#744E34"
+                    android:textSize="20sp"
+                    android:text="立即升级"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

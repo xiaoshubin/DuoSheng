@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:paddingBottom="56dp"
+        android:orientation="vertical"
+        android:background="@drawable/orangered_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/action_common_bar" />
+        <TextView
+            android:textStyle="bold"
+            android:gravity="center"
+            tools:text="180.60"
+            android:text="0"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:alpha="0.8"
+            android:gravity="center"
+            android:text="累计收益结算 (元)"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_cash_money"
+                android:gravity="center"
+                android:text="可提现：￥0"
+                tools:text="可提现：￥158.23"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_cash"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/tv_cash_money"
+                android:background="@drawable/money_gold_card_bg"
+                android:text="去提现"
+                android:textColor="#965000"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+        <!--预估，结算-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="-40dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/round9_white_bg">
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center"
+                    android:drawablePadding="4dp"
+                    android:id="@+id/tv_lastmonth_predict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/help_icon"
+                    android:text="151.85"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:text="上月预估(元)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View style="@style/VerticalLine" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:drawablePadding="4dp"
+                    android:id="@+id/tv_lastmonth_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/help_icon"
+                    android:text="88.85"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:text="上月结算(元)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View style="@style/VerticalLine" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:drawablePadding="4dp"
+                    android:id="@+id/tv_thismonth_predict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/help_icon"
+                    android:text="268.38"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:text="本月预估(元)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    <!--时间选择Tab-->
+    <android.support.design.widget.TabLayout
+        app:tabGravity="fill"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        android:layout_margin="8dp"
+        android:background="@drawable/round9_white_bg"
+        style="@style/WhiteTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <android.support.design.widget.TabItem
+            android:text="今日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="昨日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="七日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="本月"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="上月"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.TabLayout>
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round9_white_bg"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tablayout_height">
+            <TextView
+                android:text="预估收入"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"
+                android:text="￥623.25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View style="@style/HorizontalLine"/>
+        <TextView
+            android:textStyle="bold"
+            android:textColor="#ff707070"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@mipmap/wdzg"
+            android:text="我的自购/分享"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:lineSpacingExtra="8dp"
+                    android:id="@+id/tv_buy_num"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="付款笔数\n12"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:lineSpacingExtra="8dp"
+                    android:id="@+id/tv_buy_income"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="预估佣金\n180.54"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View style="@style/HorizontalLine"/>
+        <TextView
+            android:textStyle="bold"
+            android:textColor="#ff707070"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@mipmap/wdtd"
+            android:text="我的团队(直属/裂变会员)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:lineSpacingExtra="8dp"
+                    android:id="@+id/tv_team_num"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="付款笔数\n4"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:lineSpacingExtra="8dp"
+                    android:id="@+id/tv_team_income"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="预估佣金\n2132.27"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

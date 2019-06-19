@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+    <View style="@style/HorizontalLine" android:background="#55eeeeee"/>
+    <RadioGroup
+        android:paddingTop="4dp"
+        android:paddingBottom="2dp"
+        android:background="@color/white"
+        android:id="@+id/rg_bottom_tab"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <RadioButton
+            android:checked="true"
+            style="@style/MainTabRadioButton"
+            android:id="@+id/rb1"
+            android:drawableTop="@drawable/tab_home_selecter"
+            android:text="首页"/>
+        <RadioButton
+            style="@style/MainTabRadioButton"
+            android:id="@+id/rb2"
+            android:drawableTop="@drawable/tab_search_selecter"
+            android:text="搜券" />
+        <RadioButton
+            style="@style/MainTabRadioButton"
+            android:id="@+id/rb3"
+            android:drawableTop="@drawable/tab_rank_selecter"
+            android:text="排行"/>
+        <RadioButton
+
+            style="@style/MainTabRadioButton"
+            android:id="@+id/rb4"
+            android:drawableTop="@drawable/tab_share_selecter"
+            android:text="分享"
+             />
+        <RadioButton
+            style="@style/MainTabRadioButton"
+            android:id="@+id/rb5"
+            android:drawableTop="@drawable/tab_user_selecter"
+            android:text="我的"
+             />
+    </RadioGroup>
+
+</LinearLayout>

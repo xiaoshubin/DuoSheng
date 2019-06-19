@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <include layout="@layout/action_common_bar"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:text="原手机号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:id="@+id/et_phone"
+            android:paddingLeft="16dp"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/iv_clean"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:src="@mipmap/icon_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:text="验证码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:id="@+id/et_code"
+            android:paddingLeft="16dp"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_get_code"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/orangered"
+            android:textSize="14sp"
+            android:text="获取验证码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_err"
+        android:padding="16dp"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        tools:text="请求数据异常"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:id="@+id/btn_confirm"
+            android:text="验证后绑定新手机"
+            style="@style/DefaultOrangeButton"/>
+        <TextView
+            android:gravity="center"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="128dp"
+            android:layout_below="@+id/btn_confirm"
+            android:text="若当前号码不用或丢失，请点击“意见反馈”\n官方将为您处理"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>

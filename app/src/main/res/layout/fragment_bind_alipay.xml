@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <include layout="@layout/action_common_bar"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:textSize="14sp"
+            android:textColor="@color/text_black"
+            android:text="姓名"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:paddingLeft="16dp"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:id="@+id/et_ali_name"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:hint="请输入支付宝认证的真实姓名"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:textSize="14sp"
+            android:textColor="@color/text_black"
+            android:text="支付宝账号"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_ali_account"
+            android:paddingLeft="16dp"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:hint="请输入支付宝账号"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:textSize="14sp"
+            android:textColor="@color/text_black"
+            android:text="手机号码"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_phone"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_black"
+            tools:text="173 **** 5773"
+            android:paddingLeft="16dp"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:paddingLeft="16dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:textSize="14sp"
+            android:textColor="@color/text_black"
+            android:text="验证码"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_code"
+            android:paddingLeft="16dp"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:hint="请输入验证码"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:id="@+id/tv_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/get_check_code"
+            android:textColor="@color/text_orange"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View style="@style/HorizontalLine"/>
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="128dp"
+            android:id="@+id/btn_confirm"
+            android:text="立即绑定"
+            style="@style/DefaultOrangeButton"/>
+    </RelativeLayout>
+</LinearLayout>

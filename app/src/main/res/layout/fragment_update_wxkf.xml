@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/action_common_bar"/>
+    <TextView
+        android:gravity="center"
+        android:background="#FFF3D6"
+        android:textColor="#B8842C"
+        android:padding="8dp"
+        android:textSize="12sp"
+        android:text="请填写正确的微信号，您的直属上下级会员将通过此微信联系您"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/et_wxkf"
+            android:paddingLeft="16dp"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:hint="请输入微信号"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/iv_clean"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:src="@mipmap/icon_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="128dp"
+            android:id="@+id/btn_confirm"
+            android:text="保存"
+            style="@style/DefaultOrangeButton"/>
+    </RelativeLayout>
+
+</LinearLayout>

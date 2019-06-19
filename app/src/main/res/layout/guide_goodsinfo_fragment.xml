@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    tools:background="@color/text_black"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/round_white_rim_transparent_bg"
+            android:text="朕知道了"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#FFAF44"
+                android:textSize="16sp"
+                android:clickable="false"
+                android:text="点击立即领券"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:clickable="false"
+                android:text="或"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="#FFAF44"
+                android:textSize="16sp"
+                android:clickable="false"
+                android:text="自购返"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:clickable="false"
+            android:text="跳转到淘宝领券下单"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <ImageView
+        android:src="@mipmap/arc_dotted_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:id="@+id/view_dotted_rect"
+        android:background="@drawable/white_dot_line"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"/>
+    <View
+        android:layout_marginTop="12dp"
+        android:layout_gravity="right"
+        android:id="@+id/view_dotted_rect_buy"
+        android:background="@drawable/white_dot_line"
+        android:layout_width="150dp"
+        android:layout_height="48dp"/>
+</LinearLayout>

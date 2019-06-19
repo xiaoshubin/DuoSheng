@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+            <!--Banner-->
+            <com.youth.banner.Banner
+                android:visibility="gone"
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                 />
+        <!--menu-->
+        <android.support.v7.widget.RecyclerView
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:id="@+id/recycler_view_main_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.youth.banner.Banner
+            android:visibility="gone"
+            android:id="@+id/banner_middle"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@mipmap/img_gui" />
+
+            <ImageView
+                android:id="@+id/iv_invite_friends"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@mipmap/img_inv" />
+        </LinearLayout>
+        <View style="@style/HorizontalLine" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_main_goods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="一 为您精选 一"
+            android:textColor="@color/tab_orange"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/bg_gray"
+            android:id="@+id/recycler_view_recommand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

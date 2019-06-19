@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:background="@color/bg_gray"
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/white">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <include
+                layout="@layout/action_common_bar" />
+            <View style="@style/HorizontalLine" android:layout_height="8dp"/>
+            </LinearLayout>
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/electricity_bar_height"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tablayout_height">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/text_black"
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="时间"
+            app:layout_constraintEnd_toStartOf="@+id/tv_money"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/text_black"
+            android:id="@+id/tv_money"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="金额"
+            app:layout_constraintEnd_toStartOf="@+id/tv_status"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/tv_time"
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/text_black"
+            android:id="@+id/tv_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="状态"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/tv_money"
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+
+            <android.support.v7.widget.RecyclerView
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                 />
+
+</android.support.design.widget.CoordinatorLayout>

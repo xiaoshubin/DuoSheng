@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+    <include layout="@layout/action_common_bar"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/view_pager"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingEnd="64dp"
+        android:paddingLeft="64dp"
+        android:paddingRight="64dp"
+        android:paddingStart="64dp"
+        android:layout_height="0dp"/>
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nickname"
+            android:text="我的邀请码："
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_invite_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nickname"
+            tools:text="TV88321"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_copy_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nickname"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/tv_invite_code"
+            android:background="@drawable/money_gold_card_bg"
+            android:paddingLeft="8dp"
+            android:paddingTop="2dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="2dp"
+            android:text="复制"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:textSize="18sp"
+        android:textColor="@color/text_black"
+        android:text="邀请推广说明"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:lineSpacingExtra="4dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:textSize="14sp"
+        android:text="1. 海报是您的专属二维码，好友识别下载后输入邀请码将永久绑定到您账户下
+\n2. 好友通过您的邀请码或者邀请海报下载APP后，未来的所有佣金您都可以获得提成，将自动计算到您的提现账户中"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tablayout_height">
+        <TextView
+            android:id="@+id/tv_share_link"
+            android:background="#F7CF6C"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="复制邀请链接"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/tv_share_pic"
+            android:background="#F5C150"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="分享专属海报"
+            android:textColor="#ff000000"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="duosheng" />
+    <version value="2" />
+    <list>
+        <mapping class="com.qiqia.duosheng.bean.SearchKey"/>
+        <mapping class="com.qiqia.duosheng.bean.IndexAd"/>
+    </list>
+</litepal>

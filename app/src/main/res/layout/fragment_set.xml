@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="168dp"
+                android:background="@drawable/orangered_top_bg" />
+
+            <include layout="@layout/action_common_bar" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-70dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/round9_white_bg">
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_head"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/logo" />
+
+            <TextView
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_head"
+                android:layout_centerHorizontal="true"
+                android:padding="8dp"
+                android:text="点击修改头像"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <!--昵称，性别，淘宝授权-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/round9_white_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableLeft="@mipmap/set_nc"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="昵称"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_nick"
+                    tools:text="海龟晒肚皮"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <View style="@style/HorizontalLine" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableLeft="@mipmap/set_xb"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="性别"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:text="未设置"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <View style="@style/HorizontalLine" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableLeft="@mipmap/set_tbsq"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="淘宝授权"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_tb_auth_login"
+                    android:text="去授权"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--修改手机号，微信客服更换-->
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round9_white_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_xgsj"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="修改手机号"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_update_phone"
+                    tools:text="173****5773"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <View style="@style/HorizontalLine" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_wxgh"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="微信客服更换"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_update_wxkf"
+                    tools:text="SADSFFGF"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--消息通知，清除缓存,关于我们,版本号-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/round9_white_bg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_notice"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_xxtz"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="消息通知"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_qchc"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="清除缓存"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_clean_cache"
+                    tools:text="235.6MB"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <View style="@style/HorizontalLine" />
+            <TextView
+                android:id="@+id/tv_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_gywm"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="关于我们"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+            <View style="@style/HorizontalLine" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/set_bbh"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="版本号"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_version_name"
+                    tools:text="版本V3.0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tablayout_height"
+                    android:drawableRight="@mipmap/icon_arr"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_login_out"
+            style="@style/DefaultOrangeButton"
+            android:layout_margin="16dp"
+            android:text="退出登录" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

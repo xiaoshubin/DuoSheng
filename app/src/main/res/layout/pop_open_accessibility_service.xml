@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/round9_white_bg"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:padding="16dp"
+        android:gravity="center"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        android:text="开启多图分享"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="16sp"
+        android:text="@string/share_accessibility_service_desc"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View style="@style/HorizontalLine"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height">
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:textSize="16sp"
+            android:textColor="@color/text_black"
+            android:gravity="center"
+            android:text="取消"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_open"
+            android:textSize="16sp"
+            android:background="@drawable/right_bottom_round9_orange_btn_bg"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="开启"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    android:id="@+id/radio_group"
+    android:background="@color/line_gray"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/rb1"
+        android:button="@color/transparent"
+        android:background="@color/white"
+        android:padding="12dp"
+        android:textColor="@color/tab_text_selecter"
+        android:textSize="14sp"
+        android:text="综合排序"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RadioButton
+        android:id="@+id/rb2"
+        android:button="@color/transparent"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/white"
+        android:padding="12dp"
+        android:textColor="@color/tab_text_selecter"
+        android:textSize="14sp"
+        android:text="佣金比例由高到低"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RadioButton
+        android:id="@+id/rb3"
+        android:button="@color/transparent"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/white"
+        android:padding="12dp"
+        android:textColor="@color/tab_text_selecter"
+        android:textSize="14sp"
+        android:text="佣金比例由低到高"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RadioGroup>

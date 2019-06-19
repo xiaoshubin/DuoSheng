@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#FF5836</color>
+
+    <color name="text_gray">#707070</color>
+    <color name="text_light_gray">#9A9A9A</color>
+    <color name="text_black">#2A2323</color>
+    <color name="text_light_black">#444444</color>
+    <color name="text_orange">#FF6633</color>
+    <color name="text_vip_gold">#BE9C71</color>
+
+
+    <color name="line_gray">#F6F4F4</color>
+    <color name="bg_gray">#F6F4F4</color>
+    <!--tab选择变色-->
+    <color name="tab_black">#443F3D</color>
+    <color name="tab_gold">#B8842C</color>
+    <color name="tab_red">#E42F60</color>
+    <color name="tab_green">#3EA76F</color>
+    <color name="tab_mine">#F63D2D</color>
+    <color name="tab_orange">#F63D2D</color>
+</resources>

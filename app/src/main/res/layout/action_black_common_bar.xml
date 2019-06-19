@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@drawable/bar_gradual_black_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_bar"
+    xmlns:tools="http://schemas.android.com/tools">
+    <View
+        android:id="@+id/ele_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/electricity_bar_height"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        >
+    <ImageView
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:id="@+id/iv_back"
+        android:src="@mipmap/icon_backwhite"
+        android:layout_width="40dp"
+        android:layout_height="match_parent" />
+    <TextView
+        android:layout_toRightOf="@+id/iv_back"
+        android:textSize="14sp"
+        android:id="@+id/tv_left"
+        android:textColor="@color/white"
+        android:gravity="center"
+        tools:text="@string/back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        tools:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:id="@+id/tv_right"
+        android:paddingRight="8dp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        tools:text="@string/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+        <ImageView
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:padding="8dp"
+            android:id="@+id/iv_right"
+            android:src="@mipmap/help_icon"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

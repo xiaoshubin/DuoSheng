@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/layout_img"
+    android:background="@color/transparent"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginRight="8dp"
+            android:id="@+id/iv_icon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@mipmap/icon_tmall" />
+
+        <TextView
+            android:id="@+id/tv_goods_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="塔菲克安卓数据线原装充电器高速usb通用快…"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout_coupon_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"
+                android:textColor="@color/orangered"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.9"
+                android:textColor="@color/orangered"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="券后价"
+                android:textColor="@color/orangered"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_old_price_sales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_coupon_price"
+            android:text="￥59.9原价   销量2329"
+            android:textSize="10sp" />
+
+        <com.qiqia.duosheng.custom.CouponBg
+            android:id="@+id/coupon_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_coupon_price"
+            android:layout_alignParentRight="true"
+            android:textSize="10sp"
+            app:coupon_price="50元" />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_goods_pic"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@mipmap/logo"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textStyle="bold"
+                android:drawablePadding="4dp"
+                android:drawableLeft="@mipmap/icon_recommend"
+                android:textColor="#fff63d2d"
+                android:textSize="14sp"
+                android:text="推荐理由"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:ellipsize="end"
+                android:id="@+id/tv_recommend_desc"
+                android:lineSpacingExtra="6dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_coupon_price"
+                android:text="年前最后一波大福利！安卓数据线1条！提速60%的款~充电快还不发烫，不伤机！还是加固的接口，出门装口袋也不会折断哦！"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_code2"
+                android:layout_gravity="right"
+                android:src="@mipmap/logo"
+                android:drawablePadding="4dp"
+                android:drawableLeft="@mipmap/icon_recommend"
+                android:textColor="#fff63d2d"
+                android:textSize="14sp"
+                android:text="推荐理由"
+                android:layout_width="match_parent"
+                android:layout_height="130dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_gravity="right"
+        android:textColor="@color/text_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_coupon_price"
+        android:text="长按图片，扫码领取优惠券"
+        android:textSize="12sp" />
+</LinearLayout>

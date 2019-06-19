@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:background="@drawable/orangered_top_bg"
+            android:layout_width="match_parent"
+            android:layout_height="223dp"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/ele_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/electricity_bar_height" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/logo" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="会员昵称"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/tv_nickname"
+                        android:src="@mipmap/vip_level_1"
+                        android:layout_toEndOf="@+id/tv_nickname"
+                        android:layout_marginStart="4dp"
+                        android:contentDescription="@string/vip_level" />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_invite_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_nickname"
+                        android:text="邀请码："
+                        android:textColor="#FFD0C7"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_invite_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_nickname"
+                        android:layout_toRightOf="@+id/tv_invite_desc"
+                        android:text=""
+                        android:textColor="#FFD0C7"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_copy_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_nickname"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/tv_invite_code"
+                        android:background="@drawable/round10_alpha20_white_bg"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="2dp"
+                        android:text="复制"
+                        android:textColor="#FFD0C7"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_msg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toLeftOf="@+id/iv_set"
+                        android:src="@mipmap/icon_message" />
+
+                    <ImageView
+                        android:id="@+id/iv_set"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/icon_set" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 收益部分 -->
+        <LinearLayout
+            android:background="@mipmap/money_gold_card_bg"
+            android:id="@+id/layout_income"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-110dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="累计预估收益(元)"
+                android:textColor="#996600"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="0"
+                android:textColor="#996600"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日预估(元)"
+                        android:textColor="#996600"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#8D5C23"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    style="@style/VerticalLine"
+                    android:background="#FFE399" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="本月预估(元)"
+                        android:textColor="#996600"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#8D5C23"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    style="@style/VerticalLine"
+                    android:background="#FFE399" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日预估(元)"
+                        android:textColor="#996600"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#8D5C23"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- 收益Tab部分 -->
+        <LinearLayout
+            android:id="@+id/layout_middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/round9_white_bg"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_income"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/icon_gold_money"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="收益"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/icon_gold_list"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="订单"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_member_fans"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/icon_gold_heart"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="粉丝"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_invite_friend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/icon_gold_gift"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="邀请"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <!-- vip会员部分 -->
+        <RelativeLayout
+            android:id="@+id/layout_upgrade_vip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/upgrade_vip_line_bg"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_upgrade_vip"
+                android:drawablePadding="4dp"
+                android:text="VIP会员"
+                android:textColor="#A87322" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="我要升级>> "
+                android:textColor="#A87322" />
+        </RelativeLayout>
+        <!-- 教程，收藏.... -->
+        <LinearLayout
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/round9_white_bg"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tv_guide"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_new_user_guide"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="新手教程"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:id="@+id/tv_collection"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_collection"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="收藏"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:id="@+id/tv_service"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_service"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="专属客服"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_normal_question"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="常见问题"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_help_send"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="意见反馈"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:id="@+id/tv_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_about_us"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="关于我们"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+
+            <View style="@style/HorizontalLine" />
+
+            <TextView
+                android:id="@+id/tv_clean_cache"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                android:drawableLeft="@mipmap/icon_clean_cache"
+                android:drawableRight="@mipmap/icon_arr"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="清除缓存"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <!-- 广告 -->
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_bar"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/ele_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/electricity_bar_height"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:src="@mipmap/icon_back" />
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/iv_back"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="@string/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="gone"
+            tools:text="@string/app_name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_gray_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:padding="4dp"
+                android:id="@+id/iv_search"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/icon_search_little" />
+
+            <EditText
+                android:imeOptions="actionSearch"
+                android:id="@+id/et_key"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="搜索商品名或粘贴宝贝标题"
+                android:maxLines="1"
+                android:paddingLeft="8dp"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_clean"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/icon_del" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingRight="8dp"
+            android:text="取消"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="@string/menu" />
+        <ImageView
+            android:tag="line"
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_right"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_line_list" />
+    </RelativeLayout>
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/layout_search_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_clean_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableRight="@mipmap/icon_delet"
+            android:padding="8dp"
+            android:text="历史搜索"
+            android:textColor="@color/text_black" />
+
+        <cn.com.smallcake_utils.custom.AutoNewLineLayout
+            android:id="@+id/auto_layout_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            attr:horizontalSpace="16dp"
+            attr:vertivalSpace="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableLeft="@mipmap/icon_hottab"
+            android:padding="8dp"
+            android:text="热门搜索"
+            android:textColor="@color/text_black" />
+
+        <cn.com.smallcake_utils.custom.AutoNewLineLayout
+            android:id="@+id/auto_layout_hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            attr:horizontalSpace="16dp"
+            attr:vertivalSpace="8dp" />
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/layout_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- 三大商城选择 -->
+            <android.support.design.widget.TabLayout
+                android:visibility="gone"
+                android:background="@color/white"
+                style="@style/WhiteTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablayout_height"
+                attr:tabMode="fixed">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="淘宝" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="京东" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="拼多多" />
+
+            </android.support.design.widget.TabLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

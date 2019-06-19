@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/white"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:padding="8dp"
+        android:textColor="@color/text_black"
+        android:textSize="16sp"
+        android:text="价格区间"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <EditText
+            android:inputType="number"
+            android:maxLength="9"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:id="@+id/et_low_price"
+            android:hint="最低价格"
+            android:background="@drawable/round_gray_bg"
+            android:layout_width="120dp"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_margin="8dp"
+            android:background="@color/line_gray"
+            android:layout_width="16dp"
+            android:layout_height="1dp"/>
+        <EditText
+            android:inputType="number"
+            android:maxLength="9"
+            android:textSize="14sp"
+            android:background="@drawable/round_gray_bg"
+            android:gravity="center"
+            android:id="@+id/et_high_price"
+            android:hint="最高价格"
+            android:layout_width="120dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:padding="8dp"
+        android:textColor="@color/text_black"
+        android:textSize="16sp"
+        android:text="商家类型"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/rg_store"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <RadioButton
+            android:id="@+id/rb_tmall"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:background="@drawable/shop_selecter_bg"
+            android:textColor="@color/shop_text_selecter"
+            android:button="@color/transparent"
+            android:text="仅看天猫"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/rb_all"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:background="@drawable/shop_selecter_bg"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/shop_text_selecter"
+            android:button="@color/transparent"
+            android:text="看全部"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RadioGroup>
+    <View style="@style/HorizontalLine"  android:layout_marginTop="8dp"/>
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height">
+        <Button
+            android:id="@+id/btn_cancle"
+            android:background="@color/white"
+            android:textSize="16sp"
+            android:text="取消"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_confirm"
+            android:textColor="@color/white"
+            android:background="@drawable/bar_gradual_black_bg"
+            android:textSize="16sp"
+            android:text="确认"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

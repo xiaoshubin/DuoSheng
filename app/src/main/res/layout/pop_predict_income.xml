@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:gravity="center"
+    android:background="@drawable/round9_white_bg"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:textColor="@color/text_black"
+        android:textSize="16sp"
+        android:text="预估收入"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_msg"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="本月内创建的所有订单预估收益
+\n将在次月25日结算"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View style="@style/HorizontalLine"/>
+    <TextView
+        android:id="@+id/tv_ok"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="@color/orangered"
+        android:textSize="16sp"
+        android:text="知道啦"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

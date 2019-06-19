@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/share_accessibility_service_desc"
+    android:notificationTimeout="100"
+    android:canPerformGestures="true"
+    android:packageNames="com.tencent.mm"
+    />
+<!-- android:packageNames="com.tencent.mm" 只对微信包进行监听 -->
+<!-- android:canRetrieveWindowContent="true" 检索窗口内容
+除了监听界面变化之外，我们还可以对界面中的内容进行一些操作，前提是我们配置了以下属性，允许服务检索窗口内容 -->
+
+<!-- android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews"
+然后就是getRootInActiveWindow()这个方法，这个方法只有在窗口发生改变的时候，获取子节点才不会为null -->
+
