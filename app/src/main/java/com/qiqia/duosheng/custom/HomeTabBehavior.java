@@ -18,7 +18,7 @@ public class HomeTabBehavior extends CoordinatorLayout.Behavior<View> {
 
     public HomeTabBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
-         headHeight = DpPxUtils.dp2px(context,78);
+         headHeight = DpPxUtils.dp2px(78);
     }
 
     @Override

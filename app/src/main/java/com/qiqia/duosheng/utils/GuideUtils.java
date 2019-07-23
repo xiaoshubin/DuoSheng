@@ -19,6 +19,7 @@ import com.qiqia.duosheng.custom.guidecomponent.OnComponentClickListener;
 import com.qiqia.duosheng.custom.guidecomponent.SearchFragmentComponent;
 
 import cn.com.smallcake_utils.DpPxUtils;
+import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.SPUtils;
 
 public class GuideUtils {
@@ -42,7 +43,7 @@ public class GuideUtils {
     }
 
     private static boolean checkFirstCom(String key){
-//        SPUtils.put(key, 0);
+//        SPUtils.put(key, 0);//调试开启，每次都显示
         int  index = (int) SPUtils.get(key, 0);
         return index>0;
     }
@@ -110,9 +111,10 @@ public class GuideUtils {
         builder.setTargetView(view)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10)
+                .setHighTargetPadding(DpPxUtils.dp2px(3))
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false);
+        L.e("view.getHeight=="+view.getHeight());
         HomeFragmentComponent homeFragmentComponent = new HomeFragmentComponent();
         builder.addComponent(homeFragmentComponent);
         builder.setEnterAnimationId(R.anim.fade_in);
@@ -141,7 +143,7 @@ public class GuideUtils {
         builder.setTargetView(view)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(0)
+                .setHighTargetPadding(DpPxUtils.dp2px(-2))
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false);
         SearchFragmentComponent fragmentComponent = new SearchFragmentComponent(view);
@@ -213,7 +215,7 @@ public class GuideUtils {
         builder.setTargetView(view)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10)
+                .setHighTargetPadding(DpPxUtils.dp2px(3.5f))
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false);
         MineFragmentComponent fragmentComponent = new MineFragmentComponent();

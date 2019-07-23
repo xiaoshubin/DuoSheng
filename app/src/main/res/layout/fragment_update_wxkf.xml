@@ -6,14 +6,9 @@
     android:layout_height="match_parent">
     <include layout="@layout/action_common_bar"/>
     <TextView
-        android:gravity="center"
-        android:background="#FFF3D6"
-        android:textColor="#B8842C"
-        android:padding="8dp"
-        android:textSize="12sp"
+        style="@style/YellowNoticeText"
         android:text="请填写正确的微信号，您的直属上下级会员将通过此微信联系您"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+         />
     <LinearLayout
         android:background="@color/white"
         android:orientation="horizontal"
@@ -42,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
+            android:shadowColor="@color/colorAccent"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginBottom="128dp"

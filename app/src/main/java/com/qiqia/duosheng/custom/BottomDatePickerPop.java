@@ -71,8 +71,8 @@ public class BottomDatePickerPop extends BottomPopupView {
         List<Integer> months = getMonthNum(monthNum);
         wheelYear.setData(years);
         wheelMonth.setData(months);
-        wheelYear.setSelectedItemPosition(years.size()-1);
-        wheelMonth.setSelectedItemPosition(months.size()-1);
+        wheelYear.setSelectedItemPosition(yearNum);
+        wheelMonth.setSelectedItemPosition(monthNum);
 
         initWheelSet(wheelYear);
         initWheelSet(wheelMonth);
@@ -95,14 +95,14 @@ public class BottomDatePickerPop extends BottomPopupView {
     }
     private List<Integer> getYearNum( int yearNum){
         List<Integer> data = new ArrayList<>();
-        for (int i = yearNum-3; i <= yearNum; i++) {
+        for (int i = yearNum-10; i <= yearNum; i++) {
             data.add(i);
         }
         return data;
     }
     private List<Integer> getMonthNum(int monthNum){
         List<Integer> data = new ArrayList<>();
-        for (int i = 1; i <= monthNum+1; i++) {
+        for (int i = 1; i <= 12; i++) {
             data.add(i);
         }
         return data;
@@ -118,6 +118,5 @@ public class BottomDatePickerPop extends BottomPopupView {
     public void doClick(){
         if (listener!=null)listener.selectYearMonth(selectYear,selectMonth);
         this.dismiss();
-
     }
 }

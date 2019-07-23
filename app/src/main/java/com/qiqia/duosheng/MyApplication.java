@@ -2,6 +2,9 @@ package com.qiqia.duosheng;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
@@ -17,11 +20,13 @@ import org.litepal.LitePal;
 
 import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.SmallUtils;
+import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MyApplication extends Application {
     public static boolean isRunInBackground=true;//首次从后台进入
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,17 +34,15 @@ public class MyApplication extends Application {
         RetrofitHttp.init(this, Contants.BASE_URL);
         Apollo.init(AndroidSchedulers.mainThread(), this);
 
-//        JShareInterface.init(this);
-//        JShareInterface.setDebugMode(BuildConfig.DEBUG);
-//        JPushInterface.init(this);
-//        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        JPushInterface.init(this);
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
 
 //        Fragmentation.builder()
 //                .stackViewMode(Fragmentation.BUBBLE)
 //                .debug(BuildConfig.DEBUG)
 //             .install();
 
-        LitePal.initialize(MyApplication.this);
+        LitePal.initialize(this);
         //阿里百川：淘宝授权，跳淘宝购买，领券，
         initAliBc();
         //前台监听：对当前应用生命周期的监听，方便知道应用在前台还是后台，以此来确定是否需要智能搜索
@@ -51,6 +54,11 @@ public class MyApplication extends Application {
                 isRunInBackground=true;
             }
         });
+
+        // android 7.0系统解决拍照的问题
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
 
     }
 

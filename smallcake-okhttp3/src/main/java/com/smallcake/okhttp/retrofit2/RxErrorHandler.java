@@ -9,9 +9,7 @@ import io.reactivex.functions.Consumer;
 
 public class RxErrorHandler {
     /**
-     * 在io线程进行订阅,在main主线程处理结果
-     *
-     * @return <T> ObservableTransformer<T, T>
+     * 异常处理
      */
     public static <T> ObservableTransformer<T, T> netErrorHandle() {
         return new ObservableTransformer<T, T>() {

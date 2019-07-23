@@ -38,7 +38,13 @@ public class TransparentBarActivity extends BaseActivity {
         ButterKnife.bind(this);
         ImmersionBar.with(this).statusBarColor(R.color.transparent).autoStatusBarDarkModeEnable(true,0.2f).init();
         loadFragmentByType();
-        
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void loadFragmentByType() {

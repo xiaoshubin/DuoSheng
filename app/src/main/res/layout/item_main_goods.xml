@@ -1,77 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:paddingRight="1dp"
-    android:paddingLeft="1dp"
-    android:id="@+id/layout_goods_root"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.search.bean.GoodsInfo" />
+    </data>
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:src="@mipmap/logo" />
-
-    <TextView
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:layout_marginTop="8dp"
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="今日必买推荐今日必买推荐今日必买推荐今日必买推荐今日必买推荐今日必买推荐"
-        android:textColor="@color/text_black"
-        android:textSize="16sp"
-        />
-
-    <LinearLayout
-        android:layout_marginTop="8dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_goods_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingBottom="8dp">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            imageRoundUrl="@{item.itemPic}"
+            android:layout_width="match_parent"
+            android:layout_height="105dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:src="@mipmap/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@{item.itemShortTitle}"
+            android:textColor="@color/text_black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_icon"
+            tools:text="今日必买推荐今日必买推荐今日必买推荐今日必买推荐今日必买推荐今日必买推荐" />
+
 
         <TextView
             android:id="@+id/tv_price"
+            priceEndLittle="@{item.itemEndPrice}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
             android:drawablePadding="4dp"
             android:gravity="right|center_vertical"
-            android:text="￥9.9"
             android:textColor="@color/tab_orange"
-            android:textSize="16sp" />
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="￥9.9" />
 
         <TextView
-            android:layout_marginLeft="4dp"
             android:id="@+id/tv_coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
             android:background="@drawable/round_orange_rim_white_bg"
             android:gravity="right|center_vertical"
             android:paddingLeft="4dp"
-            android:paddingTop="2dp"
+            android:paddingTop="1dp"
             android:paddingRight="4dp"
-            android:paddingBottom="2dp"
-            android:text="15元券"
+            android:paddingBottom="1dp"
             android:textColor="@color/tab_orange"
-            android:textSize="10sp" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/tv_old_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="right|center_vertical"
-        android:text="￥29.9"
-        android:textColor="@color/text_gray"
-        android:textSize="10sp" />
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/tv_price"
+            tools:text="3456元券" />
 
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_old_price"
+            oldPrice="@{item.itemPrice}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#B9B9B9"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_coupon"
+            tools:text="￥29.9" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

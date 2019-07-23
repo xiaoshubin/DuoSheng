@@ -48,6 +48,7 @@ public class SimpleCircleFragment extends BaseFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         user=DataLocalUtils.getUser();
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerView.setAdapter(mAdapter);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

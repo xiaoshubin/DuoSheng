@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,6 +29,10 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/action_black_common_bar" />
+                    <TextView
+                        style="@style/OrangeNoticeText"
+                        android:text="提醒：已确认收货订单15天内不产生退款，每月22号即可结算!"
+                        />
                     <RadioGroup
                         android:background="@color/white"
                         android:orientation="horizontal"
@@ -42,37 +49,12 @@
                 android:layout_height="@dimen/electricity_bar_height" />
         </android.support.design.widget.CollapsingToolbarLayout>
         <!--筛选排序-->
-        <android.support.design.widget.TabLayout
-            app:tabTextAppearance="@style/WhiteTabTextAppearance14"
-            app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
+        <net.lucode.hackware.magicindicator.MagicIndicator
             android:layout_margin="8dp"
             android:background="@drawable/round9_white_bg"
-            style="@style/WhiteTabLayout"
+            android:id="@+id/magic_indicator"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/main_tab_height">
-            <android.support.design.widget.TabItem
-                android:text="全部"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TabItem
-                android:text="已付款"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TabItem
-                android:text="已收货"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TabItem
-                android:text="已结算"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <android.support.design.widget.TabItem
-                android:text="已退款"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TabLayout>
+            android:layout_height="@dimen/main_tab_height"/>
     </android.support.design.widget.AppBarLayout>
     <!--会员列表-->
     <android.support.v7.widget.RecyclerView
@@ -84,3 +66,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
 </android.support.design.widget.CoordinatorLayout>
+</layout>

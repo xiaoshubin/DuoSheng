@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:background="?attr/colorAccent"
-        app:elevation="0dp">
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:background="?attr/colorAccent"
@@ -24,10 +24,9 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:minHeight="@dimen/main_tab_height"
-            app:contentScrim="@color/colorAccent"
+            app:contentScrim="@drawable/tab_grad_black_bg"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
             <LinearLayout
                 android:id="@+id/layout_guide"
                 android:layout_width="match_parent"
@@ -169,79 +168,41 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <android.support.v7.widget.Toolbar
-                android:visibility="visible"
                 android:id="@+id/toolbar_search"
                 android:layout_width="match_parent"
-                android:layout_height="78dp"
+                android:layout_height="24dp"
                 app:contentInsetStart="0dp" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
-
-        <!--顶部搜索栏-->
+        <!--顶部Tab分类栏-->
         <LinearLayout
-            android:layout_marginTop="-78dp"
-            android:alpha="0"
-            android:id="@+id/layout_search_msg"
+            android:padding="6dp"
+            android:id="@+id/layout_tab"
             android:layout_width="match_parent"
-            android:layout_height="78dp"
+            android:layout_height="@dimen/btn_height"
             android:background="@drawable/tab_grad_black_bg"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:visibility="visible">
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/magic_indicator"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
 
-            <View
-                android:id="@+id/ele_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/electricity_bar_height" />
-
-            <LinearLayout
-                android:id="@+id/layout_search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_tab_height"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/layout_search"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_white_bg"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="8dp"
-                        android:padding="8dp"
-                        android:src="@mipmap/icon_search_little" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/transparent"
-                        android:gravity="center_vertical"
-                        android:hint="搜索商品名或粘贴宝贝标题"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_msg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="8dp"
-                    android:src="@mipmap/icon_mes" />
-            </LinearLayout>
-
+            <ImageView
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:id="@+id/iv_show_all_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/icon_white_arr_down" />
         </LinearLayout>
-
     </android.support.design.widget.AppBarLayout>
-    <!--app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"-->
 
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="@dimen/tablayout_height"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -271,32 +232,5 @@
         android:textSize="14sp"
         android:visibility="gone"
         tools:visibility="visible" />
-
-    <!--顶部Tab分类栏-->
-    <LinearLayout
-        app:layout_behavior="com.qiqia.duosheng.custom.HomeTabBehavior"
-        android:id="@+id/layout_tab"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tablayout_height"
-        android:background="@drawable/tab_grad_black_bg"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            style="@style/DefaultTabLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:tabMode="scrollable" />
-
-        <ImageView
-            android:id="@+id/iv_show_all_type"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:src="@mipmap/icon_white_arr_down" />
-    </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

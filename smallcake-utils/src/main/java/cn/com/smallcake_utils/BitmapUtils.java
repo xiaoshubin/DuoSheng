@@ -6,7 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -233,5 +238,41 @@ public class BitmapUtils {
         } else {
             return null;
         }
+    }
+
+    /**
+     * 设置图片为圆角
+     * @param bitmap
+     * @param roundPx  圆角角度
+     * @return
+     */
+    public  static Bitmap setRoundedCorner(Bitmap bitmap, float roundPx) {
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),  Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        /*
+         * 椭圆形
+         */
+        final RectF rectF = new RectF(rect);
+        /*
+         * 去锯齿
+         */
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        /*
+         * 绘制圆角矩形
+         */
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        /*
+         * 设置两个图形相交
+         */
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
 }

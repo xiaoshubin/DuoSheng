@@ -3,9 +3,12 @@ package com.qiqia.duosheng.custom;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+/**
+ * 画廊动画效果
+ */
 public class LoopTransformer implements ViewPager.PageTransformer {
-    private static final float MIN_SCALE = 0.9f;
-
+    //最小的缩放比例
+    private static final float MIN_SCALE = 0.92f;
     @Override
     public void transformPage(View view, float position) {
         /**

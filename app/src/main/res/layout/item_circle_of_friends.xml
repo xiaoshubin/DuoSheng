@@ -1,130 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:background="@color/white"
-    android:layout_marginTop="8dp"
-    android:padding="8dp"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.share.bean.ShareList.DataBean" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white">
+
+
         <ImageView
             android:id="@+id/iv_icon"
-            android:src="@mipmap/icon_ds"
             android:layout_width="46dp"
-            android:layout_height="46dp" />
-        <TextView
-            android:layout_marginTop="4dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_icon"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/icon_ds"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tv_title"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/iv_icon"
             android:text="多省精选"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
+            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/iv_icon"
-            android:id="@+id/tv_time"
-            android:textSize="14sp"
-            android:textColor="@color/text_light_gray"
             android:text="01-11 17:00"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="4dp"
-            android:layout_toLeftOf="@+id/tv_share"
-            android:id="@+id/tv_commission_price"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@drawable/round_pink_bg"
-            android:textColor="@color/tab_orange"
-            android:layout_marginLeft="4dp"
-            android:textSize="12sp"
-            tools:text="预估佣金￥4.96"
-            android:text="预估佣金￥0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_share"
-            android:drawablePadding="4dp"
-            android:drawableLeft="@mipmap/icon_orange_share"
-            android:layout_alignParentRight="true"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@drawable/round_orange_rim_white_bg"
-            android:textColor="@color/tab_orange"
-            android:layout_marginLeft="4dp"
+            android:textColor="@color/text_light_gray"
             android:textSize="14sp"
-            tools:text="1598"
-            android:text="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_icon"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_commission_price"
+            predictIncome="@{item.commision}"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <TextView
-        android:layout_marginTop="8dp"
-        android:textColor="@color/text_light_black"
-        android:id="@+id/tv_goods_desc"
-        android:textSize="14sp"
-        android:text="肉松好价格\n黄金香肉松130g*2罐丨￥17.9\n拍两件！多送两罐\n折合每罐7.6元"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:visibility="gone"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/text_light_gray"
-        android:id="@+id/tv_goods_info_desc"
-        android:textSize="14sp"
-        android:text="做寿司，炒饭，做粥怎么都好吃。入口即化的那种， 给老人小孩吃都合适    查看详情"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:layout_marginTop="8dp"
-        android:id="@+id/iv_goods_pic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_marginTop="8dp"
-        android:padding="8dp"
-        android:background="@color/bg_gray"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/text_black"
-            android:text="【正确下单步骤：识别图中二维码→领券购买复制淘口令→点击淘宝领券下单！】"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:drawablePadding="4dp"
-            android:drawableLeft="@mipmap/icon_red_copy"
-            android:layout_gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/tv_share"
-            android:paddingRight="8dp"
+            android:background="@drawable/round_pink_bg"
             android:paddingLeft="8dp"
             android:paddingTop="2dp"
+            android:paddingRight="8dp"
             android:paddingBottom="2dp"
-            android:background="@drawable/round_pink_bg"
             android:textColor="@color/tab_orange"
-            android:layout_marginLeft="4dp"
             android:textSize="12sp"
-            android:text="复制评论"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="@+id/tv_share"
+            app:layout_constraintEnd_toStartOf="@+id/tv_share"
+            app:layout_constraintTop_toTopOf="@+id/tv_share"
+            tools:text="预估佣金￥4.96" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/round_orange_rim_white_bg"
+            android:drawableLeft="@mipmap/icon_orange_share"
+            android:drawablePadding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="2dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="2dp"
+            android:text="@{item.click}"
+            android:textColor="@color/tab_orange"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1598" />
+
+        <TextView
+            android:id="@+id/tv_goods_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{item.copyContent}"
+            android:textColor="@color/text_light_black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_goods_info_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_icon"
+            tools:text="肉松好价格\n黄金香肉松130g*2罐丨￥17.9\n拍两件！多送两罐\n折合每罐7.6元" />
+
+        <TextView
+            android:id="@+id/tv_goods_info_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="做寿司，炒饭，做粥怎么都好吃。入口即化的那种， 给老人小孩吃都合适    查看详情"
+            android:textColor="@color/text_light_gray"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_goods_desc" />
+
+
+        <cn.com.smallcake_utils.custom.AutoNewLineLayout
+            android:id="@+id/layout_pics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_goods_info_desc">
+
+            <ImageView
+                android:scaleType="fitXY"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+
+            <ImageView
+                android:scaleType="fitXY"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+            <ImageView
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/logo" />
+        </cn.com.smallcake_utils.custom.AutoNewLineLayout>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

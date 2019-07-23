@@ -26,10 +26,13 @@ public class ClipboardUtils {
     }
 
     public static String paste() {
+        return paste(false);
+    }
+    public static String paste(boolean isShowNotice) {
         ClipboardManager cm = (ClipboardManager) SmallUtils.getApp().getSystemService(CLIPBOARD_SERVICE);
         ClipData cd2 = cm.getPrimaryClip();
         if (cd2 == null || cd2.getItemAt(0) == null) {
-            ToastUtil.showLong("你的剪贴板内容为空，请先复制相关内容！");
+            if (isShowNotice)ToastUtil.showLong("你的剪贴板内容为空，请先复制相关内容！");
             return null;
         }
         String s = null;

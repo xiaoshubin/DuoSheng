@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <import type="cn.com.smallcake_utils.SpannableStringUtils" />
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.search.bean.GoodsInfo" />
+    </data>
+    <android.support.v7.widget.CardView
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="9dp"
+        android:layout_margin="4dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/iv_pict_url"
+            imageTopRoundUrl="@{item.itemPic}"
+            android:layout_width="174dp"
+            android:layout_height="174dp"
+            tools:src="@mipmap/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{item.itemTitle}"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_shop_title"
+            tools:text="婴儿湿巾80抽x5包便携式迷你带盖批发新生儿棉柔巾婴儿湿巾80抽x5包便携式迷你带盖批发新生儿棉柔巾" />
+
+        <ImageView
+            android:id="@+id/iv_user_type"
+            isTmall="@{item.isTmall}"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/icon_tmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pict_url" />
+
+        <TextView
+            android:paddingBottom="0.5dp"
+            android:id="@+id/tv_shop_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@{item.shopName}"
+            android:textColor="@color/text_gray_a5"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_user_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_type"
+            app:layout_constraintTop_toTopOf="@+id/iv_user_type"
+            tools:text="天真贝比旗舰店" />
+
+
+        <TextView
+            android:id="@+id/tv_commission_price"
+            predictIncome="@{item.commision}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/round2_pink_bg"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/tab_orange"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/coupon_price"
+            app:layout_constraintStart_toEndOf="@+id/coupon_price"
+            app:layout_constraintTop_toTopOf="@+id/coupon_price"
+            tools:text="@string/ygsy_y" />
+
+        <com.qiqia.duosheng.custom.CouponBg
+            android:id="@+id/coupon_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_zk_final_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:coupon_price="15元" />
+
+        <TextView
+            android:id="@+id/tv_zk_final_price"
+            priceEndLittle="@{item.itemEndPrice}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/tab_orange"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coupon_price"
+            tools:text="￥19.8" />
+
+        <TextView
+            android:id="@+id/tv_reserve_price"
+            oldPrice="@{item.itemPrice}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/text_gray_a5"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_zk_final_price"
+            app:layout_constraintEnd_toStartOf="@+id/tv_volume"
+            app:layout_constraintStart_toEndOf="@+id/tv_zk_final_price"
+            tools:text="￥149.999999999999" />
+
+        <TextView
+            android:id="@+id/tv_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:ellipsize="start"
+            android:singleLine="true"
+            android:text='@{@string/sold+item.itemSale}'
+            android:textColor="@color/text_gray_a5"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_reserve_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/sold" />
+
+
+    </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>

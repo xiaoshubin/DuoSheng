@@ -37,6 +37,7 @@ public class MainViewPagerFragment extends BaseFragment {
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
         rgBottomTab = view.findViewById(R.id.rg_bottom_tab);
+//        goWebViewFragment("js测试","js");
 
     }
 

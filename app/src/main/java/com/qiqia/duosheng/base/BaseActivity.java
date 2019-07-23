@@ -25,7 +25,6 @@ import me.yokeyword.fragmentation.SupportActivity;
 public class BaseActivity extends SupportActivity {
     @Inject
     protected DataProvider dataProvider;
-
     private ApolloBinder apolloBinder;//事件通知
     @Inject
     protected LoadDialog dialog;//加载圈
@@ -34,7 +33,6 @@ public class BaseActivity extends SupportActivity {
         super.onCreate(savedInstanceState, persistentState);
         ButterKnife.bind(this);
         apolloBinder = Apollo.bind(this);
-
     }
 
     @Override
@@ -50,7 +48,6 @@ public class BaseActivity extends SupportActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        L.e("BaseActivity==onDestroy");
         if(apolloBinder != null) apolloBinder.unbind();
         ActivityCollector.removeActivity(this);
     }

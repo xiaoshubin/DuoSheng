@@ -120,6 +120,7 @@
             app:tab_mode="scrollable" />
         <View style="@style/VerticalLine"/>
         <com.qiqia.duosheng.custom.VerticalViewPager
+            android:overScrollMode="never"
             android:background="@color/white"
             android:id="@+id/view_pager"
             android:layout_width="0dp"

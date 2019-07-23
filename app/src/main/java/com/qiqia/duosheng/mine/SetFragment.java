@@ -115,6 +115,8 @@ public class SetFragment extends BaseBarFragment {
         tvTitle.setTextColor(Color.WHITE);
         ivBack.setImageResource(R.mipmap.icon_backwhite);
         layoutBar.setBackgroundColor(Color.TRANSPARENT);
+
+
         //初始化个人信息
         initUser();
         //获取缓存大小，清理缓存
@@ -361,7 +363,7 @@ public class SetFragment extends BaseBarFragment {
         alibcLogin.showLogin(_mActivity, new AlibcLoginCallback() {
             @Override
             public void onSuccess() {
-                ToastUtil.showLong("授权成功！");
+//                ToastUtil.showLong("授权成功！");
                 Session session = alibcLogin.getSession();
                 tvTbAuthLogin.setText(session.nick);
                 //获取淘宝用户信息

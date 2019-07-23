@@ -21,7 +21,7 @@ import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
 import java.util.List;
 
 import butterknife.BindView;
-
+//榜单里面，tab-->女装，男装等子页面
 public class ItemPracticalListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;

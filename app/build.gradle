@@ -1,16 +1,20 @@
 apply plugin: 'com.android.application'
+
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
 android {
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             keyAlias 'bin'
             keyPassword '123456'
             storeFile file('../xiao.jks')
             storePassword '123456'
         }
+    }
+    dataBinding {
+        enabled = true
     }
     compileSdkVersion 28
     defaultConfig {
@@ -24,7 +28,7 @@ android {
 
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
         manifestPlaceholders = [
@@ -38,7 +42,7 @@ android {
         release {
             minifyEnabled true
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources true//只有在开启混淆的前提下，压缩资源才会生效
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -53,24 +57,24 @@ android {
     }
 
     android.applicationVariants.all { variant ->
-        variant.outputs.all{
-            outputFileName  = "${applicationId.subSequence(applicationId.lastIndexOf(".")+1,applicationId.length())}_v${versionName}_${releaseTime()}_${baseName}.apk"
+        variant.outputs.all {
+            outputFileName = "${applicationId.subSequence(applicationId.lastIndexOf(".") + 1, applicationId.length())}_v${versionName}_${releaseTime()}_${baseName}.apk"
         }
     }
 
 }
 
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation ('com.android.support:design:28.0.0'){
-            exclude group: 'com.android.support', module: 'design'
+    implementation('com.android.support:design:28.0.0') {
+        exclude group: 'com.android.support', module: 'design'
     }
-    implementation ('com.android.support:appcompat-v7:28.0.0'){
+    implementation('com.android.support:appcompat-v7:28.0.0') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //合并
@@ -80,8 +84,8 @@ dependencies {
     implementation project(path: ':smallcake-utils')
     implementation project(path: ':smallcake-okhttp3')
     //片段fragment
-    implementation 'me.yokeyword:fragmentation:1.3.6'
-    implementation 'me.yokeyword:fragmentation-swipeback:1.3.6'
+    implementation 'me.yokeyword:fragmentation:1.3.7'
+    implementation 'me.yokeyword:fragmentation-swipeback:1.3.7'
     //ButterKnife（10.0必须适配AndroidX）
     implementation 'com.jakewharton:butterknife:9.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
@@ -94,7 +98,7 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta01'
     //banner
     implementation 'com.youth.banner:banner:1.4.10'
-    //图片
+    //图片加载
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     //适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
@@ -110,9 +114,8 @@ dependencies {
     //popwindow
     implementation 'com.lxj:xpopup:1.7.1'
     //极光推送
-    implementation 'cn.jiguang.sdk:jpush:3.3.0'
+    implementation 'cn.jiguang.sdk:jpush:3.3.2'
     implementation 'cn.jiguang.sdk:jcore:2.0.1'
-    implementation 'cn.jiguang.sdk:jshare:1.6.0'
     //阿里百川淘宝授权登陆
     implementation 'com.alibaba.alipay:alipaySingle:20160825@jar'
     implementation 'com.ali.auth.sdk:alibabauth_core:1.1.4@jar'
@@ -149,6 +152,8 @@ dependencies {
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     //TabLayout
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //指示器
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
 
 }

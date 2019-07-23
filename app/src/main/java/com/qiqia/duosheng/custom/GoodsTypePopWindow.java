@@ -34,7 +34,7 @@ public class GoodsTypePopWindow extends PartShadowPopupView {
         return R.layout.popup_goods_type;
     }
     AllGoodsTypePopAdapter mAdaper;
-    //精选跳24小时，所有分类跳转到主页的第二项分类
+    //精选跳24小时，全部跳转到主页的第二项分类
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -48,7 +48,7 @@ public class GoodsTypePopWindow extends PartShadowPopupView {
                  if (position==0){
                      MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
                      try {
-                         RankingListFragment.tabLayout.getTabAt(1).select();
+                         RankingListFragment.viewPager.setCurrentItem(1);
                      } catch (Exception e) {
                          e.printStackTrace();
                      }

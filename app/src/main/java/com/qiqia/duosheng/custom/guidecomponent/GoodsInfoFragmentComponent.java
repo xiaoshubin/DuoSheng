@@ -24,19 +24,17 @@ public class GoodsInfoFragmentComponent implements Component {
         this.listener = listener;
     }
     @Override public View getView(LayoutInflater inflater) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_goodsinfo_fragment, null);
-        ll.setMinimumWidth(ScreenUtils.getScreenWidth()- DpPxUtils.dp2px(8));
+        View view = inflater.inflate(R.layout.guide_goodsinfo_fragment, null);
+        view.setMinimumWidth(ScreenUtils.getScreenWidth()- DpPxUtils.dp2px(8));
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, targetViewHeight);
-        View viewDottedRect = ll.findViewById(R.id.view_dotted_rect);
-        View viewDottedRectBuy = ll.findViewById(R.id.view_dotted_rect_buy);
+        View viewDottedRect = view.findViewById(R.id.view_dotted_rect);
+        View viewDottedRectBuy = view.findViewById(R.id.view_dotted_rect_buy);
         viewDottedRect.setLayoutParams(param);
         L.e("targetView.getMeasuredHeight()=="+targetViewHeight);
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                if (listener!=null)listener.onClick();
-            }
+        view.setOnClickListener(view1 -> {
+            if (listener!=null)listener.onClick();
         });
-        return ll;
+        return view;
     }
 
 

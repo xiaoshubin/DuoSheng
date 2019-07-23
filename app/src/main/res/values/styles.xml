@@ -27,7 +27,7 @@
         <item name="android:textColor">@color/tab_text_selecter</item>
         <item name="android:drawablePadding">2dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
     <style name="OrangeRadioButton">
         <item name="android:layout_weight">1</item>
@@ -46,9 +46,19 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/round_orange_btn_bg</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
+    </style>
+    <!-- 黄色的提醒消息 -->
+    <style name="YellowNoticeText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">#FFF3D6</item>
+        <item name="android:textColor">#B8842C</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">8dp</item>
     </style>
     <style name="DefaultTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/white</item>

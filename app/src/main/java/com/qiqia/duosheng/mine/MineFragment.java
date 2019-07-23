@@ -96,8 +96,8 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-         user = DataLocalUtils.getUser();
-        initUserData(user);
+        user = DataLocalUtils.getUser();
+        initUserData();
         setCacheSize();
         initBanner();
     }
@@ -115,8 +115,8 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    private void initUserData(User user) {
-        if (user != null) {
+    private void initUserData() {
+        if (user == null) return;
 //            L.e("user=="+user.toString());
             tvNickname.setText(user.getNickname());
             tvInviteCode.setText(user.getSuperCode());
@@ -128,7 +128,7 @@ public class MineFragment extends BaseFragment {
             int levelRes = IdentifierUtils.getMipmapResourceID("vip_level_" + level);
             ivLevel.setImageResource(levelRes);
             if (level > 2) layoutUpgradeVip.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -141,7 +141,8 @@ public class MineFragment extends BaseFragment {
     @Receive(EventStr.LOGIN_SUCCESS)
     public void loginSuccess(User user) {
         L.e("登录成功.....");
-        initUserData(user);
+        this.user = user;
+        initUserData();
     }
 
 

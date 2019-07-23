@@ -9,7 +9,6 @@ import io.reactivex.schedulers.Schedulers;
 public class RxSchedulers {
     /**
      * 在io线程进行订阅,在main主线程处理结果
-     *
      * @return <T> ObservableTransformer<T, T>
      */
     public static <T> ObservableTransformer<T, T> ioMain() {

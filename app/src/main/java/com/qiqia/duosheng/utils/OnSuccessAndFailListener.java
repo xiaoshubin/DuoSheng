@@ -26,22 +26,19 @@ public abstract class OnSuccessAndFailListener<T> extends DisposableObserver<T> 
         if (loadDialog!=null) loadDialog.dismiss();
         if (refresh!=null) refresh.setRefreshing(false);
     }
-    public OnSuccessAndFailListener() {
+    public OnSuccessAndFailListener() {}
 
-    }
     public OnSuccessAndFailListener(Dialog loadDialog) {
         this.loadDialog=loadDialog;
     }
     public OnSuccessAndFailListener(SwipeRefreshLayout refresh) {
         this.refresh=refresh;
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         showLoading();
     }
-
     @Override
     public void onNext(T t) {
         dismissLoading();
@@ -56,10 +53,7 @@ public abstract class OnSuccessAndFailListener<T> extends DisposableObserver<T> 
             onError(e);
             onErr(e.getMessage());
         }
-
     }
-
-
     @Override
     public void onError(Throwable e) {
         dismissLoading();
@@ -80,10 +74,7 @@ public abstract class OnSuccessAndFailListener<T> extends DisposableObserver<T> 
     }
 
     @Override
-    public void onComplete() {
-
-    }
-
+    public void onComplete() {}
     protected abstract void onSuccess(T t);
     //很多异常不需要反馈给用户，所以不必抽象，如果需要异常信息，重写即可
     protected  void onErr(String msg){

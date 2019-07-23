@@ -72,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="68dp"/>
     <View
+        android:visibility="invisible"
         android:layout_marginTop="12dp"
         android:layout_gravity="right"
         android:id="@+id/view_dotted_rect_buy"

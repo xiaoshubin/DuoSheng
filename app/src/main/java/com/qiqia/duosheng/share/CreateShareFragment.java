@@ -65,6 +65,7 @@ import cn.com.smallcake_utils.ClipboardUtils;
 import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.FileUtils;
 import cn.com.smallcake_utils.L;
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.ShareUtils;
 import cn.com.smallcake_utils.ToastUtil;
 
@@ -267,9 +268,16 @@ public class CreateShareFragment extends BaseBarFragment {
     private void addImageViews(String url) {
         //布局
         RelativeLayout relativeLayout = new RelativeLayout(_mActivity);
-        relativeLayout.setLayoutParams(new LinearLayout.LayoutParams(DpPxUtils.dp2px(100), LinearLayout.LayoutParams.MATCH_PARENT));
+        int imgHeight = (ScreenUtils.getScreenWidth()-DpPxUtils.dp2px(32))/10*3;
+        relativeLayout.setLayoutParams(new LinearLayout.LayoutParams(imgHeight, LinearLayout.LayoutParams.MATCH_PARENT));
         //图片
         ImageView ivIcon = new ImageView(_mActivity);
+        ivIcon.setBackgroundResource(R.drawable.rect_gray_rim_bg);
+        int dp1 = DpPxUtils.dp2px(1);
+        ivIcon.setPadding(dp1,dp1,dp1,dp1);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgHeight, imgHeight);
+        layoutParams.setMargins(DpPxUtils.dp2px(4),0,DpPxUtils.dp2px(4),0);
+        ivIcon.setLayoutParams(layoutParams);
         Glide.with(_mActivity).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

@@ -43,15 +43,21 @@ public class WebViewFragment extends BaseBarFragment {
         Bundle bundle = getArguments();
         String title = bundle.getString("title");
         String url = bundle.getString("url");
-
-         user = DataLocalUtils.getUser();
+        user = DataLocalUtils.getUser();
         tvTitle.setText(title);
         initWebSet();
+
+
         if (url.startsWith("http")){
             webView.loadUrl(url);
         }else {
             webView.loadDataWithBaseURL(null, url, "text/html", "UTF-8", null);
         }
+
+
+//        webView.loadUrl("file:///android_asset/javascript.html");
+//        webView.addJavascriptInterface(new AndroidJs(), "test");//AndroidtoJS类对象映射到js的test对象
+
     }
 
     private void initWebSet() {

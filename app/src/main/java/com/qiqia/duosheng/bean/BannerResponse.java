@@ -18,6 +18,8 @@ public class BannerResponse implements Serializable {
     private String img;
     private String note;
 
+
+
     private BannerResponse(Builder builder) {
         setType(builder.type);
         setValue(builder.value);

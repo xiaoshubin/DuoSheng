@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,12 +21,12 @@ import com.qiqia.duosheng.impl.ShopImpl;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.main.adapter.MainGoodsAdapter;
 import com.qiqia.duosheng.main.adapter.MainMenuAdapter;
-import com.qiqia.duosheng.main.adapter.RecommandGoodsAdapter;
 import com.qiqia.duosheng.main.bean.IndexResponse;
 import com.qiqia.duosheng.main.bean.MainTypeGoods;
 import com.qiqia.duosheng.main.bean.MenuItem;
 import com.qiqia.duosheng.mine.InviteFriendFragment;
 import com.qiqia.duosheng.ranking.RankingListFragment;
+import com.qiqia.duosheng.search.adapter.GoodsVAdapter;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
 import com.qiqia.duosheng.utils.BannerUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
@@ -35,24 +36,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.banner)
-    Banner banner;
-    @BindView(R.id.recycler_view_main_menu)
-    RecyclerView recyclerViewMainMenu;
-    @BindView(R.id.recycler_view_main_goods)
-    RecyclerView recyclerViewMainGoods;
+public class HomeSelectFragment extends BaseFragment  {
+
     @BindView(R.id.recycler_view_recommand)
     RecyclerView recyclerViewRecommand;
     @BindView(R.id.refresh)
     SwipeRefreshLayout refresh;
-    @BindView(R.id.banner_middle)
-    Banner bannerMiddle;
 
-    RecommandGoodsAdapter recommandGoodsAdapter;
-    MainGoodsAdapter mainSectionGoodsAdapter;
+    Banner banner;
+    Banner bannerMiddle;
+    RecyclerView recyclerViewMainMenu;
+    RecyclerView recyclerViewMainGoods;
+    GoodsVAdapter recommandGoodsAdapter;//底部推荐
+    MainGoodsAdapter mainSectionGoodsAdapter;//中间今日人气，今日推荐，9.9
 
     public static HomeSelectFragment newInstance() {
         Bundle args = new Bundle();
@@ -74,25 +71,36 @@ public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        refresh.setOnRefreshListener(this);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMiddleGoods();
+                page=1;
+                recommandGoodsAdapter.setNewData(null);
+                getRecommonGoods();
+            }
+        });
         initView();
-        onEvent();
-        initMainMenu();
-        initBanner();//Banner可以延迟加载
-        initMainGoods();//有加载圈
-        initMainRecommand();//多次请求
 
 
     }
 
-
-
     private void initView() {
-        recyclerViewRecommand.setHasFixedSize(true);
-        recyclerViewRecommand.setNestedScrollingEnabled(false);
+        View headerView = LayoutInflater.from(this.getContext()).inflate(R.layout.home_first_page_header, null);
+         banner = headerView.findViewById(R.id.banner);
+         bannerMiddle = headerView.findViewById(R.id.banner_middle);
+        recyclerViewMainMenu = headerView.findViewById(R.id.recycler_view_main_menu);
+        recyclerViewMainGoods = headerView.findViewById(R.id.recycler_view_main_goods);
+         headerView.findViewById(R.id.iv_invite_friends).setOnClickListener((v -> goWhiteBarActivity(InviteFriendFragment.class.getSimpleName())));
+
+
+//        recyclerViewRecommand.setHasFixedSize(true);
+//        recyclerViewRecommand.setNestedScrollingEnabled(false);
         recyclerViewRecommand.setLayoutManager(new GridLayoutManager(_mActivity, 2));
-        recommandGoodsAdapter = new RecommandGoodsAdapter();
+        recommandGoodsAdapter = new GoodsVAdapter();
+        recommandGoodsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerViewRecommand.setAdapter(recommandGoodsAdapter);
+        recommandGoodsAdapter.addHeaderView(headerView);
         //榜单，推荐，9.9
         recyclerViewMainGoods.setHasFixedSize(true);
         recyclerViewMainGoods.setNestedScrollingEnabled(false);
@@ -100,69 +108,69 @@ public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayo
         mainSectionGoodsAdapter = new MainGoodsAdapter();
         recyclerViewMainGoods.setAdapter(mainSectionGoodsAdapter);
 
+        onEvent();
+        initMainMenu();//主页八个固定菜单
+        initBanner();//Banner可以延迟加载
+        getMiddleGoods();//有加载圈
+        getRecommonGoods();//多次请求
+
     }
 
     private void onEvent() {
-        //更多点击事件
-        mainSectionGoodsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                MainTypeGoods item = (MainTypeGoods) adapter.getItem(position);
-                switch (item.getHeadTitle()) {
-                    case "9.9包邮":
-                        goPracticalListFragment(0);
-                        break;
-                    case "今日人气榜单":
-                        try {
-                            MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
-                            RankingListFragment.tabLayout.getTabAt(1).select();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
+        //首页推荐商品：更多点击事件
+        mainSectionGoodsAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            MainTypeGoods item = (MainTypeGoods) adapter.getItem(position);
+            switch (item.getHeadTitle()) {
+                case "9.9包邮":
+                    goPracticalListFragment(0);
+                    break;
+                case "今日人气榜单":
+                    try {
+                        MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
+                        RankingListFragment.viewPager.setCurrentItem(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
 
-                }
             }
         });
-        //商品
-        mainSectionGoodsAdapter.setOnItemGoodsClickListener(new MainGoodsAdapter.OnItemGoodsClickListener() {
+        //首页推荐商品：商品点击事件
+        mainSectionGoodsAdapter.setOnItemGoodsClickListener(item -> jumpToActivity(item));
+        //为你精选商品:商品点击事件
+        recommandGoodsAdapter.setOnItemClickListener((adapter, view, position) -> {
+            GoodsInfo item = (GoodsInfo) adapter.getItem(position);
+            jumpToActivity(item);
+        });
+        //为你精选商品:加载更多商品事件
+        recommandGoodsAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
-            public void onItemGoodsClick(GoodsInfo item) {
-                jumpToActivity(item);
+            public void onLoadMoreRequested() {
+                getRecommonGoods();
             }
-        });
-        //精选商品
-        recommandGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToActivity(item);
-            }
-        });
+        },recyclerViewRecommand);
     }
 
     /**
      * 底部
      * 为你精选商品部分
      */
-    int initMainRecommandIndex;
-
-    private void initMainRecommand() {
-        dataProvider.shop.leaderboard(1, 1, 0)
+    int page=1;
+    private void getRecommonGoods() {
+        dataProvider.shop.leaderboard(1, page, 0)
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsList>>() {
                     @Override
                     protected void onSuccess(BaseResponse<GoodsList> goodsListBaseResponse) {
                         GoodsList data = goodsListBaseResponse.getData();
-                        if (data == null && initMainRecommandIndex < 2) {
-                            initMainRecommandIndex++;
-                            initMainRecommand();
+                        if (data == null) {
+                            recommandGoodsAdapter.loadMoreEnd();
                             return;
                         }
                         List<GoodsInfo> datas = data.getData();
-                        recommandGoodsAdapter.setNewData(datas);
+                        recommandGoodsAdapter.addData(datas);
+                        recommandGoodsAdapter.loadMoreComplete();
+                        page=data.getMinId();
                     }
-
-
                 });
 
     }
@@ -173,7 +181,7 @@ public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayo
      * 今日必买推荐
      * 9.9包邮
      */
-    private void initMainGoods() {
+    private void getMiddleGoods() {
         dataProvider.shop.index()
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<IndexResponse>>(refresh) {
                     @Override
@@ -192,14 +200,13 @@ public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayo
                         mainSectionGoodsAdapter.setNewData(datas);
                     }
 
-
+                    @Override
+                    protected void onErr(String msg) {
+                    }
                 });
 
 
     }
-
-
-
 
     private void initMainMenu() {
         int[] icons = new int[]{R.mipmap.icon_tao, R.mipmap.icon_smarket, R.mipmap.icon_import, R.mipmap.icon_fresh, R.mipmap.icon_ju,
@@ -270,19 +277,5 @@ public class HomeSelectFragment extends BaseFragment implements SwipeRefreshLayo
     public void onSupportVisible() {
         super.onSupportVisible();
         ImmersionBar.with(this).init();
-    }
-
-    @Override
-    public void onRefresh() {
-        initMainGoods();
-        initMainRecommand();
-    }
-    @OnClick({R.id.iv_invite_friends})
-    public void doClicks(View view){
-        switch (view.getId()){
-            case R.id.iv_invite_friends:
-            goWhiteBarActivity(InviteFriendFragment.class.getSimpleName());
-                break;
-        }
     }
 }

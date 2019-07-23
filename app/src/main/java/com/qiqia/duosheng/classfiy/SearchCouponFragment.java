@@ -96,8 +96,8 @@ public class SearchCouponFragment extends BaseFragment {
                     tabLayout.setTabAdapter(classfiyMenuTabAdapter);
                 });
 
-
     }
+
 
     @OnClick({R.id.layout_search, R.id.iv_back, R.id.tv_right})
     public void doClicks(View view) {
@@ -112,7 +112,10 @@ public class SearchCouponFragment extends BaseFragment {
         }
     }
 
-
+    /**
+     * 初始化ViewPager片段数据
+     * Classfiy为分类数据对象，每个人不一样，自己定义
+     */
     private ViewPager initViewPager(List<Classfiy> classfiys) {
         viewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override

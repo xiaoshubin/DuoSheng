@@ -3,7 +3,10 @@ package com.qiqia.duosheng.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.qiqia.duosheng.activities.WebViewShopActivity;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
@@ -18,21 +21,39 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.ToastUtil;
 
 public class BannerUtils {
-    public static void addImageToBanner(Activity activity, ShopImpl shop, int position, Banner banner) {
+    public static void addImageToBanner(Activity activity, ShopImpl shop, int position, Banner banner, onShowBannerListener listener) {
        shop.banner(position).subscribe(new OnSuccessAndFailListener<BaseResponse<List<BannerResponse>>>() {
            @Override
            protected void onSuccess(BaseResponse<List<BannerResponse>> listBaseResponse)  {
+               ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
+               if (layoutParams instanceof LinearLayout.LayoutParams){
+                   banner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenWidth()/3));
+               }else if (layoutParams instanceof ViewGroup.LayoutParams){
+                   banner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenWidth()/3));
+               }else if (layoutParams instanceof CoordinatorLayout.LayoutParams){
+                   banner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenWidth()/3));
+               }
                loadImage(activity,listBaseResponse.getData(),banner);
+                if (listener!=null)listener.show();
            }
            @Override
            protected void onErr(String msg) {
              if (banner!=null)banner.setVisibility(View.GONE);
+             if (listener!=null)listener.hide();
            }
        });
+    }
+    public static void addImageToBanner(Activity activity, ShopImpl shop, int position, Banner banner) {
+        addImageToBanner(activity,shop,position,banner,null);
+    }
 
+    public interface onShowBannerListener{
+        void show();
+        void hide();
     }
 
     /**

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +34,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.BitmapUtils;
 import cn.com.smallcake_utils.ClipboardUtils;
+import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.IdentifierUtils;
 import cn.com.smallcake_utils.L;
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.ShareUtils;
 import cn.com.smallcake_utils.ToastUtil;
 
@@ -56,6 +59,7 @@ public class InviteFriendFragment extends BaseBarFragment {
     }
     User user;
     Bitmap headBitmap;
+
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
         tvTitle.setText("邀请好友");
@@ -72,9 +76,14 @@ public class InviteFriendFragment extends BaseBarFragment {
                 });
 
     }
-    int selectPosition=2;
+    int selectPosition=2;//当前选择的项，默认中间项
     private void initViewPager() {
-        viewPager.setPageMargin(4);
+        int screenWidth = ScreenUtils.getScreenWidth();
+        int guideWidth = screenWidth- DpPxUtils.dp2px(88);
+        //图片大小575 x 928 ,guideWith/575 = height/928
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int) (guideWidth / 575f * 928f));
+        viewPager.setLayoutParams(layoutParams);
+        //设置边距
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -86,26 +95,26 @@ public class InviteFriendFragment extends BaseBarFragment {
             }
         });
         viewPager.setOffscreenPageLimit(4);
+        //定位到中间的一张海报
         viewPager.setCurrentItem(2);
-        //效果
+        //页面转换动画设置
         viewPager.setPageTransformer(false,new LoopTransformer());
+        //页面变换事件
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
             }
-
             @Override
             public void onPageSelected(int i) {
                 selectPosition = i;
             }
-
             @Override
             public void onPageScrollStateChanged(int i) {
-
             }
         });
     }
+
+
 
     @OnClick({R.id.tv_copy_code, R.id.tv_share_link, R.id.tv_share_pic})
     public void doClicks(View view) {
@@ -155,8 +164,9 @@ public class InviteFriendFragment extends BaseBarFragment {
         }
         int mipmapResourceID = IdentifierUtils.getMipmapResourceID("share_poster_bg" + selectPosition);
         Bitmap bitmapBg = BitmapUtils.getBitmapRes(mipmapResourceID);
-        Bitmap bitmap = combineBitmap(bitmapBg, qrCode);
+        Bitmap bitmap = combineBitmap(bitmapBg, BitmapUtils.setRoundedCorner(qrCode,10));
         ShareUtils.shareImg(_mActivity,getString(R.string.app_name),"分享","图片",bitmap);
+
     }
 
     /**

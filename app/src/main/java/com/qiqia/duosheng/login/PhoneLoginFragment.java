@@ -160,8 +160,10 @@ public class PhoneLoginFragment extends BaseBarFragment {
                 }
             }
 
+
             @Override
             protected void onErr(String msg) {
+                super.onErr(msg);
                 tvErr.setText(msg);
             }
         });
@@ -206,6 +208,7 @@ public class PhoneLoginFragment extends BaseBarFragment {
 
                     @Override
                     protected void onErr(String msg) {
+                        super.onErr(msg);
                         tvErr.setText(msg);
                     }
                 });
@@ -225,6 +228,7 @@ public class PhoneLoginFragment extends BaseBarFragment {
 
                     @Override
                     protected void onErr(String msg) {
+                        super.onErr(msg);
                         tvErr.setText(msg);
                     }
                 });

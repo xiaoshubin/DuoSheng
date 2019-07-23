@@ -28,7 +28,7 @@ public class RecommandGoodsAdapter extends BaseQuickAdapter<GoodsInfo, BaseViewH
             helper.setText(R.id.tv_title,item.getItemTitle())
                     .setText(R.id.tv_shop_title,item.getShopName())
                     .setText(R.id.tv_volume,"已售"+item.getItemSale())
-                    .setText(R.id.tv_commission_price,"预估收益 ￥"+item.getCommision())
+                    .setText(R.id.tv_commission_price,"预估收益￥"+item.getCommision())
                     .setText(R.id.tv_reserve_price,"￥"+item.getItemPrice())
                     .setText(R.id.tv_zk_final_price,item.getItemEndPrice());
 

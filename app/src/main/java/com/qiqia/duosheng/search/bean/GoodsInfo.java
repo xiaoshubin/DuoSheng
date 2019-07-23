@@ -45,7 +45,7 @@ public class GoodsInfo implements Serializable {
     private String itemEndPrice;
     private String itemId;
     private String itemPic;
-    private String itemDetailPic;
+    private String itemDetailPic;//宝贝详情图片
     private String itemVideo;
     private String itemPrice;
     private String itemSale;
@@ -62,13 +62,12 @@ public class GoodsInfo implements Serializable {
     private String commision;
     private String commisionTop;
     private String guideArticle;
-    private List<String> itemPicList;
+    private List<String> itemPicList;//小图片集合
 
-    //每日爆款单独字段，评论
-    private String comment;
+
+    private String comment; //每日爆款单独字段，评论
     private String itemDesc;
-    //全网查包含的字段，如果没有此字段，就判定为好单库，可以通过id来查询商品详情
-    private String couponInfo;
+    private String couponInfo; //全网查包含的字段，如果没有此字段，就判定为好单库，可以通过id来查询商品详情
     private int isCollect;//0未收藏 1已收藏
     //收藏列表，判定全网或好单库
     private int type;
@@ -336,4 +335,5 @@ public class GoodsInfo implements Serializable {
     public void setItemPicList(List<String> itemPicList) {
         this.itemPicList = itemPicList;
     }
+
 }

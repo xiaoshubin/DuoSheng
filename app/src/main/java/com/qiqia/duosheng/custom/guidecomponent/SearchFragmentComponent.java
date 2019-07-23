@@ -25,9 +25,9 @@ public class SearchFragmentComponent implements Component {
     }
     @Override public View getView(LayoutInflater inflater) {
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_search_fragment, null);
-        ll.setMinimumWidth(ScreenUtils.getScreenWidth()- DpPxUtils.dp2px(8));
+        ll.setMinimumWidth(ScreenUtils.getScreenWidth());
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, targetViewHeight);
-        View viewDottedRect = ll.findViewById(R.id.view_dotted_rect);
+        View viewDottedRect = ll.findViewById(R.id.view_dotted_rect);//虚线框
         viewDottedRect.setLayoutParams(param);
         L.e("targetView.getMeasuredHeight()=="+targetViewHeight);
         ll.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +53,6 @@ public class SearchFragmentComponent implements Component {
     }
 
     @Override public int getYOffset() {
-        return -DpPxUtils.px2dp(targetViewHeight)+DpPxUtils.px2dp(8);
+        return -DpPxUtils.px2dp(targetViewHeight)+DpPxUtils.dp2px(2);
     }
 }

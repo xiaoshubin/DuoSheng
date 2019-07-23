@@ -3,6 +3,7 @@ package com.qiqia.duosheng.mine;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,6 +59,7 @@ public class MyCollectionFragment extends BaseBarFragment {
     }
 
     private void onEvent() {
+        //加载更多
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -68,18 +70,34 @@ public class MyCollectionFragment extends BaseBarFragment {
                     mAdapter.loadMoreEnd();
                 }
             }
-        },recyclerView);
+        }, recyclerView);
+        //进入商品详情
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                GoodsInfo item = (GoodsInfo) adapter.getItem(position);
+                jumpToFragmentByType(item);
+            }
+        });
+
+        //选中和取消选中
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 mAdapter.setSelectPosition(position);
             }
         });
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
+        //全选后，取消一项，解除全选按钮选中状态,选中一项后，如果已经全选，改变全选按钮状态为选中
+        mAdapter.setListener(new MyCollectionAdapter.onSelectAllListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-               GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-               jumpToFragmentByType(item);
+            public void cancleSelectAll() {
+                rbSelectAll.setChecked(false);
+            }
+
+            @Override
+            public void selectAll() {
+                rbSelectAll.setChecked(true);
             }
         });
     }
@@ -97,36 +115,41 @@ public class MyCollectionFragment extends BaseBarFragment {
                     }
                 });
     }
-    @OnClick({R.id.tv_right,R.id.rb_select_all,R.id.btn_del})
-    public void doClicks(View view){
-        switch (view.getId()){
-            case R.id.tv_right:
+
+    @OnClick({R.id.tv_right, R.id.rb_select_all, R.id.btn_del})
+    public void doClicks(View view) {
+        switch (view.getId()) {
+            case R.id.tv_right://操作的显示和隐藏
                 edit();
                 break;
-            case R.id.rb_select_all:
-                if (mAdapter.isSelectAll()){
-                    rbSelectAll.setChecked(false);
-                    mAdapter.cancleAll();
-                    return;
-                }else {
-                    rbSelectAll.setChecked(true);
-                    mAdapter.selectAll();
-                }
+            case R.id.rb_select_all://全选/取消全选
+                clickSelectAll();
                 break;
-            case R.id.btn_del:
+            case R.id.btn_del://删除
                 del();
                 break;
         }
     }
 
-    /**
-     * 取消收藏
-     */
+    private void clickSelectAll() {
+        if (mAdapter.isSelectAllData()) {
+            rbSelectAll.setChecked(false);
+            mAdapter.cancleAll();
+        } else {
+            rbSelectAll.setChecked(true);
+            mAdapter.selectAll();
+        }
+    }
+
+
     private void del() {
         String allSelectIds = mAdapter.getAllSelectIds();
-
+        if (TextUtils.isEmpty(allSelectIds)) {
+            ToastUtil.showLong("未选中任何项！");
+            return;
+        }
         //刷新适配器
-        dataProvider.user.delCol(user.getUid(),user.getToken(),allSelectIds)
+        dataProvider.user.delCol(user.getUid(), user.getToken(), allSelectIds)
                 .subscribe(new OnSuccessAndFailListener<BaseResponse>(dialog) {
                     @Override
                     protected void onSuccess(BaseResponse baseResponse) {
@@ -139,11 +162,11 @@ public class MyCollectionFragment extends BaseBarFragment {
 
     private void edit() {
         String s = tvRight.getText().toString();
-        if (s.equals("管理")){
+        if (s.equals("管理")) {
             tvRight.setText("取消");
             mAdapter.setShowSelectBtn(true);
             layoutEdit.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tvRight.setText("管理");
             mAdapter.setShowSelectBtn(false);
             layoutEdit.setVisibility(View.GONE);

@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.com.smallcake_utils.SoftInputUtils;
 import cn.com.smallcake_utils.dialog.LoadDialog;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
@@ -57,6 +58,13 @@ public abstract class BaseFragment extends SwipeBackFragment {
         DaggerCommonComponent.builder().netWorkMoudle(new NetWorkMoudle(this.getContext())).build().inject(this);
         apolloBinder = Apollo.bind(this);
     }
+    protected void popActivity() {
+        if (getPreFragment()==null){
+            _mActivity.finish();
+        }
+        pop();
+        SoftInputUtils.closeSoftInput(_mActivity);
+    }
     /**
      * 事件通知解绑
      */
@@ -69,7 +77,7 @@ public abstract class BaseFragment extends SwipeBackFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        if(unbinder != null)unbinder.unbind();
     }
      protected void goActivity(Class<?> activity){
          Intent intent = new Intent(_mActivity, activity);

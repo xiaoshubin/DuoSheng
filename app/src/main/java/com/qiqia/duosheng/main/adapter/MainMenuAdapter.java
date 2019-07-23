@@ -9,7 +9,6 @@ public class MainMenuAdapter extends BaseQuickAdapter<MenuItem, BaseViewHolder> 
     public MainMenuAdapter() {
         super(R.layout.item_main_menu);
     }
-
     @Override
     protected void convert(BaseViewHolder helper, MenuItem item) {
         helper.setText(R.id.tv_name,item.getTitle()).setImageResource(R.id.iv_icon,item.getImgRes());

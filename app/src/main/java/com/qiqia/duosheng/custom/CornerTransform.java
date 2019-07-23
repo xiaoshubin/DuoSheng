@@ -11,23 +11,23 @@ import android.graphics.Shader;
 import android.support.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.util.Util;
 
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 
-public class CornerTransform extends BitmapTransformation {
+public class CornerTransform implements Transformation<Bitmap> {
     private BitmapPool mBitmapPool;
-    private static final String ID = "CornerTransform";
-    private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
-    private int radius;
+
+    private float radius;
 
     private boolean exceptLeftTop, exceptRightTop, exceptLeftBottom, exceptRightBotoom;
 
     /**
-     * 除了那几个角不需要圆角的
+     * 需要圆角的位置
      *
      * @param leftTop
      * @param rightTop
@@ -41,14 +41,30 @@ public class CornerTransform extends BitmapTransformation {
         this.exceptRightBotoom = rightBottom;
     }
 
-    public CornerTransform(Context context, int radius) {
+    public CornerTransform(Context context, float radius) {
         this.mBitmapPool = Glide.get(context).getBitmapPool();
         this.radius = radius;
     }
 
+
+    public String getId() {
+        return this.getClass().getName();
+    }
+
     @Override
-    public Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight){
-        Bitmap source =  toTransform;
+    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+
+    }
+
+    public int hashCode() {
+        //避免Transformation重复设置,导致图片闪烁,同一个圆角值的Transformation视为同一个对象
+        return Util.hashCode(getId().hashCode(), Util.hashCode(this.radius));
+    }
+
+    @NonNull
+    @Override
+    public Resource<Bitmap> transform(@NonNull Context context, @NonNull Resource<Bitmap> resource, int outWidth, int outHeight) {
+        Bitmap source =  resource.get();
         int finalWidth, finalHeight;
         float ratio; //输出目标的宽高或高宽比例
         if (outWidth > outHeight) { //输出宽度>输出高度,求高宽比
@@ -96,32 +112,22 @@ public class CornerTransform extends BitmapTransformation {
 
         paint.setShader(shader);
         paint.setAntiAlias(true);
-        RectF rectF = new RectF(0.0F, 0.0F, (float) canvas.getWidth(), (float) canvas.getHeight());
+        RectF rectF = new RectF(0.0F, 0.0F, (float) canvas.getWidth(), (float)  canvas.getWidth());
         canvas.drawRoundRect(rectF, this.radius, this.radius, paint); //先绘制圆角矩形
 
-        if (exceptLeftTop) { //左上角不为圆角
+        if (!exceptLeftTop) { //左上角不为圆角
             canvas.drawRect(0, 0, radius, radius, paint);
         }
-        if (exceptRightTop) {//右上角不为圆角
+        if (!exceptRightTop) {//右上角不为圆角
             canvas.drawRect(canvas.getWidth() - radius, 0, canvas.getWidth(), radius, paint);
         }
-
-        if (exceptLeftBottom) {//左下角不为圆角
+        if (!exceptLeftBottom) {//左下角不为圆角
             canvas.drawRect(0, canvas.getHeight() - radius, radius, canvas.getHeight(), paint);
         }
-
-        if (exceptRightBotoom) {//右下角不为圆角
+        if (!exceptRightBotoom) {//右下角不为圆角
             canvas.drawRect(canvas.getWidth() - radius, canvas.getHeight() - radius, canvas.getWidth(), canvas.getHeight(), paint);
         }
 
-        return BitmapResource.obtain(outBitmap, this.mBitmapPool).get();
-    }
-
-
-    @Override
-    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-        messageDigest.update(ID_BYTES);
-        byte[] radiusData = ByteBuffer.allocate(4).putInt(radius).array();
-        messageDigest.update(radiusData);
+        return BitmapResource.obtain(outBitmap, this.mBitmapPool);
     }
 }

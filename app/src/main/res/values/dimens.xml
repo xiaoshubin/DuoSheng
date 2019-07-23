@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="btn_height">44dp</dimen>
-    <dimen name="main_tab_height">56dp</dimen>
+    <dimen name="main_tab_height">48dp</dimen>
     <dimen name="common_bar_height">56dp</dimen>
     <dimen name="tablayout_height">40dp</dimen>
     <dimen name="head_line_height">48dp</dimen>

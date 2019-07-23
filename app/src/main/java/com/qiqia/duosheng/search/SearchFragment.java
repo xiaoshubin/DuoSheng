@@ -2,6 +2,7 @@ package com.qiqia.duosheng.search;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +20,8 @@ import com.qiqia.duosheng.bean.GoodsList;
 import com.qiqia.duosheng.bean.GoodsListAll;
 import com.qiqia.duosheng.bean.SearchKey;
 import com.qiqia.duosheng.custom.GoodsSortLinearLayout;
-import com.qiqia.duosheng.search.adapter.NTbkItemBeanAdapter;
-import com.qiqia.duosheng.search.adapter.NTbkItemBeanGridAdapter;
+import com.qiqia.duosheng.search.adapter.GoodsHAdapter;
+import com.qiqia.duosheng.search.adapter.GoodsVAdapter;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
 import com.qiqia.duosheng.utils.GuideUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
@@ -36,15 +37,13 @@ import cn.com.smallcake_utils.ToastUtil;
 /**
  * 搜索页
  */
-public class SearchFragment extends BaseBarFragment {
+public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    NTbkItemBeanAdapter nTbkItemBeanAdapter = new NTbkItemBeanAdapter();
-    NTbkItemBeanGridAdapter gridAdapter = new NTbkItemBeanGridAdapter();
-
+    GoodsHAdapter hAdapter = new GoodsHAdapter();
+    GoodsVAdapter vAdapter = new GoodsVAdapter();
     @BindView(R.id.tv_key)
     TextView tvKey;
-
     @BindView(R.id.iv_right)
     ImageView ivRight;
     @BindView(R.id.recycler_view_goods)
@@ -53,6 +52,8 @@ public class SearchFragment extends BaseBarFragment {
     GoodsSortLinearLayout sortLine;
     @BindView(R.id.recycler_view_goods_grid)
     RecyclerView recyclerViewGoodsGrid;
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refresh;
 
 
     public static SearchFragment newInstance(String keyWord) {
@@ -72,7 +73,6 @@ public class SearchFragment extends BaseBarFragment {
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
         initView();
         KeyWord = getArguments().getString("keyWord");
-        L.e("keyWord==" + KeyWord);
         if (!TextUtils.isEmpty(KeyWord)) {
             tvKey.setText(KeyWord);
             search();
@@ -80,11 +80,14 @@ public class SearchFragment extends BaseBarFragment {
     }
 
     private void initView() {
-        nTbkItemBeanAdapter.bindToRecyclerView(recyclerViewGoods);
+        hAdapter.bindToRecyclerView(recyclerViewGoods);
         recyclerViewGoods.setLayoutManager(new LinearLayoutManager(_mActivity));
-        recyclerViewGoods.setAdapter(nTbkItemBeanAdapter);
+        recyclerViewGoods.setAdapter(hAdapter);
         recyclerViewGoodsGrid.setLayoutManager(new GridLayoutManager(_mActivity, 2));
-        recyclerViewGoodsGrid.setAdapter(gridAdapter);
+        recyclerViewGoodsGrid.setAdapter(vAdapter);
+        hAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        vAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        refresh.setOnRefreshListener(this);
         onEvent();
     }
 
@@ -101,7 +104,8 @@ public class SearchFragment extends BaseBarFragment {
             public void onItemClick(int order) {
                 Order = order;
                 Pn = 1;
-                nTbkItemBeanAdapter.setNewData(null);
+                hAdapter.setNewData(null);
+                vAdapter.setNewData(null);
                 search();
             }
 
@@ -112,14 +116,15 @@ public class SearchFragment extends BaseBarFragment {
                     EndPrice = highPrice;
                 }
                 Pn = 1;
-                nTbkItemBeanAdapter.setNewData(null);
+                hAdapter.setNewData(null);
+                vAdapter.setNewData(null);
                 search();
             }
         });
     }
 
     private void loadMoreSet() {
-        nTbkItemBeanAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        hAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 if (totalPage == 0) {
@@ -127,12 +132,12 @@ public class SearchFragment extends BaseBarFragment {
                 } else if (AllPn < totalPage) {
                     search();
                 } else {
-                    nTbkItemBeanAdapter.loadMoreEnd();
+                    hAdapter.loadMoreEnd();
                 }
 
             }
         }, recyclerViewGoods);
-        gridAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        vAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
 
@@ -141,18 +146,18 @@ public class SearchFragment extends BaseBarFragment {
                 } else if (AllPn < totalPage) {
                     search();
                 } else {
-                    gridAdapter.loadMoreEnd();
+                    vAdapter.loadMoreEnd();
                 }
             }
         }, recyclerViewGoods);
-        nTbkItemBeanAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        hAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
                 jumpToFragment(item);
             }
         });
-        gridAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        vAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
@@ -167,24 +172,18 @@ public class SearchFragment extends BaseBarFragment {
         if (tag.equals("line")) {
             ivRight.setTag("grid");
             ivRight.setImageResource(R.mipmap.icon_grid_list);
-            recyclerViewGoods.setAdapter(gridAdapter);
-            recyclerViewGoods.setLayoutManager(new GridLayoutManager(_mActivity, 2));
-            Pn = 1;
-            gridAdapter.setNewData(null);
+            vAdapter.setNewData(null);
             recyclerViewGoods.setVisibility(View.GONE);
             recyclerViewGoodsGrid.setVisibility(View.VISIBLE);
-            search();
         } else {
             ivRight.setTag("line");
             ivRight.setImageResource(R.mipmap.icon_line_list);
-            recyclerViewGoods.setAdapter(nTbkItemBeanAdapter);
-            recyclerViewGoods.setLayoutManager(new LinearLayoutManager(_mActivity));
-            Pn = 1;
-            nTbkItemBeanAdapter.setNewData(null);
+            hAdapter.setNewData(null);
             recyclerViewGoods.setVisibility(View.VISIBLE);
             recyclerViewGoodsGrid.setVisibility(View.GONE);
-            search();
         }
+        Pn = 1;
+        search();
     }
 
 
@@ -233,7 +232,7 @@ public class SearchFragment extends BaseBarFragment {
      */
     private void searchByWord() {
         dataProvider.shop.search(KeyWord, Order, Pn, AllPn, StartPrice, EndPrice, Cid, Type)
-                .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsListAll>>(dialog) {
+                .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsListAll>>(refresh) {
                     @Override
                     protected void onSuccess(BaseResponse<GoodsListAll> baseResponse) {
                         saveKey(KeyWord);
@@ -261,11 +260,10 @@ public class SearchFragment extends BaseBarFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                View view = nTbkItemBeanAdapter.getViewByPosition(recyclerViewGoods, 0, R.id.layout_root);
-//                                String itemId = results.get(0).getItemId();
+                View view = hAdapter.getViewByPosition(recyclerViewGoods, 0, R.id.layout_root);
                 if (view != null) GuideUtils.showGuide(SearchFragment.this, view);
             }
-        }, 200);
+        }, 800);
     }
 
     private void loadHdkData(List<GoodsInfo> results) {
@@ -274,20 +272,20 @@ public class SearchFragment extends BaseBarFragment {
             ToastUtil.showShort("没有更多相关商品了！");
             String tag = ivRight.getTag().toString();
             if (tag.equals("grid")) {
-                gridAdapter.loadMoreEnd();
+                vAdapter.loadMoreEnd();
             } else {
-                nTbkItemBeanAdapter.loadMoreEnd();
+                hAdapter.loadMoreEnd();
             }
             return;
         }
         //添加下一页数据
         String tag = ivRight.getTag().toString();
         if (tag.equals("grid")) {
-            gridAdapter.addData(results);
-            gridAdapter.loadMoreComplete();
+            vAdapter.addData(results);
+            vAdapter.loadMoreComplete();
         } else {
-            nTbkItemBeanAdapter.addData(results);
-            nTbkItemBeanAdapter.loadMoreComplete();
+            hAdapter.addData(results);
+            hAdapter.loadMoreComplete();
         }
     }
 
@@ -318,5 +316,14 @@ public class SearchFragment extends BaseBarFragment {
                 start(SearchHistoryFragment.newInstance(), SINGLETASK);
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        String tag = (String) ivRight.getTag();
+        Pn = 1;
+        if (tag.equals("line")) hAdapter.setNewData(null);
+        else vAdapter.setNewData(null);
+        search();
     }
 }

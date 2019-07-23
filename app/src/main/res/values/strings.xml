@@ -20,6 +20,13 @@
 
     <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="vip_level">会员级别</string>
+    <string name="predict_income">券后</string>
+    <string name="rmb_symbol">￥</string>
+    <string name="sold">已售</string>
+    <string name="ygsy_y">预估收益 ￥</string>
+    <string name="yuan">元</string>
+    <string name="quan_hou">券后</string>
+    <string name="yuan_jia">原价</string>
     <string-array name="main_menu_names">
         <item>淘宝</item>
         <item>天猫超市</item>
@@ -32,7 +39,40 @@
         <item>高佣榜</item>
         <item>白菜价</item>
     </string-array>
+    <!-- 我的收益 -->
+    <string-array name="my_income_tab_names">
+        <item>今日</item>
+        <item>昨日</item>
+        <item>近七日</item>
+        <item>本月</item>
+        <item>上月</item>
+    </string-array>
+    <!-- 订单明细 -->
+    <string-array name="order_tab_names">
+        <item>全部</item>
+        <item>已付款</item>
+        <item>已收货</item>
+        <item>已结算</item>
+        <item>已退款</item>
+    </string-array>
 
-    <string name="behavior_sample_title">com.qiqia.duosheng.custom.SampleTitleBehavior</string>
+    <string name="new_message_notification_title_template">New message: %1$s</string>
+
+    <!-- TODO: remove this placeholder text -->
+    <string name="new_message_notification_placeholder_text_template">You said %1$s and lorem ipsum
+        dolor sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel
+        semper venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis.
+        Pellentesque vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper
+        ornare lacus. Duis ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis
+        viverra rhoncus sit amet nec magna. Donec lacinia ligula at libero volutpat volutpat nec nec
+        tortor.
+    </string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
+    <string name="buy_return">自购返</string>
+    <string name="share_take">分享赚</string>
+    <string name="invite_promotion_notes">1. 海报是您的专属二维码，好友识别下载后输入邀请码将永久绑定到您账户下  \n2. 好友通过您的邀请码或者邀请海报下载APP后，未来的所有佣金您都可以获得提成，将自动计算到您的提现账户中</string>
+
 
 </resources>

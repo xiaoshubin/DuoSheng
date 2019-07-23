@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logo"/>
+
+    <TextView
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/iv_pic"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标题"/>
+    <TextView
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/red"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/iv_pic"
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19.8元"/>
+    <TextView
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19.8元"/>
+
+</RelativeLayout>

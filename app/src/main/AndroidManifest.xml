@@ -2,29 +2,40 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.qiqia.duosheng">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_APN_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:appComponentFactory="timer"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
+        android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:appComponentFactory"
-        android:appComponentFactory="timer"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activities.WebViewShopActivity"/>
-        <activity android:name=".activities.WhiteBarActivity"  />
-        <!--<activity android:name=".activities.TransparentBarActivity"/>-->
-
+        tools:targetApi="n"
+        tools:ignore="AllowBackup,UnusedAttribute">
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true"/>
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+        <activity android:name=".activities.WebViewShopActivity" />
+        <activity android:name=".activities.WhiteBarActivity"/>
         <activity
             android:name=".activities.TransparentBarActivity"
             android:windowSoftInputMode="adjustPan">
@@ -38,42 +49,47 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 微信登录回调页面 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:taskAffinity="net.sourceforge.simcpux"
-            android:theme="@style/AppTheme"  android:screenOrientation="portrait"/>
+            android:theme="@style/AppTheme" />
         <!-- QQ分享回调页面 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1109176982" />
             </intent-filter>
         </activity>
+        <!-- QQ空间分享 -->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- 阿里百川第三方登录淘宝授权 -->
-        <activity android:name="com.ali.auth.third.ui.LoginActivity"
-            android:theme="@style/AlibcLoginTheme"
-            tools:replace="android:theme"
+        <activity
+            android:name="com.ali.auth.third.ui.LoginActivity"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AlibcLoginTheme"
+            tools:replace="android:theme" />
         <!-- 百川SDK在Android9上需要配置此项 -->
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <!-- Android7 需要通过FileProvider获取图片Uri -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -86,51 +102,69 @@
         </provider>
 
         <!-- 极光推送服务 开始 -->
+
+
+        <!-- Since JCore2.0.0 Required SDK核心功能 -->
+        <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
+        <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
         <service
-            android:name="cn.jpush.android.service.PushService"
+            android:name=".jpush.PushService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"
+            android:process=":pushcore">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+                <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
         </service>
 
+        <!-- Required since 3.0.7 -->
+        <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
+        <!-- 3.3.0开始所有事件将通过该类回调 -->
+        <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
         <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+            android:name=".jpush.MyJPushMessageReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
 
                 <category android:name="${applicationId}" />
             </intent-filter>
+        </receiver>
+        <!-- 自定义Receiver 全部类型的广播都接收 -->
+        <receiver
+            android:name=".jpush.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
 
-                <data android:scheme="package" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
+
         <!-- 极光推送服务 结束 -->
+
 
         <!-- 分享辅助服务 -->
         <service
-            android:name="com.qiqia.duosheng.share.utils.ShareAccessibilityService"
+            android:name=".share.utils.ShareAccessibilityService"
             android:exported="true"
             android:label="@string/share_accessibility_service_title"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_config" />
         </service>
     </application>
+
 </manifest>

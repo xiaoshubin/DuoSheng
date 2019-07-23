@@ -22,6 +22,9 @@ import java.util.List;
 
 import butterknife.BindView;
 
+/**
+ * 疯抢榜单 -- 子页面
+ */
 public class ItemRankingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -55,6 +58,7 @@ public class ItemRankingListFragment extends BaseFragment implements SwipeRefres
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         refresh.setOnRefreshListener(this);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerView.setAdapter(mAdapter);
         type = getArguments().getInt("type");

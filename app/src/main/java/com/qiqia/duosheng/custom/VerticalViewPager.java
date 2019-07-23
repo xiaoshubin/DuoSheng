@@ -10,20 +10,16 @@ import android.view.MotionEvent;
  * 垂直滑动的ViewPager
  */
 public class VerticalViewPager extends ViewPager {
-
     public VerticalViewPager(Context context) {
         this(context, null);
     }
-
     public VerticalViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         //设置viewpage的切换动画,这里设置才能真正实现垂直滑动的viewpager
         setPageTransformer(true, new DefaultTransformer());
     }
-
     /**
      * 拦截touch事件
-     *
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -31,13 +27,10 @@ public class VerticalViewPager extends ViewPager {
         swapEvent(ev);
         return intercept;
     }
-
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return super.onTouchEvent(swapEvent(ev));
     }
-
     private MotionEvent swapEvent(MotionEvent event) {
         //获取宽高
         float width = getWidth();

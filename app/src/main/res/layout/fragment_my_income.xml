@@ -148,36 +148,12 @@
             </LinearLayout>
         </LinearLayout>
     <!--时间选择Tab-->
-    <android.support.design.widget.TabLayout
-        app:tabGravity="fill"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed"
-        android:layout_margin="8dp"
-        android:background="@drawable/round9_white_bg"
-        style="@style/WhiteTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_tab_height">
-        <android.support.design.widget.TabItem
-            android:text="今日"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.design.widget.TabItem
-            android:text="昨日"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.design.widget.TabItem
-            android:text="七日"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.design.widget.TabItem
-            android:text="本月"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <android.support.design.widget.TabItem
-            android:text="上月"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TabLayout>
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:layout_margin="8dp"
+            android:background="@drawable/round9_white_bg"
+            android:id="@+id/magic_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_tab_height"/>
     <LinearLayout
         android:padding="8dp"
         android:layout_marginLeft="8dp"

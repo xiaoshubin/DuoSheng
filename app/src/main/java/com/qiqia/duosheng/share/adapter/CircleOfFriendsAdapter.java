@@ -3,37 +3,78 @@ package com.qiqia.duosheng.share.adapter;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.qiqia.duosheng.R;
+import com.qiqia.duosheng.databinding.ItemCircleOfFriendsBinding;
 import com.qiqia.duosheng.share.bean.ShareList;
+import com.qiqia.duosheng.utils.DataBindBaseViewHolder;
 
+import java.util.Arrays;
+import java.util.List;
+
+import cn.com.smallcake_utils.DpPxUtils;
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.SpannableStringUtils;
+import cn.com.smallcake_utils.custom.AutoNewLineLayout;
 
 /**
  * 朋友圈
  */
-public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean, BaseViewHolder> {
+public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean, DataBindBaseViewHolder> {
+    ViewGroup.MarginLayoutParams layoutParams;
     public CircleOfFriendsAdapter() {
         super(R.layout.item_circle_of_friends);
+        int imgWidth = (ScreenUtils.getScreenWidth()- DpPxUtils.dp2px(24))/3;
+        layoutParams = new ViewGroup.MarginLayoutParams(imgWidth, imgWidth);
+        layoutParams.setMargins(DpPxUtils.dp2px(4),DpPxUtils.dp2px(4),0,0);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShareList.DataBean item) {
-        TextView tvGoodsInfoDesc = helper.getView(R.id.tv_goods_info_desc);
+    protected void convert(DataBindBaseViewHolder helper, ShareList.DataBean item) {
+
+        ItemCircleOfFriendsBinding binding = (ItemCircleOfFriendsBinding) helper.getBinding();
+        binding.setItem(item);
+
         SpannableStringBuilder goodsInfoDesc = SpannableStringUtils.getBuilder(item.getItemTitle())
                 .append("   查看详情").setForegroundColor(Color.parseColor("#D89C2A")).create();
-        tvGoodsInfoDesc.setText(goodsInfoDesc);
-        helper.addOnClickListener(R.id.tv_share).addOnClickListener(R.id.tv_goods_info_desc);
-        helper.setText(R.id.tv_commission_price,"预估佣金￥"+item.getCommision())
-        .setText(R.id.tv_share,item.getClick())
-        .setText(R.id.tv_goods_desc,  Html.fromHtml(Html.fromHtml(item.getCopyContent()).toString()));
-        ImageView ivGoodsPic = helper.getView(R.id.iv_goods_pic);
-        Glide.with(mContext).load(item.getItemPic()).into(ivGoodsPic);
+        helper.setText(R.id.tv_goods_info_desc,goodsInfoDesc)
+                .setText(R.id.tv_goods_desc,  Html.fromHtml(Html.fromHtml(item.getCopyContent()).toString())).addOnClickListener(R.id.tv_share)
+                .addOnClickListener(R.id.tv_goods_info_desc);
 
+        //图片合集
+        String itemPic = item.getItemPic();
+        List<String> itemPicList = item.getItemPicList();
+        if (itemPicList==null||itemPicList.size()==0){
+            setShowPic(binding.layoutPics, Arrays.asList(itemPic));
+        }else {
+            setShowPic(binding.layoutPics,itemPicList);
+        }
+
+    }
+    private void setShowPic(AutoNewLineLayout layout, List<String> itemPicList){
+        if (itemPicList==null||itemPicList.size()==0){
+            for (int i = 0; i < layout.getChildCount(); i++) layout.getChildAt(i).setVisibility(View.GONE);
+            return;
+        }
+        //显示需要展示图片的控件
+        int showNum = itemPicList.size();
+        for (int i = 0; i < showNum; i++) {
+            ImageView imageView = (ImageView) layout.getChildAt(i);
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setLayoutParams(layoutParams);
+            Glide.with(mContext).load(itemPicList.get(i)).into(imageView);
+        }
+        //隐藏其他未展示控件
+        if (showNum<layout.getChildCount()){
+            for (int i = showNum; i < layout.getChildCount(); i++) {
+                View childAt = layout.getChildAt(i);
+                childAt.setVisibility(View.GONE);
+            }
+        }
     }
 }

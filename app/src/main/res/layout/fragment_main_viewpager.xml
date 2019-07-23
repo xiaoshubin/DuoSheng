@@ -36,7 +36,6 @@
             android:drawableTop="@drawable/tab_rank_selecter"
             android:text="排行"/>
         <RadioButton
-
             style="@style/MainTabRadioButton"
             android:id="@+id/rb4"
             android:drawableTop="@drawable/tab_share_selecter"

@@ -2,7 +2,6 @@ package com.qiqia.duosheng.ranking;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,6 +13,9 @@ import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseFragment;
 import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.main.bean.Classfiy;
+import com.qiqia.duosheng.utils.TabCreateUtils;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +30,10 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class RankingListFragment extends BaseFragment {
-    public static TabLayout tabLayout;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    public static ViewPager viewPager;
     List<Classfiy> allClassfiys;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator magicIndicator;
 
     @Override
     public void onSupportVisible() {
@@ -53,27 +55,27 @@ public class RankingListFragment extends BaseFragment {
 
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
-        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.view_pager);
         allClassfiys = new ArrayList<>();
         allClassfiys.add(new Classfiy("实时榜"));
         allClassfiys.add(new Classfiy("24时榜"));
+
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        allClassfiy();
-
+        initAllClassify();
     }
 
-    public void allClassfiy() {
+    public void initAllClassify() {
         Observable.create(new Observable.OnSubscribe<List<Classfiy>>() {
             @Override
             public void call(Subscriber<? super List<Classfiy>> subscriber) {
                 long t1 = System.currentTimeMillis();
                 List<Classfiy> classfiys = SPUtils.readObject(SPStr.CLASSFIYS);
                 long t2 = System.currentTimeMillis();
-                L.e("查询Classfiy耗时=="+(t2-t1));
+                L.e("查询Classfiy耗时==" + (t2 - t1));
 
                 if (classfiys == null || classfiys.size() == 0) return;
                 allClassfiys.addAll(classfiys);
@@ -93,14 +95,10 @@ public class RankingListFragment extends BaseFragment {
 
     private void initTabLayout() {
         if (allClassfiys == null || allClassfiys.size() == 0) return;
-        for (int i = 0; i < allClassfiys.size(); i++) {
-            Classfiy classfiy = allClassfiys.get(i);
-            tabLayout.addTab(tabLayout.newTab());
-            TabLayout.Tab tabAt = tabLayout.getTabAt(i);
-            tabAt.setText(classfiy.getMainName());
-        }
+        TabCreateUtils.setDefaultTab(this.getContext(), magicIndicator, viewPager, allClassfiys);
         initViewPager();
     }
+
 
     private void initViewPager() {
         FragmentStatePagerAdapter fragmentPagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
@@ -108,16 +106,18 @@ public class RankingListFragment extends BaseFragment {
             public int getCount() {
                 return allClassfiys.size();
             }
+
             @Override
             public Fragment getItem(int i) {
-                if (i==0){
-                    return  ItemRankingListFragment.newInstance(1, 0);
-                }else if (i==1){
-                    return  ItemRankingListFragment.newInstance(2, 0);
-                }else {
-                    return  ItemRankingListFragment.newInstance(0, allClassfiys.get(i).getCid());
+                if (i == 0) {//实时榜
+                    return ItemRankingListFragment.newInstance(1, 0);
+                } else if (i == 1) {//24小时榜
+                    return ItemRankingListFragment.newInstance(2, 0);
+                } else {//其他分类
+                    return ItemRankingListFragment.newInstance(0, allClassfiys.get(i).getCid());
                 }
             }
+
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
@@ -126,10 +126,8 @@ public class RankingListFragment extends BaseFragment {
         };
         long t1 = System.currentTimeMillis();
         viewPager.setAdapter(fragmentPagerAdapter);
-        viewPager.setOffscreenPageLimit(allClassfiys.size()/3);//130ms
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(allClassfiys.size() / 3);//130ms
         long t2 = System.currentTimeMillis();
-        L.e("预加载耗时=="+(t2-t1));
+        L.e("预加载耗时==" + (t2 - t1));
     }
-
 }

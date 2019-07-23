@@ -13,10 +13,14 @@ import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;
 import com.qiqia.duosheng.dialog.PredictIncomeDialog;
+import com.qiqia.duosheng.utils.TabCreateUtils;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.SpannableStringUtils;
+import cn.com.smallcake_utils.ToastUtil;
 
 public class MyIncomeFragment extends BaseBarFragment {
 
@@ -30,6 +34,8 @@ public class MyIncomeFragment extends BaseBarFragment {
     TextView tvTeamIncome;
     @BindView(R.id.layout_bar)
     LinearLayout layoutBar;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator magicIndicator;
 
     @Override
     public int setLayout() {
@@ -51,6 +57,9 @@ public class MyIncomeFragment extends BaseBarFragment {
         tvBuyIncome.setText(builderDesc("预估佣金(元)", "180.54"));
         tvTeamNum.setText(builderDesc("付款笔数", "4"));
         tvTeamIncome.setText(builderDesc("预估佣金(元)", "2132.27"));
+        String[] names = getResources().getStringArray(R.array.my_income_tab_names);
+        TabCreateUtils.setOrangeTab(this.getContext(), magicIndicator, names, index -> ToastUtil.showShort(names[index]));
+
     }
 
     private SpannableStringBuilder builderDesc(String desc, String num) {

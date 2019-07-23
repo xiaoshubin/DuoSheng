@@ -1,15 +1,13 @@
 package cn.com.smallcake_utils;
 
-import android.content.Context;
-
 public class DpPxUtils {
     private DpPxUtils() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public static float dp2pxFloat(float dpValue) {
+        final float scale =  SmallUtils.getApp().getResources().getDisplayMetrics().density;
+        return  (dpValue * scale + 0.5f);
     }
     public static int dp2px( float dpValue) {
         final float scale = SmallUtils.getApp().getResources().getDisplayMetrics().density;

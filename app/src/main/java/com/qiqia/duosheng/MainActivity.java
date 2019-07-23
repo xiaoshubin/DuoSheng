@@ -39,6 +39,7 @@ import cn.com.smallcake_utils.TimeUtils;
 
 public class MainActivity extends BaseActivity {
 
+
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,25 +50,20 @@ public class MainActivity extends BaseActivity {
         if (findFragment(MainViewPagerFragment.class) == null) {
             loadRootFragment(R.id.content, new MainViewPagerFragment());
         }
-        //权限管理
-        getPermission();
-        //智能搜索
-        initSearchDialog();
-        //APP首页广告弹窗
-        getIndexAd();
+//        if (findFragment(CoordinatorLayoutTestFragment.class) == null) {
+//            loadRootFragment(R.id.content, new CoordinatorLayoutTestFragment());
+//        }
+        getPermission(); //权限管理
+        initSearchDialog();   //智能搜索
+        getIndexAd(); //APP首页广告弹窗
 
-        //TODO 1.阿里百川测试
-//        L.e(TAG,"是否登录淘宝授权=="+ AlibcUtils.isLoginTb());
-        //昵称，头像，openid，openSid
-//        L.e(TAG,"淘宝信息=="+ AlibcLogin.getInstance().getSession());
-//        AlibcUtils.loginH5(this,dataProvider);
     }
+
 
 
     /**
      * time 为此广告修改时间
-     * frequency 1：只展示一次
-     * 0：每天展示一次
+     * frequency 0：每天展示一次 1：只展示一次
      */
     private void getIndexAd() {
         dataProvider.shop.indexAd()
@@ -75,21 +71,20 @@ public class MainActivity extends BaseActivity {
                     @Override
                     protected void onSuccess(BaseResponse<IndexAd> indexAdBaseResponse) {
                         IndexAd data = indexAdBaseResponse.getData();
-                        int time = data.getTime();
-                        int frequency = data.getFrequency();
                         int adId = data.getAdId();
                         LitePal.where("adId=" + adId).findAsync(IndexAd.class).listen(new FindMultiCallback() {
                             @Override
                             public <T> void onFinish(List<T> t) {
-                                if (t==null||t.size()==0){
+                                if (t == null || t.size() == 0) {
                                     showGoodsPop(data);
                                     data.setShowTime(TimeUtils.getTime());
                                     data.save();
                                     return;
-                                }else {
+                                } else {
                                     List<IndexAd> indexAdList = (List<IndexAd>) t;
                                     IndexAd indexAd = indexAdList.get(0);
-                                    showAdOrNot(indexAd, frequency, time, data);
+                                    showAdOrNot(indexAd, data);
+
                                 }
 
                             }
@@ -100,24 +95,25 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 已经保存了数据后，是否需要展示
-     * @param indexAd 本地数据库查询出来的时间
-     * @param frequency
-     * @param time
-     * @param data
+     *
+     * @param indexAd   本地数据库查询出来的广告对象
+     * @param data  网络请求的广告对象
      */
-    private void showAdOrNot(IndexAd indexAd, int frequency, int time, IndexAd data) {
+    private void showAdOrNot(IndexAd indexAd, IndexAd data) {
+        int time = data.getTime();//网络对象的最新一次修改时间
+        int frequency = data.getFrequency();//0 ：不需要每天展示，1，需要每天展示一次
         int localTime = indexAd.getTime();//本地存储的修改时间
         if (localTime != time) {//如果修改过，立即展示，并保存时间
             showGoodsPop(data);
             indexAd.setTime(time);
             indexAd.save();
-        }else  if (localTime == time&&frequency == 0){//如果没有修改过，且需要每天展示，对比展示时间，如果次展示时间和当前时间差距一天，就展示
+        } else if (localTime == time && frequency == 0) {//如果没有修改过，且需要每天展示，对比展示时间，如果次展示时间和当前时间差距一天，就展示
             int currentTime = TimeUtils.getTime();//当前时间
             int showTime = indexAd.getShowTime();
             Date currentDate = new Date(currentTime);
             Date showDate = new Date(showTime);
             //如果当前时间天数在指定时间之后，展示广告
-            if (isShow(showDate,currentDate)){
+            if (isShow(showDate, currentDate)) {
                 showGoodsPop(data);
                 indexAd.setShowTime(currentTime);
                 indexAd.save();
@@ -125,14 +121,14 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
+    //时间要大于1天以上才展示
     public static boolean isShow(Date oldTime, Date currentTime) {
         Calendar aCalendar = Calendar.getInstance();
         aCalendar.setTime(oldTime);
         int day1 = aCalendar.get(Calendar.DAY_OF_YEAR);
         aCalendar.setTime(currentTime);
         int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
-        return day2 - day1>0;
+        return day2 - day1 > 0;
 
     }
 
@@ -158,7 +154,7 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 阿里百川
+     * 阿里百川回调
      * 为了是能够正常接收登陆组建的结果回调，需要开发者在使用登陆功能的Activity中重写onActivityResult方法，
      *
      * @param requestCode
@@ -184,6 +180,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onAction(List<String> data) {
                         L.e("以获得权限" + data.toString());
+
                     }
                 })
                 .onDenied(new Action<List<String>>() {
@@ -218,14 +215,14 @@ public class MainActivity extends BaseActivity {
         String paste = ClipboardUtils.paste();
         if (!TextUtils.isEmpty(paste)) {
             SearchKey lastSearchKey = LitePal.order("time desc").findFirst(SearchKey.class);
-            if (lastSearchKey!=null&&paste.equals(lastSearchKey.getKey()))return;
+            if (lastSearchKey != null && paste.equals(lastSearchKey.getKey())) return;
             if (paste.contains("淘♂寳♀")) paste = paste.substring(paste.indexOf("【") + 1, paste.indexOf("】"));
             searchWordDialog.setMsg(paste);
             basePopupView.show();
         }
     }
 
-
+    //再按一次退出程序
     private long firstTime = 0;
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {

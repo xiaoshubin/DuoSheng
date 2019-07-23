@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/white"
     android:padding="8dp"
     android:gravity="center"
     android:orientation="vertical"
@@ -12,8 +13,9 @@
         android:layout_width="54dp"
         android:layout_height="54dp" />
     <TextView
+        android:textColor="@color/text_gray"
         android:id="@+id/tv_name"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:layout_marginTop="8dp"
         android:text="精选"
         android:layout_width="wrap_content"

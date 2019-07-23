@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FF5836</color>
+    <color name="colorPrimaryDark">#FF5836</color>
     <color name="colorAccent">#FF5836</color>
+    <color name="transparent1">#01FFffff</color>
 
     <color name="text_gray">#707070</color>
     <color name="text_light_gray">#9A9A9A</color>
+    <color name="text_gray_a5">#A5A5A5</color>
     <color name="text_black">#2A2323</color>
     <color name="text_light_black">#444444</color>
-    <color name="text_orange">#FF6633</color>
+    <color name="text_orange">#F63D2D</color>
+    <color name="text_lightorange">#FF6633</color>
     <color name="text_vip_gold">#BE9C71</color>
 
-
+    <!--线条，背景颜色-->
     <color name="line_gray">#F6F4F4</color>
     <color name="bg_gray">#F6F4F4</color>
     <!--tab选择变色-->

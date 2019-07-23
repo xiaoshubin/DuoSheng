@@ -1,8 +1,10 @@
 package com.qiqia.duosheng.bean;
 
+import android.databinding.BaseObservable;
+
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User extends BaseObservable implements Serializable {
 
 
     @Override

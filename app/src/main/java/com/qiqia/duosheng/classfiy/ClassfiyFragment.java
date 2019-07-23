@@ -59,6 +59,7 @@ public class ClassfiyFragment extends BaseFragment {
             }
         }
         ClassfiyAdapter classfiyAdapter = new ClassfiyAdapter(datas);
+        classfiyAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerView.setAdapter(classfiyAdapter);
         classfiyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

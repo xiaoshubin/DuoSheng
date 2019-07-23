@@ -45,5 +45,6 @@ public abstract class BaseBarFragment extends BaseFragment {
         }
         pop();
         SoftInputUtils.closeSoftInput(_mActivity);
+
     }
 }
