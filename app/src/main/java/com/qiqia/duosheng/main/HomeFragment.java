@@ -109,7 +109,8 @@ public class HomeFragment extends BaseFragment {
 
     //首页底部文字广告
     private void IndexTextAd() {
-        dataProvider.shop.indexTextAd().subscribe(new OnSuccessAndFailListener<BaseResponse<IndexTextAd>>() {
+        dataProvider.shop.indexTextAd()
+                .subscribe(new OnSuccessAndFailListener<BaseResponse<IndexTextAd>>() {
             @Override
             protected void onSuccess(BaseResponse<IndexTextAd> indexTextAdBaseResponse) {
                 tvIndexAd.setVisibility(View.VISIBLE);
@@ -128,6 +129,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             protected void onErr(String msg) {
+
             }
         });
     }

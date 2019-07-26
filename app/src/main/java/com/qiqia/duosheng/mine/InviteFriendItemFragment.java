@@ -1,11 +1,11 @@
 package com.qiqia.duosheng.mine;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,8 +29,6 @@ public class InviteFriendItemFragment extends BaseFragment {
     int position;
     @BindView(R.id.layout_bg)
     ConstraintLayout layoutBg;
-    @BindView(R.id.layout_invite_root)
-    ConstraintLayout layoutInviteRoot;
 
 
     public static InviteFriendItemFragment newInstance(int position) {
@@ -52,28 +50,24 @@ public class InviteFriendItemFragment extends BaseFragment {
         //下载头像合成二维码图片
         User user = DataLocalUtils.getUser();
         String headimgurl = user.getHeadimgurl();
+        String link = "http://192.168.1.158:9000/share.html?superCode=" + position;
         position = getArguments().getInt("position");
-        Glide.with(_mActivity).load(headimgurl)
-                .into(new SimpleTarget<Drawable>(100, 100) {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        Bitmap headBitmap = BitmapUtils.drawable2Bitmap(resource);
-                        String link = "http://192.168.1.158:9000/share.html?superCode=" + position;
-                        Bitmap roundHeadBitmap = BitmapUtils.setRoundedCorner(headBitmap, 10);
-                        Bitmap qrCode = Code2Utils.createQRCode(link, 200, roundHeadBitmap);
-//                Bitmap qrCodeBitmap = BitmapUtils.setRoundedCorner(qrCode, 10);
-                        ivCode2.setImageBitmap(qrCode);
-                    }
-                });
+        //首先通过链接，直接生成二维码图片
+        Bitmap qrCode = Code2Utils.createQRCode(link, 200);
+        if (ivCode2 != null) ivCode2.setImageBitmap(qrCode);
+        //如果用户有头像，并把头像合成到二维码当中
+        if (!TextUtils.isEmpty(headimgurl))
+            Glide.with(_mActivity).asBitmap().load(headimgurl)
+                    .into(new SimpleTarget<Bitmap>(100, 100) {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    Bitmap roundHeadBitmap = BitmapUtils.setRoundedCorner(resource, 10);
+                    Bitmap qrCode = Code2Utils.createQRCode(link, 200, roundHeadBitmap);
+                    if (ivCode2 != null) ivCode2.setImageBitmap(qrCode);
+                }
+            });
         //设置海报背景图片
         int mipmapResourceID = IdentifierUtils.getMipmapResourceID("share_poster_bg" + position);
         layoutBg.setBackgroundResource(mipmapResourceID);
-
-    }
-
-
-
-    public ConstraintLayout getLayoutInviteRoot() {
-        return layoutInviteRoot;
     }
 }

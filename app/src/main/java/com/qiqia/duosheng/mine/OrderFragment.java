@@ -80,10 +80,10 @@ public class OrderFragment extends BaseBindBarFragment<FragmentOrderBinding> {
     }
 
     BasePopupView basePopupView;
-
     private void initDatePicker() {
         BottomDatePickerPop bottomDatePickerPop = new BottomDatePickerPop(_mActivity);
-        bottomDatePickerPop.setListener((year, month) -> tvTitle.setText("订单明细(" + year + "年" + month + "月）"));
+        bottomDatePickerPop.setListener((year, month) ->
+                tvTitle.setText("订单明细(" + year + "年" + month + "月）"));
         basePopupView = new XPopup.Builder(_mActivity)
                 .asCustom(bottomDatePickerPop);
     }

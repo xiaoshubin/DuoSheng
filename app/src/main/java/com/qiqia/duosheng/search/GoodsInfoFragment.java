@@ -1,18 +1,19 @@
 package com.qiqia.duosheng.search;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBindFragment;
 import com.qiqia.duosheng.base.BaseResponse;
 import com.qiqia.duosheng.bean.User;
+import com.qiqia.duosheng.custom.BigPicPopImageLoader;
+import com.qiqia.duosheng.custom.BigPicsPopupView;
 import com.qiqia.duosheng.databinding.FragmentGoodsInfoBinding;
 import com.qiqia.duosheng.login.LoginFragment;
 import com.qiqia.duosheng.search.adapter.GoodsVAdapter;
@@ -24,6 +25,7 @@ import com.qiqia.duosheng.utils.DataLocalUtils;
 import com.qiqia.duosheng.utils.GuideUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.OnClick;
@@ -77,13 +79,11 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         if (TextUtils.isEmpty(id)) {//（全网商品）id为null,说明传递过来的是商品对象集合，直接使用此对象，
             goodsInfo = (GoodsInfo) getArguments().getSerializable("goodsInfo");
             initData();
-            isCollect();//是否收藏
+            isCollect();//直接获取的对象，就需要查询此商品是否已收藏
             //因为没有猜你喜欢内容，故隐藏猜你喜欢部分
-            mBinding.tvGuesslike.setVisibility(View.GONE);
             GuideUtils.showGuide(this, mBinding.layoutCoupon, mBinding.layoutBuy);
         } else {//（好单库）如果id有值，就根据id查询商品详情，并根据id查询商品对应的猜你喜欢
-            getGoodsInfo(id);//查询商品详情
-            getGuessLike(id);//查询此商品对应的猜你喜欢
+            getGoodsInfo(id);//查询商品详情,结果出来后再查询商品id对应的猜你喜欢
         }
         onEvent();
 
@@ -127,7 +127,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         }
         //宝贝详情图片
         mBinding.tvDetailsPic.setVisibility(TextUtils.isEmpty(itemDetailPic)?View.GONE:View.VISIBLE);
-//    分享赚，自购返
+        //分享赚，自购返
         mBinding.tvShareGet.setText(SpannableStringUtils.getBuilder(getString(R.string.share_take)).append(getString(R.string.rmb_symbol)).setProportion(0.6f).append(commission_price).create());
         mBinding.tvOwnbuyRecom.setText(SpannableStringUtils.getBuilder(getString(R.string.buy_return)).append(getString(R.string.rmb_symbol)).setProportion(0.6f).append(commission_price).create());
 
@@ -148,6 +148,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
                             return;
                         }
                         initData();
+                        getGuessLike(id);//查询此商品对应的猜你喜欢
                     }
                 });
     }
@@ -157,24 +158,40 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<List<GoodsInfo>>>() {
                     @Override
                     protected void onSuccess(BaseResponse<List<GoodsInfo>> listBaseResponse) {
+                        mBinding.tvGuesslike.setVisibility(View.VISIBLE);
                         List<GoodsInfo> datas = listBaseResponse.getData();
                         recommandGoodsAdapter.setNewData(datas);
                     }
-
-
                 });
 
     }
 
     private void initBanner() {
         List<String> images = goodsInfo.getItemPicList();
-        if (images == null || images.size() == 0) {
-            images.add(goodsInfo.getItemPic());
+        if (images == null || images.size() == 0) images = Arrays.asList(goodsInfo.getItemPic());
+        List<String> finalImages = images;
+        if (images.size()>1){
+            mBinding.banner.setOnBannerListener(position -> showBigPics(position, finalImages));
+        }else {
+            mBinding.banner.setOnClickListener(v -> showBigPics(0, finalImages));
         }
         mBinding.banner.setImageLoader(new BannerImgLoader())
                 .setDelayTime(5000)
                 .setImages(images)
                 .start();
+    }
+
+    private void showBigPics(int position, List<String> images) {
+        BigPicsPopupView bigPicsPopupView = new BigPicsPopupView(getContext());
+        bigPicsPopupView.setImageUrls(images);
+        bigPicsPopupView.setSrcView(mBinding.banner, position);
+        bigPicsPopupView.setXPopupImageLoader(new BigPicPopImageLoader());
+        bigPicsPopupView.setSrcViewUpdateListener((popupView, index) ->
+                bigPicsPopupView.updateSrcView(mBinding.banner, images.get(index))
+        );
+        new XPopup.Builder(getContext())
+                .asCustom(bigPicsPopupView)
+                .show();
     }
 
     private void isCollect() {
@@ -187,7 +204,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
                 .subscribe(new OnSuccessAndFailListener<BaseResponse>() {
                     @Override
                     protected void onSuccess(BaseResponse baseResponse) {
-                        drawCollectedImg(true);
+                        goodsInfo.setIsCollect(1);
                     }
 
                     @Override
@@ -198,45 +215,20 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
 
     }
 
-    private void drawCollectedImg(boolean isCollect) {
-        mBinding.tvCollection.setText(isCollect ? "已收藏" : "收藏");
-        Drawable img = _mActivity.getResources().getDrawable(isCollect ? R.mipmap.icon_collected : R.mipmap.icon_collect);
-        img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
-        mBinding.tvCollection.setCompoundDrawables(null, img, null, null);
-    }
-
 
     private void onEvent() {
         //精选商品
-        recommandGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToFragment(item);
-            }
+        recommandGoodsAdapter.setOnItemClickListener((adapter, view, position) -> {
+            GoodsInfo item = (GoodsInfo) adapter.getItem(position);
+            jumpToFragment(item);
         });
-        //不需要登录，单独列出
-        mBinding.ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popActivity();
-            }
-        });
-        mBinding.ivBackArraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popActivity();
-            }
-        });
-        mBinding.tvTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popActivity();
-            }
-        });
+        //不需要登录也可以返回，单独列出
+        mBinding.ivBack.setOnClickListener(v -> popActivity());
+        mBinding.ivBackArraw.setOnClickListener(v -> popActivity());
+        mBinding.tvTitle.setOnClickListener(v -> popActivity());
     }
 
-    @OnClick({R.id.layout_share, R.id.tv_get_coupon, R.id.tv_collection, R.id.tv_share_get, R.id.layout_buy})
+    @OnClick({R.id.layout_share, R.id.tv_get_coupon, R.id.tv_collection, R.id.layout_buy})
     public void doClicks(View view) {
         if (user == null) {
             ToastUtil.showLong("请先登录！");
@@ -244,16 +236,16 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
             return;
         }
         switch (view.getId()) {
-            case R.id.tv_get_coupon://获取优惠券
+            case R.id.tv_get_coupon://立即领取优惠券
                 openCouponLink();
                 break;
             case R.id.tv_collection://收藏
                 collect();
                 break;
-            case R.id.layout_share://创建分享
+            case R.id.layout_share://分享赚
                 start(CreateShareFragment.newInstance(goodsInfo));
                 break;
-            case R.id.layout_buy://跳淘宝购买
+            case R.id.layout_buy://自购返
                 toTbBuy();
                 break;
 
@@ -267,23 +259,24 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
      * type int否类型 默认0  0：好单库 1：淘宝全网
      * couponMoney string否type为1时传  优惠券面额
      * commision string否type为1时传  预估收入
+     *
+     *  int isCollect;//0未收藏 1已收藏
      */
     private void collect() {
-        String s = mBinding.tvCollection.getText().toString();
-        Observable<BaseResponse> collect = null;
-        if (s.equals("收藏")) {
+        Observable<BaseResponse> collectPost;
+        if (0 == goodsInfo.getIsCollect()) {//未收藏
+            //如果id不为null,说明是通过id查询出来的商品,收藏就需要传递优惠券和收益--》type int否类型 默认0  0：好单库 1：淘宝全网
             int type = TextUtils.isEmpty(id) ? 1 : 0;
-            String couponMoney = type == 1 ? goodsInfo.getCouponMoney() + "" : "";
-            String commision = type == 1 ? goodsInfo.getCommision() : "";
-            collect = dataProvider.user.collect(user.getUid(), user.getToken(), goodsInfo.getItemId(), type, couponMoney, commision, goodsInfo.getCouponLink());//请求收藏
+            collectPost = dataProvider.user.collect(user.getUid(), user.getToken(),
+                    goodsInfo.getItemId(), type, goodsInfo.getCouponMoney(), goodsInfo.getCommision(), goodsInfo.getCouponLink());//请求收藏
         } else {
-            collect = dataProvider.user.delCol(user.getUid(), user.getToken(), goodsInfo.getItemId());//取消收藏
+            collectPost = dataProvider.user.delCol(user.getUid(), user.getToken(), goodsInfo.getItemId());//取消收藏
         }
-        collect.subscribe(new OnSuccessAndFailListener<BaseResponse>(dialog) {
+        collectPost.subscribe(new OnSuccessAndFailListener<BaseResponse>(dialog) {
             @Override
             protected void onSuccess(BaseResponse stringBaseResponse) {
-                ToastUtil.showLong(stringBaseResponse.getMsg());
-                drawCollectedImg(s.equals("收藏"));
+                ToastUtil.showShort(stringBaseResponse.getMsg());
+                goodsInfo.setIsCollect(goodsInfo.getIsCollect()==1?0:1);
             }
         });
     }

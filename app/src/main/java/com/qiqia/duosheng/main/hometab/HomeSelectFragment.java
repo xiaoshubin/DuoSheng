@@ -37,7 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HomeSelectFragment extends BaseFragment  {
+public class HomeSelectFragment extends BaseFragment {
 
     @BindView(R.id.recycler_view_recommand)
     RecyclerView recyclerViewRecommand;
@@ -75,7 +75,7 @@ public class HomeSelectFragment extends BaseFragment  {
             @Override
             public void onRefresh() {
                 getMiddleGoods();
-                page=1;
+                page = 1;
                 recommandGoodsAdapter.setNewData(null);
                 getRecommonGoods();
             }
@@ -86,16 +86,14 @@ public class HomeSelectFragment extends BaseFragment  {
     }
 
     private void initView() {
+        //头部
         View headerView = LayoutInflater.from(this.getContext()).inflate(R.layout.home_first_page_header, null);
-         banner = headerView.findViewById(R.id.banner);
-         bannerMiddle = headerView.findViewById(R.id.banner_middle);
+        banner = headerView.findViewById(R.id.banner);
+        bannerMiddle = headerView.findViewById(R.id.banner_middle);
         recyclerViewMainMenu = headerView.findViewById(R.id.recycler_view_main_menu);
         recyclerViewMainGoods = headerView.findViewById(R.id.recycler_view_main_goods);
-         headerView.findViewById(R.id.iv_invite_friends).setOnClickListener((v -> goWhiteBarActivity(InviteFriendFragment.class.getSimpleName())));
-
-
-//        recyclerViewRecommand.setHasFixedSize(true);
-//        recyclerViewRecommand.setNestedScrollingEnabled(false);
+        headerView.findViewById(R.id.iv_invite_friends).setOnClickListener((v -> goWhiteBarActivity(InviteFriendFragment.class.getSimpleName())));
+        //底部商品，并添加头部
         recyclerViewRecommand.setLayoutManager(new GridLayoutManager(_mActivity, 2));
         recommandGoodsAdapter = new GoodsVAdapter();
         recommandGoodsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
@@ -148,14 +146,15 @@ public class HomeSelectFragment extends BaseFragment  {
             public void onLoadMoreRequested() {
                 getRecommonGoods();
             }
-        },recyclerViewRecommand);
+        }, recyclerViewRecommand);
     }
 
     /**
      * 底部
      * 为你精选商品部分
      */
-    int page=1;
+    int page = 1;
+
     private void getRecommonGoods() {
         dataProvider.shop.leaderboard(1, page, 0)
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsList>>() {
@@ -169,7 +168,7 @@ public class HomeSelectFragment extends BaseFragment  {
                         List<GoodsInfo> datas = data.getData();
                         recommandGoodsAdapter.addData(datas);
                         recommandGoodsAdapter.loadMoreComplete();
-                        page=data.getMinId();
+                        page = data.getMinId();
                     }
                 });
 
@@ -194,7 +193,7 @@ public class HomeSelectFragment extends BaseFragment  {
                         if (day != null)
                             datas.add(new MainTypeGoods(R.mipmap.icon_hot, "今日人气榜单", day));
                         if (hour != null)
-                            datas.add(new MainTypeGoods(R.mipmap.icon_rec, "今日必买推荐",hour));
+                            datas.add(new MainTypeGoods(R.mipmap.icon_rec, "今日必买推荐", hour));
                         if (list9 != null)
                             datas.add(new MainTypeGoods(R.mipmap.icon_sale, "9.9包邮", list9));
                         mainSectionGoodsAdapter.setNewData(datas);
@@ -244,7 +243,6 @@ public class HomeSelectFragment extends BaseFragment  {
 
             }
         });
-
     }
 
     String[] urls = new String[]{

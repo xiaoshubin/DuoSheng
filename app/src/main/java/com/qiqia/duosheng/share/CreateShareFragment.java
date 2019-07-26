@@ -165,7 +165,7 @@ public class CreateShareFragment extends BaseBarFragment {
         String itemPic = goodsInfo.getItemPic();
         List<String> itemPicList = goodsInfo.getItemPicList();
         if (itemPicList != null && itemPicList.size() > 0) {
-            for (int i = 0; i < itemPicList.size(); i++) addImageViews(itemPicList.get(i));
+            for (int i = 0; i < itemPicList.size(); i++) addImageViews(itemPicList.get(i),i);
             //如果有多张图片，默认选中第一张图片，且至少选中一张图片
             RelativeLayout relativeLayout = (RelativeLayout) layoutImgs.getChildAt(0);
             AppCompatCheckBox cbBox = (AppCompatCheckBox) relativeLayout.getChildAt(1);
@@ -174,7 +174,7 @@ public class CreateShareFragment extends BaseBarFragment {
             setFirstCode2ImageView(itemPicList.get(0));
         } else {
             //如果只有一张图片，默认选中此张图片，且无法更改
-            addImageViews(itemPic);
+            addImageViews(itemPic,0);
             RelativeLayout relativeLayout = (RelativeLayout) layoutImgs.getChildAt(0);
             AppCompatCheckBox cbBox = (AppCompatCheckBox) relativeLayout.getChildAt(1);
             cbBox.setChecked(true);
@@ -265,7 +265,7 @@ public class CreateShareFragment extends BaseBarFragment {
      *
      * @param url 图片地址
      */
-    private void addImageViews(String url) {
+    private void addImageViews(String url,int position) {
         //布局
         RelativeLayout relativeLayout = new RelativeLayout(_mActivity);
         int imgHeight = (ScreenUtils.getScreenWidth()-DpPxUtils.dp2px(32))/10*3;
@@ -293,7 +293,7 @@ public class CreateShareFragment extends BaseBarFragment {
         RelativeLayout.LayoutParams cbLayoutParams = new RelativeLayout.LayoutParams(dp28, dp32);
         cbLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         cbBox.setLayoutParams(cbLayoutParams);
-        //布局添加
+        //布局添加:添加ImageView,AppCompatCheckBox
         relativeLayout.addView(ivIcon);
         relativeLayout.addView(cbBox);
         layoutImgs.addView(relativeLayout);
@@ -303,10 +303,18 @@ public class CreateShareFragment extends BaseBarFragment {
         ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable) ivIcon.getDrawable()).getBitmap();
-                new XPopup.Builder(getContext())
-                        .asImageViewer(ivIcon, bm, new BigPicPopImageLoader())
-                        .show();
+                List<Bitmap> bitmaps = new ArrayList<>();
+//                Bitmap bm = ((BitmapDrawable) ivIcon.getDrawable()).getBitmap();
+                for (int i = 0; i < layoutImgs.getChildCount(); i++) {
+                    RelativeLayout relativeLayout = (RelativeLayout) layoutImgs.getChildAt(i);
+                    ImageView  childAt = (ImageView) relativeLayout.getChildAt(0);
+                    Bitmap bm = ((BitmapDrawable) childAt.getDrawable()).getBitmap();
+                    bitmaps.add(bm);
+                }
+                showPics(layoutImgs,bitmaps,ivIcon,position);
+//                new XPopup.Builder(getContext())
+//                        .asImageViewer(ivIcon, bm, new BigPicPopImageLoader())
+//                        .show();
             }
         });
 
@@ -345,6 +353,21 @@ public class CreateShareFragment extends BaseBarFragment {
             }
         });
 //        L.e("选中的图片"+selectImgUrls.toString());
+    }
+
+    //显示多图浏览弹出pop
+    private void showPics(LinearLayout layout, List<Bitmap> itemPicList, ImageView imageView, int position) {
+        List<Object> list = new ArrayList<>();
+        for (Bitmap url : itemPicList) list.add(url);
+        new XPopup.Builder(getContext()).asImageViewer(imageView, position, list,
+                (popupView, index) -> {
+                    RelativeLayout relativeLayout = (RelativeLayout) layout.getChildAt(index);
+                    ImageView  childAt = (ImageView) relativeLayout.getChildAt(0);
+                    popupView.updateSrcView(childAt);
+                }
+                ,
+                new BigPicPopImageLoader())
+                .show();
     }
 
     private void getPermission() {

@@ -9,11 +9,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
+import com.qiqia.duosheng.custom.BigPicPopImageLoader;
 import com.qiqia.duosheng.databinding.ItemCircleOfFriendsBinding;
 import com.qiqia.duosheng.share.bean.ShareList;
 import com.qiqia.duosheng.utils.DataBindBaseViewHolder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,8 +46,7 @@ public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean,
         SpannableStringBuilder goodsInfoDesc = SpannableStringUtils.getBuilder(item.getItemTitle())
                 .append("   查看详情").setForegroundColor(Color.parseColor("#D89C2A")).create();
         helper.setText(R.id.tv_goods_info_desc,goodsInfoDesc)
-                .setText(R.id.tv_goods_desc,  Html.fromHtml(Html.fromHtml(item.getCopyContent()).toString())).addOnClickListener(R.id.tv_share)
-                .addOnClickListener(R.id.tv_goods_info_desc);
+                .setText(R.id.tv_goods_desc,  Html.fromHtml(Html.fromHtml(item.getCopyContent()).toString())).addOnClickListener(R.id.tv_share);
 
         //图片合集
         String itemPic = item.getItemPic();
@@ -68,13 +70,21 @@ public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean,
             imageView.setVisibility(View.VISIBLE);
             imageView.setLayoutParams(layoutParams);
             Glide.with(mContext).load(itemPicList.get(i)).into(imageView);
+            //点击单张图片进行大图浏览
+            int finalI = i;
+            imageView.setOnClickListener(v -> showPics(layout, itemPicList, imageView, finalI));
         }
         //隐藏其他未展示控件
-        if (showNum<layout.getChildCount()){
-            for (int i = showNum; i < layout.getChildCount(); i++) {
-                View childAt = layout.getChildAt(i);
-                childAt.setVisibility(View.GONE);
-            }
-        }
+        if (showNum<layout.getChildCount()) for (int i = showNum; i < layout.getChildCount(); i++) layout.getChildAt(i).setVisibility(View.GONE);
+
+    }
+    //显示多图浏览弹出pop
+    private void showPics(AutoNewLineLayout layout, List<String> itemPicList, ImageView imageView, int position) {
+        List<Object> list = new ArrayList<>();
+        for (String url : itemPicList) list.add(url);
+        new XPopup.Builder(mContext).asImageViewer(imageView, position, list,
+                (popupView, index) -> popupView.updateSrcView((ImageView) layout.getChildAt(index)),
+                new BigPicPopImageLoader())
+                .show();
     }
 }

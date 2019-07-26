@@ -73,6 +73,7 @@
     <string name="buy_return">自购返</string>
     <string name="share_take">分享赚</string>
     <string name="invite_promotion_notes">1. 海报是您的专属二维码，好友识别下载后输入邀请码将永久绑定到您账户下  \n2. 好友通过您的邀请码或者邀请海报下载APP后，未来的所有佣金您都可以获得提成，将自动计算到您的提现账户中</string>
+    <string name="order_notice">提醒：已确认收货订单15天内不产生退款，每月22号即可结算!</string>
 
 
 </resources>

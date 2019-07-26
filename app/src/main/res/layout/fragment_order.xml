@@ -29,9 +29,10 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/action_black_common_bar" />
-                    <TextView
+                    <com.qiqia.duosheng.custom.RollTextView
+                        android:id="@+id/tv_notice"
                         style="@style/OrangeNoticeText"
-                        android:text="提醒：已确认收货订单15天内不产生退款，每月22号即可结算!"
+                        android:text="提醒：今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒!"
                         />
                     <RadioGroup
                         android:background="@color/white"

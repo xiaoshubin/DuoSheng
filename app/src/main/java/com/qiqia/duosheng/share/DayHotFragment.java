@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.com.smallcake_utils.ClipboardUtils;
+
 //每日爆款
 public class DayHotFragment extends BaseFragment {
     @BindView(R.id.recycler_view)

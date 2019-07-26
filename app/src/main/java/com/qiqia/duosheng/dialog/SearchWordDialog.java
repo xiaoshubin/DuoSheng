@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
 
 import com.lxj.xpopup.core.CenterPopupView;
@@ -40,15 +39,13 @@ public class SearchWordDialog extends CenterPopupView {
         super.onCreate();
         tvMsg = findViewById(R.id.tv_search_msg);
         if (!TextUtils.isEmpty(msg))tvMsg.setText(msg);
-        findViewById(R.id.btn_search).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, WhiteBarActivity.class);
-                intent.putExtra(Contants.LOAD_FRAGMENT, SearchFragment.class.getSimpleName());
-                intent.putExtra("keyWord", msg);
-                activity.startActivity(intent);
-                dismiss();
-            }
+        findViewById(R.id.btn_search).setOnClickListener(v -> {
+            Intent intent = new Intent(activity, WhiteBarActivity.class);
+            intent.putExtra(Contants.LOAD_FRAGMENT, SearchFragment.class.getSimpleName());
+            intent.putExtra("keyWord", msg);
+            activity.startActivity(intent);
+            dismiss();
         });
+        findViewById(R.id.iv_close).setOnClickListener(v -> dismiss());
     }
 }

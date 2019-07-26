@@ -44,7 +44,7 @@
                         <com.youth.banner.Banner
                             android:id="@+id/banner"
                             android:layout_width="match_parent"
-                            android:layout_height="350dp" />
+                            android:layout_height="360dp" />
 
                         <ImageView
                             android:id="@+id/iv_back"
@@ -257,6 +257,8 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        tools:visibility="visible"
+                        android:visibility="gone"
                         android:id="@+id/tv_guesslike"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

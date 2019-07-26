@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.L;
+import cn.com.smallcake_utils.SoftInputUtils;
 import cn.com.smallcake_utils.ToastUtil;
 import cn.com.smallcake_utils.custom.AutoNewLineLayout;
 
@@ -81,6 +82,7 @@ public class SearchHistoryFragment extends BaseBarFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
                     goToSearch();
+                    SoftInputUtils.closeSoftInput(_mActivity);
                     return true;
                 }
                 return false;

@@ -28,7 +28,7 @@
             android:paddingRight="8dp"
            android:paddingLeft="8dp"
             android:background="@color/white"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/et_content"
             android:gravity="top"
             android:textColor="@color/text_gray"

@@ -47,14 +47,14 @@ public class MainGoodsAdapter extends BaseQuickAdapter<MainTypeGoods, BaseViewHo
             GoodsInfo goods = goodsList.get(i);
             //控件获取
             View layoutGoods = LayoutInflater.from(mContext).inflate(R.layout.item_main_goods, null);
-            ItemMainGoodsBinding bind = DataBindingUtil.bind(layoutGoods);
-            bind.setItem(goods);
             layoutGoods.setLayoutParams(new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth()/10*3, LinearLayout.LayoutParams.MATCH_PARENT));
-            bind.tvCoupon.setText(goods.getCouponMoney()+"元券");
             //点击事件
             layoutGoods.setOnClickListener(v -> {
                 if (onItemGoodsClickListener!=null)onItemGoodsClickListener.onItemGoodsClick(goods);
             });
+            //数据绑定
+            ItemMainGoodsBinding bind = DataBindingUtil.bind(layoutGoods);
+            bind.setItem(goods);
             view.addView(layoutGoods);
         }
 

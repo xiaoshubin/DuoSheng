@@ -86,7 +86,7 @@ public class TextBindingAdapter {
      */
     @Nullable
     private static String trimZero(String price) {
-        if (TextUtils.isEmpty(price)) return null;
+        if (TextUtils.isEmpty(price)) return "";
         if (price.endsWith(".00")) {
             price = price.substring(0, price.length() - 3);
         } else if (price.endsWith("0") && price.contains(".")) {

@@ -1,9 +1,14 @@
 package com.qiqia.duosheng.search.bean;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.android.databinding.library.baseAdapters.BR;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class GoodsInfo implements Serializable {
+public class GoodsInfo extends BaseObservable implements Serializable {
 
     /**
      * activityId : 26b3c977689f46b9873869c64ef29eee
@@ -68,7 +73,8 @@ public class GoodsInfo implements Serializable {
     private String comment; //每日爆款单独字段，评论
     private String itemDesc;
     private String couponInfo; //全网查包含的字段，如果没有此字段，就判定为好单库，可以通过id来查询商品详情
-    private int isCollect;//0未收藏 1已收藏
+    @Bindable
+    public int isCollect;//0未收藏 1已收藏
     //收藏列表，判定全网或好单库
     private int type;
 
@@ -86,6 +92,7 @@ public class GoodsInfo implements Serializable {
 
     public void setIsCollect(int isCollect) {
         this.isCollect = isCollect;
+        notifyPropertyChanged(BR.isCollect);
     }
 
     public String getCouponInfo() {

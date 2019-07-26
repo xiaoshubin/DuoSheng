@@ -13,6 +13,7 @@ import com.qiqia.duosheng.login.PhoneLoginFragment;
 import com.qiqia.duosheng.mine.CashFragment;
 import com.qiqia.duosheng.mine.InviteFriendFragment;
 import com.qiqia.duosheng.mine.MyCollectionFragment;
+import com.qiqia.duosheng.mine.NoticeSetFragment;
 import com.qiqia.duosheng.mine.SetFragment;
 import com.qiqia.duosheng.mine.VipUpgradeFragment;
 import com.qiqia.duosheng.search.GoodsInfoFragment;
@@ -76,6 +77,9 @@ public class WhiteBarActivity extends BaseActivity {
                 break;
             case "CashFragment":
                 loadFragment(new CashFragment());
+                break;
+            case "NoticeSetFragment":
+                loadFragment(new NoticeSetFragment());
                 break;
         }
 

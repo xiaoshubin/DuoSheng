@@ -56,7 +56,7 @@ public class ShareFragment extends BaseBarFragment {
             }
             @Override
             public Fragment getItem(int i) {
-                return i == 0 ? new DayHotFragment() : new SimpleCircleFragment();
+                return i == 0 ? new DayHotFragment() : new FriendCircleFragment();
             }
             @Nullable
             @Override

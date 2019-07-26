@@ -9,6 +9,7 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_smart_search"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
         android:gravity="center"
@@ -65,4 +66,14 @@
         android:src="@mipmap/img_search"
         android:layout_width="match_parent"
         android:layout_height="130dp" />
+    <ImageView
+        android:id="@+id/iv_close"
+        android:visibility="invisible"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/layout_smart_search"
+        android:padding="8dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/icon_white_close"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
 </RelativeLayout>

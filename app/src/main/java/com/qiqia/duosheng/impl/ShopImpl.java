@@ -95,7 +95,6 @@ public class ShopImpl implements ShopApi {
 
     @Override
     public Observable<BaseResponse<IndexTextAd>> indexTextAd() {
-
             return bindIoUI(shopApi.indexTextAd());
     }
 

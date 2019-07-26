@@ -252,11 +252,18 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
                         }
                         showGuide();
                     }
+
+                    @Override
+                    protected void onErr(String msg) {
+                        ToastUtil.showShort(msg);
+                        L.e("商品搜索错误=="+msg);
+                    }
                 });
     }
 
     private void showGuide() {
         //新用户引导2.搜索商品列表引导
+        if (Pn>1)return;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

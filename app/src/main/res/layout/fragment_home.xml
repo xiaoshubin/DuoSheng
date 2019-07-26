@@ -18,7 +18,7 @@
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:background="?attr/colorAccent"
+            android:background="#F6412D"
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,13 +38,14 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:src="@mipmap/duosheng_txt"
                     android:text="@string/app_name"
                     android:textColor="@color/white"
                     android:visibility="visible" />
 
                 <TextView
+                    android:layout_marginBottom="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

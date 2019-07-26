@@ -16,6 +16,7 @@ import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.bean.IndexAd;
 import com.qiqia.duosheng.bean.SearchKey;
 import com.qiqia.duosheng.dialog.GoodsAdvertPop;
+import com.qiqia.duosheng.dialog.PushSetPop;
 import com.qiqia.duosheng.dialog.SearchWordDialog;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
 
 
     private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +58,15 @@ public class MainActivity extends BaseActivity {
         getPermission(); //权限管理
         initSearchDialog();   //智能搜索
         getIndexAd(); //APP首页广告弹窗
+//        showPushSetPop(); //推送设置弹窗
+
+
 
     }
 
+    private void showPushSetPop() {
+        new XPopup.Builder(this).asCustom(new PushSetPop(this)).show();
+    }
 
 
     /**
@@ -96,8 +104,8 @@ public class MainActivity extends BaseActivity {
     /**
      * 已经保存了数据后，是否需要展示
      *
-     * @param indexAd   本地数据库查询出来的广告对象
-     * @param data  网络请求的广告对象
+     * @param indexAd 本地数据库查询出来的广告对象
+     * @param data    网络请求的广告对象
      */
     private void showAdOrNot(IndexAd indexAd, IndexAd data) {
         int time = data.getTime();//网络对象的最新一次修改时间
@@ -121,6 +129,7 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
     //时间要大于1天以上才展示
     public static boolean isShow(Date oldTime, Date currentTime) {
         Calendar aCalendar = Calendar.getInstance();
@@ -143,14 +152,16 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    BasePopupView basePopupView;
+    BasePopupView smartSearchPop;
     SearchWordDialog searchWordDialog;
 
     private void initSearchDialog() {
         String paste = ClipboardUtils.paste();
         paste = TextUtils.isEmpty(paste) ? "牙刷" : paste;
         searchWordDialog = new SearchWordDialog(this, paste);
-        basePopupView = new XPopup.Builder(this).asCustom(searchWordDialog);
+        smartSearchPop = new XPopup
+                .Builder(this)
+                .asCustom(searchWordDialog);
     }
 
     /**
@@ -209,21 +220,22 @@ public class MainActivity extends BaseActivity {
      */
     private void getSearchStr() {
         if (!MyApplication.isRunInBackground) return;
+        MyApplication.isRunInBackground = false;
         int guideHomeFragment = (int) SPUtils.get(SPStr.GUIDE_HOME_FRAGMENT, 0);
         if (guideHomeFragment == 0) return;
-        MyApplication.isRunInBackground = false;
         String paste = ClipboardUtils.paste();
-        if (!TextUtils.isEmpty(paste)) {
-            SearchKey lastSearchKey = LitePal.order("time desc").findFirst(SearchKey.class);
-            if (lastSearchKey != null && paste.equals(lastSearchKey.getKey())) return;
-            if (paste.contains("淘♂寳♀")) paste = paste.substring(paste.indexOf("【") + 1, paste.indexOf("】"));
-            searchWordDialog.setMsg(paste);
-            basePopupView.show();
-        }
+        if (TextUtils.isEmpty(paste)) return;
+        SearchKey lastSearchKey = LitePal.order("time desc").findFirst(SearchKey.class);
+        if (lastSearchKey != null && paste.equals(lastSearchKey.getKey())) return;
+        if (paste.contains("淘♂寳♀")) paste = paste.substring(paste.indexOf("【") + 1, paste.indexOf("】"));
+        searchWordDialog.setMsg(paste);
+        smartSearchPop.show();
+
     }
 
     //再按一次退出程序
     private long firstTime = 0;
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {

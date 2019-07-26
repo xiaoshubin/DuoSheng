@@ -4,7 +4,6 @@ import com.qiqia.duosheng.search.bean.GoodsInfo;
 
 import java.io.Serializable;
 import java.util.List;
-
 public class MainTypeGoods  implements Serializable {
     private Integer headIconRes;
     private String headTitle;
