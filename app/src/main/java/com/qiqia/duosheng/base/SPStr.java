@@ -4,6 +4,8 @@ public interface SPStr {
     String CLASSFIYS="classfiys";//首页所有分类：首页顶部弹出POP,搜券页面，排行榜顶部Tab,排行榜子页面
     String INDEX_CLASSFIY_LIST="IndexClassfiyList";//首页顶部Tab和子页面使用
     String USER="user";//登录后的用户对象信息，序列化后保存
+    String SHOW_PUSH_SET_TIME="show_push_set_time";//显示推送设置的时间
+    String SHOW_SHARE_TAKE_TIME="show_share_take_time";//显示分享赚的弹窗提示
 
     String GUIDE_HOME_FRAGMENT="guide_home_fragment";//HomeFragment:第一次进入主页，蒙版
     String GUIDE_SEARCH_FRAGMENT="guide_search_fragment";//HomeFragment:第一次进入搜索结果列表页，蒙版

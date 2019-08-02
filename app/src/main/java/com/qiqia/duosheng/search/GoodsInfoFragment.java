@@ -1,16 +1,20 @@
 package com.qiqia.duosheng.search;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBindFragment;
 import com.qiqia.duosheng.base.BaseResponse;
+import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.bean.User;
 import com.qiqia.duosheng.custom.BigPicPopImageLoader;
 import com.qiqia.duosheng.custom.BigPicsPopupView;
@@ -25,10 +29,16 @@ import com.qiqia.duosheng.utils.DataLocalUtils;
 import com.qiqia.duosheng.utils.GuideUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
 
-import java.util.Arrays;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.OnClick;
+import cn.com.smallcake_utils.DpPxUtils;
+import cn.com.smallcake_utils.SPUtils;
 import cn.com.smallcake_utils.SpannableStringUtils;
 import cn.com.smallcake_utils.TimeUtils;
 import cn.com.smallcake_utils.ToastUtil;
@@ -66,36 +76,55 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
         user = DataLocalUtils.getUser();
-//        int navBarHeight = BarUtils.getStatusBarHeight();
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, navBarHeight);
-//        mBinding.viewStatusBar.setLayoutParams(layoutParams);
         initView();
-
-        /**
-         *  id ==null?全网:好单库
-         *  id ==null? 直接使用商品对象：通过id查商品详情
-         */
+//
+//        /*
+//         *  id ==null?全网:好单库
+//         *  id ==null? 直接使用商品对象：通过id查商品详情
+//         */
+        assert getArguments() != null;
         id = getArguments().getString("id");
         if (TextUtils.isEmpty(id)) {//（全网商品）id为null,说明传递过来的是商品对象集合，直接使用此对象，
             goodsInfo = (GoodsInfo) getArguments().getSerializable("goodsInfo");
-            initData();
+            initData(goodsInfo);
             isCollect();//直接获取的对象，就需要查询此商品是否已收藏
             //因为没有猜你喜欢内容，故隐藏猜你喜欢部分
             GuideUtils.showGuide(this, mBinding.layoutCoupon, mBinding.layoutBuy);
+            showShareTakeNotieByTime();
+            if (!TextUtils.isEmpty(goodsInfo.getItemId()))getGuessLike(goodsInfo.getItemId());//查询此商品对应的猜你喜欢
         } else {//（好单库）如果id有值，就根据id查询商品详情，并根据id查询商品对应的猜你喜欢
             getGoodsInfo(id);//查询商品详情,结果出来后再查询商品id对应的猜你喜欢
         }
         onEvent();
 
 
+
+    }
+    //大于一天，从新提示
+    private void showShareTakeNotieByTime() {
+        DateTime nowTime = DateTime.now();
+        DateTime lastTime =  SPUtils.readObject(SPStr.SHOW_SHARE_TAKE_TIME);
+        if (lastTime==null||Days.daysBetween(lastTime, nowTime).getDays()>0){
+            showShareTakeNotie();
+            SPUtils.saveObject(SPStr.SHOW_SHARE_TAKE_TIME,DateTime.now());
+        }
+    }
+    private void showShareTakeNotie(){
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.pop_share_take, null);
+        PopupWindow popBank = new PopupWindow(view,ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popBank.setAnimationStyle(R.style.AnimFade);
+        popBank.setBackgroundDrawable(new ColorDrawable(0));
+        popBank.setOutsideTouchable(true);
+        popBank.setFocusable(false);
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        int popupHeight  = view.getMeasuredHeight();
+        popBank.showAsDropDown(mBinding.tvCollection,0,-DpPxUtils.dp2px(40)-popupHeight);
     }
 
     private void initView() {
         mBinding.recyclerViewRecommand.setLayoutManager(new GridLayoutManager(_mActivity, 2));
         recommandGoodsAdapter = new GoodsVAdapter();
         mBinding.recyclerViewRecommand.setAdapter(recommandGoodsAdapter);
-        //增加距离
-
     }
 
     /**
@@ -106,7 +135,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
      * 4.宝贝详情
      * 5.分享赚，自购返，
      */
-    private void initData() {
+    public void initData(GoodsInfo goodsInfo) {
         if (goodsInfo == null) return;
         mBinding.setItem(goodsInfo);
         //设置顶部商品图片
@@ -117,8 +146,8 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         String itemDetailPic = goodsInfo.getItemDetailPic();//宝贝详情图片
 
         //优惠券和使用期限
-        mBinding.layoutCoupon.setVisibility(Float.parseFloat(couponMoney) <= 0 ? View.GONE : View.VISIBLE);
-        mBinding.tvCoupon.setText(String.format("%s元优惠券",couponMoney ));
+//        mBinding.layoutCoupon.setVisibility(Float.parseFloat(couponMoney) <= 0 ? View.GONE : View.VISIBLE);
+        mBinding.tvCoupon.setText(Float.parseFloat(couponMoney) <= 0 ?"暂无优惠券":String.format("%s元优惠券",couponMoney ));
         if (startTime == 0 || endTime == 0) {
             mBinding.tvCouponTime.setVisibility(View.GONE);
         } else {
@@ -131,7 +160,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         mBinding.tvShareGet.setText(SpannableStringUtils.getBuilder(getString(R.string.share_take)).append(getString(R.string.rmb_symbol)).setProportion(0.6f).append(commission_price).create());
         mBinding.tvOwnbuyRecom.setText(SpannableStringUtils.getBuilder(getString(R.string.buy_return)).append(getString(R.string.rmb_symbol)).setProportion(0.6f).append(commission_price).create());
 
-        initBanner();
+        initBanner(goodsInfo);
         GuideUtils.showGuide(this, mBinding.layoutCoupon, mBinding.layoutBuy);
 
     }
@@ -147,8 +176,9 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
                             _mActivity.finish();
                             return;
                         }
-                        initData();
+                        initData(goodsInfo);
                         getGuessLike(id);//查询此商品对应的猜你喜欢
+                        showShareTakeNotieByTime();
                     }
                 });
     }
@@ -166,9 +196,9 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
 
     }
 
-    private void initBanner() {
+    private void initBanner(GoodsInfo goodsInfo) {
         List<String> images = goodsInfo.getItemPicList();
-        if (images == null || images.size() == 0) images = Arrays.asList(goodsInfo.getItemPic());
+        if (images == null || images.size() == 0) images = Collections.singletonList(goodsInfo.getItemPic());
         List<String> finalImages = images;
         if (images.size()>1){
             mBinding.banner.setOnBannerListener(position -> showBigPics(position, finalImages));
@@ -182,7 +212,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
     }
 
     private void showBigPics(int position, List<String> images) {
-        BigPicsPopupView bigPicsPopupView = new BigPicsPopupView(getContext());
+        BigPicsPopupView bigPicsPopupView = new BigPicsPopupView(Objects.requireNonNull(getContext()));
         bigPicsPopupView.setImageUrls(images);
         bigPicsPopupView.setSrcView(mBinding.banner, position);
         bigPicsPopupView.setXPopupImageLoader(new BigPicPopImageLoader());
@@ -295,6 +325,11 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
      */
     private void openCouponLink() {
         if (goodsInfo == null) return;
+        String couponMoney = goodsInfo.getCouponMoney();
+        if (Float.parseFloat(couponMoney) <= 0){
+            ToastUtil.showShort("暂无优惠券可领");
+            return;
+        }
         AlibcUtils.openUrlNative(_mActivity, goodsInfo.getCouponLink());
     }
 
@@ -310,5 +345,6 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         super.onSupportVisible();
         ImmersionBar.with(this).init();
     }
-
 }
+
+

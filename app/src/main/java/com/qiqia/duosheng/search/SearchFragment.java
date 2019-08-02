@@ -210,6 +210,7 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
 //        if (KeyWord.contains("http")) searchByUrl();
 //        else
         searchByWord();
+
     }
 
     /**
@@ -220,7 +221,6 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
         dataProvider.shop.analysisUrl(KeyWord, Type).subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsList>>() {
             @Override
             protected void onSuccess(BaseResponse<GoodsList> goodsListBaseResponse) {
-
             }
 
         });
@@ -239,6 +239,11 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
                         GoodsListAll data = baseResponse.getData();
                         GoodsList all = data.getAll();
                         List<GoodsInfo> results = data.getData();
+                        if (all==null&&results==null&&Pn==1){
+                            ToastUtil.showShort("暂无相关商品！");
+//                            hAdapter.setEmptyView(LayoutInflater.from(_mActivity).inflate(R.layout.fragment_order,null));
+                            return;
+                        }
                         if (results != null && results.size() > 0) {
                             loadHdkData(results);
                             Pn = data.getMinId();

@@ -44,7 +44,6 @@ public class ClassfiyFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
 
-
         List<ClassfiySection> datas = new ArrayList<>();
         List<Classfiy.DataBean> data = classfiy.getData();
         for (int i = 0; i < data.size(); i++) {

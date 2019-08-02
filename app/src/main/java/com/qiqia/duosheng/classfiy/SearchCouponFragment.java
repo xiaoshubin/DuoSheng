@@ -82,7 +82,6 @@ public class SearchCouponFragment extends BaseFragment {
     }
 
     public void allClassfiy() {
-
         Observable.create((Observable.OnSubscribe<List<Classfiy>>) subscriber -> {
             List<Classfiy> classfiys = SPUtils.readObject(SPStr.CLASSFIYS);
             if (classfiys == null || classfiys.size() == 0) return;
@@ -91,9 +90,9 @@ public class SearchCouponFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classfiys -> {
-                    ClassfiyMenuTabAdapter classfiyMenuTabAdapter = new ClassfiyMenuTabAdapter(classfiys);
+                    //注意：先关联TabLayout和ViewPager,后设置适配器，避免TabLayout样式丢失
                     tabLayout.setupWithViewPager(initViewPager(classfiys));
-                    tabLayout.setTabAdapter(classfiyMenuTabAdapter);
+                    tabLayout.setTabAdapter(new ClassfiyMenuTabAdapter(classfiys));
                 });
 
     }

@@ -153,12 +153,12 @@
                         tools:text="抖音王红同款18色眼影4代NUDE沙漠玫瑰彩妆珠光眼影盘高品质" />
 
                     <RelativeLayout
+                        android:id="@+id/layout_coupon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white">
 
                         <LinearLayout
-                            android:id="@+id/layout_coupon"
                             android:layout_width="match_parent"
                             android:layout_height="82dp"
                             android:layout_marginLeft="8dp"

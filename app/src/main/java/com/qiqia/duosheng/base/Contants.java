@@ -2,8 +2,6 @@ package com.qiqia.duosheng.base;
 
 public interface Contants {
     String BASE_URL = "http://www.zaoxingwu.cn";
-//    String TBK_APP_KEY="25818679";
-//    String TBK_APP_SECRET="0e10a78d6e79faf38ac404276bd4d25b";
     //微信开放平台
     String WX_OPEN_APP_ID="wxfdcb5967c03dca24";
     String WX_OPEN_APP_SECRET="6aa100ef35d0641f91971826a522b33d";
@@ -21,11 +19,7 @@ public interface Contants {
      */
     String ALI_BAICHUAN_APP_KEY="25552805";
     String ALI_BAICHUAN_APP_SECRET="0ecdedf38446f846d34e99b718608fd0";
-
-    String qudao = "https://mos.m.taobao.com/inviter/register?inviterCode=KZJSYY&src=pub&app=common";
     //客户端
     int ANDROID = 1;//设备类型 0网页 1安卓 2ios 3wp
     String LOAD_FRAGMENT = "load_fragment";
-
-    String REDIRECT_URI = "127.0.0.1";//淘宝授权回调地址
 }

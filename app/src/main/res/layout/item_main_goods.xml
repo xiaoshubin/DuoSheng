@@ -10,7 +10,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_goods_root"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
@@ -38,6 +38,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/icon_rank1" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -74,7 +85,6 @@
             tools:text="￥9.9" />
 
         <TextView
-            android:text="@{item.couponMoney+`元券`}"
             android:id="@+id/tv_coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,6 +96,7 @@
             android:paddingTop="1dp"
             android:paddingRight="4dp"
             android:paddingBottom="1dp"
+            android:text="@{item.couponMoney+`元券`}"
             android:textColor="@color/tab_orange"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_price"

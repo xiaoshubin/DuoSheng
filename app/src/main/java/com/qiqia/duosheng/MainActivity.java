@@ -20,10 +20,11 @@ import com.qiqia.duosheng.dialog.PushSetPop;
 import com.qiqia.duosheng.dialog.SearchWordDialog;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
-import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.litepal.LitePal;
 import org.litepal.crud.callback.FindMultiCallback;
 
@@ -41,7 +42,6 @@ import cn.com.smallcake_utils.TimeUtils;
 public class MainActivity extends BaseActivity {
 
 
-    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +58,22 @@ public class MainActivity extends BaseActivity {
         getPermission(); //权限管理
         initSearchDialog();   //智能搜索
         getIndexAd(); //APP首页广告弹窗
-//        showPushSetPop(); //推送设置弹窗
+        showPushSetPop(); //推送设置弹窗
 
 
 
     }
 
+    /**
+     * 大于一天就显示一次推送设置弹窗
+     */
     private void showPushSetPop() {
-        new XPopup.Builder(this).asCustom(new PushSetPop(this)).show();
+        DateTime nowTime = DateTime.now();
+        DateTime lastTime =  SPUtils.readObject(SPStr.SHOW_PUSH_SET_TIME);
+        if (lastTime==null||Days.daysBetween(lastTime, nowTime).getDays()>0){
+            new XPopup.Builder(this).asCustom(new PushSetPop(this)).show();
+            SPUtils.saveObject(SPStr.SHOW_PUSH_SET_TIME,DateTime.now());
+        }
     }
 
 
@@ -87,7 +95,6 @@ public class MainActivity extends BaseActivity {
                                     showGoodsPop(data);
                                     data.setShowTime(TimeUtils.getTime());
                                     data.save();
-                                    return;
                                 } else {
                                     List<IndexAd> indexAdList = (List<IndexAd>) t;
                                     IndexAd indexAd = indexAdList.get(0);
@@ -167,10 +174,6 @@ public class MainActivity extends BaseActivity {
     /**
      * 阿里百川回调
      * 为了是能够正常接收登陆组建的结果回调，需要开发者在使用登陆功能的Activity中重写onActivityResult方法，
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,19 +190,8 @@ public class MainActivity extends BaseActivity {
         AndPermission.with(this)
                 .runtime()
                 .permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
-                .onGranted(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> data) {
-                        L.e("以获得权限" + data.toString());
-
-                    }
-                })
-                .onDenied(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> data) {
-                        L.e("未获得权限" + data.toString());
-                    }
-                }).start();
+                .onGranted(data -> L.e("以获得权限" + data.toString()))
+                .onDenied(data -> L.e("未获得权限" + data.toString())).start();
     }
 
 
@@ -210,24 +202,34 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 获取粘贴板内容,以便智能搜索
-     * 1.如果应用没有退出到后台，不再执行，避免应用跳其他页面回到主页弹出智能搜索
-     * 2.如果是第一次新用户引导，不执行，避免引导蒙版和智能搜索重复
-     * 3.只要通过了前两项，就把后台参数置为false,避免进入其他页回退到主页后重复弹出智能搜索
-     * 4.如果没有粘贴内容，不执行
-     * 5.如果是最近搜索过的词条，不进行弹出,return
-     * 6.如果是淘宝链接过来的，截取其中的标题关键字部分数据
+     * 智能搜索：
+     * 1.如果应用没有退出到后台(回到前台)，不再执行，避免应用跳其他页面回到主页弹出智能搜索-->return
+     * 2.只要通过了前一项，就把后台参数置为false,避免进入其他页回退到主页后重复弹出智能搜索
+     * 3.如果是第一次新用户引导，不执行，避免引导蒙版和智能搜索重复-->return
+     * 4.如果没有粘贴内容，不执行-->return
+     * 5.如果是最近一段时间搜索过的词条，不进行弹出，避免相同的复制内容，因为切换了应用而频繁弹出-->return
+     * 6.如果是淘宝链接过来的，截取其中的标题关键字部分数据来进行搜寻，避免内容过长
+     * 7.如果内容大于88，不认为是属于正常搜索词-->return
+     * 8.刷新搜索弹出窗内容，并弹出弹出框
      */
     private void getSearchStr() {
         if (!MyApplication.isRunInBackground) return;
+
         MyApplication.isRunInBackground = false;
+
         int guideHomeFragment = (int) SPUtils.get(SPStr.GUIDE_HOME_FRAGMENT, 0);
         if (guideHomeFragment == 0) return;
+
         String paste = ClipboardUtils.paste();
         if (TextUtils.isEmpty(paste)) return;
+
         SearchKey lastSearchKey = LitePal.order("time desc").findFirst(SearchKey.class);
         if (lastSearchKey != null && paste.equals(lastSearchKey.getKey())) return;
+
         if (paste.contains("淘♂寳♀")) paste = paste.substring(paste.indexOf("【") + 1, paste.indexOf("】"));
+
+        if (paste.length()>88)return;
+
         searchWordDialog.setMsg(paste);
         smartSearchPop.show();
 
@@ -235,7 +237,6 @@ public class MainActivity extends BaseActivity {
 
     //再按一次退出程序
     private long firstTime = 0;
-
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {

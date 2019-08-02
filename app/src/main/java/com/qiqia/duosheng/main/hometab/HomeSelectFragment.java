@@ -20,6 +20,7 @@ import com.qiqia.duosheng.bean.GoodsList;
 import com.qiqia.duosheng.impl.ShopImpl;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.main.adapter.MainGoodsAdapter;
+import com.qiqia.duosheng.main.adapter.MainHGoodsAdapter;
 import com.qiqia.duosheng.main.adapter.MainMenuAdapter;
 import com.qiqia.duosheng.main.bean.IndexResponse;
 import com.qiqia.duosheng.main.bean.MainTypeGoods;
@@ -50,6 +51,7 @@ public class HomeSelectFragment extends BaseFragment {
     RecyclerView recyclerViewMainGoods;
     GoodsVAdapter recommandGoodsAdapter;//底部推荐
     MainGoodsAdapter mainSectionGoodsAdapter;//中间今日人气，今日推荐，9.9
+    MainHGoodsAdapter mainHGoodsAdapter;//中间今日人气，今日推荐，9.9
 
     public static HomeSelectFragment newInstance() {
         Bundle args = new Bundle();
@@ -102,7 +104,10 @@ public class HomeSelectFragment extends BaseFragment {
         //榜单，推荐，9.9
         recyclerViewMainGoods.setHasFixedSize(true);
         recyclerViewMainGoods.setNestedScrollingEnabled(false);
-        recyclerViewMainGoods.setLayoutManager(new LinearLayoutManager(_mActivity));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(_mActivity);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewMainGoods.setLayoutManager(linearLayoutManager);
+//        recyclerViewMainGoods.setLayoutManager(new GridLayoutManager(_mActivity,3));
         mainSectionGoodsAdapter = new MainGoodsAdapter();
         recyclerViewMainGoods.setAdapter(mainSectionGoodsAdapter);
 
@@ -197,10 +202,21 @@ public class HomeSelectFragment extends BaseFragment {
                         if (list9 != null)
                             datas.add(new MainTypeGoods(R.mipmap.icon_sale, "9.9包邮", list9));
                         mainSectionGoodsAdapter.setNewData(datas);
+//                        List<MainSectionGoods> datas = new ArrayList<>();
+//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "今日人气榜单"));
+//                        for (GoodsInfo goodsInfo : day) datas.add(new MainSectionGoods(goodsInfo));
+//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "今日必买推荐"));
+//                        for (GoodsInfo goodsInfo : hour) datas.add(new MainSectionGoods(goodsInfo));
+//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "9.9包邮"));
+//                        for (GoodsInfo goodsInfo : list9) datas.add(new MainSectionGoods(goodsInfo));
+//
+//                        mainHGoodsAdapter = new MainHGoodsAdapter(datas);
+//                        recyclerViewMainGoods.setAdapter(mainHGoodsAdapter);
                     }
 
                     @Override
                     protected void onErr(String msg) {
+
                     }
                 });
 

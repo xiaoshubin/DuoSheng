@@ -144,6 +144,34 @@ public class SPUtils {
         return null;
 
     }
+    public static <T extends Object> T readObject( String key,T defaultObject) {
+        try {
+            SharedPreferences sharedata = SmallUtils.getApp().getSharedPreferences(FILE_NAME, 0);
+            if (sharedata.contains(key)) {
+                String string = sharedata.getString(key, "");
+                if (TextUtils.isEmpty(string)) {
+                    return null;
+                } else {
+                    //将16进制的数据转为数组，准备反序列化
+                    byte[] stringToBytes = StringToBytes(string);
+                    ByteArrayInputStream bis = new ByteArrayInputStream(stringToBytes);
+                    ObjectInputStream is = new ObjectInputStream(bis);
+                    //返回反序列化得到的对象
+                    T readObject = (T) is.readObject();
+                    return readObject;
+                }
+            }
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        //所有异常返回null
+        return defaultObject;
+
+    }
 
     /**
      * 移除某个key值已经对应的值

@@ -77,8 +77,8 @@ public abstract class OnSuccessAndFailListener<T> extends DisposableObserver<T> 
     public void onComplete() {}
     protected abstract void onSuccess(T t);
     //很多异常不需要反馈给用户，所以不必抽象，如果需要异常信息，重写即可
-    protected  void onErr(String msg){
-        ToastUtil.showShort(msg);
-        L.e("网络数据异常："+msg);
+    protected  void onErr(String err){
+        ToastUtil.showShort(err);
+        L.e("网络数据异常："+err);
     }
 }

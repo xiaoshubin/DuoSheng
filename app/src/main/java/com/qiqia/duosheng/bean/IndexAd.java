@@ -1,5 +1,6 @@
 package com.qiqia.duosheng.bean;
 
+import org.jetbrains.annotations.NotNull;
 import org.litepal.crud.LitePalSupport;
 
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class IndexAd extends LitePalSupport implements Serializable {
     private String endPrice;
 
 
+    @NotNull
     @Override
     public String toString() {
         return "IndexAd{" +

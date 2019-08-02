@@ -34,9 +34,10 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
-        <activity android:name=".activities.WebViewShopActivity" />
-        <activity android:name=".activities.WhiteBarActivity"/>
+        <activity android:name=".activities.WebViewShopActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.WhiteBarActivity" android:screenOrientation="portrait"/>
         <activity
+            android:screenOrientation="portrait"
             android:name=".activities.TransparentBarActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

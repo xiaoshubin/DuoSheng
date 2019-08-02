@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.qiqia.duosheng.R;
-
+//设置页面，顶部滚动
 public class ColorGradBehavior extends CoordinatorLayout.Behavior<View> {
     private static final String TAG = "ColorGradBehavior";
     private int PAGE_COLOR_ONE;

@@ -33,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.com.smallcake_utils.DpPxUtils;
+import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.ToastUtil;
 
 /**
@@ -47,7 +48,7 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
     @BindView(R.id.refresh)
     SwipeRefreshLayout refresh;
 
-    GoodsVAdapter recommandGoodsAdapter;
+    GoodsVAdapter mAdapter;
     OffsetGridLayoutManager gridLayoutManager;//获取RecyclerView滚动距离，来显示和隐藏排序Tab
     String KeyWord;
     int Order;
@@ -93,9 +94,9 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
         refresh.setOnRefreshListener(this);
         gridLayoutManager = new OffsetGridLayoutManager(_mActivity, 2);
         recyclerViewRecommand.setLayoutManager(gridLayoutManager);
-        recommandGoodsAdapter = new GoodsVAdapter();
-        recommandGoodsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        recyclerViewRecommand.setAdapter(recommandGoodsAdapter);
+        mAdapter = new GoodsVAdapter();
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        recyclerViewRecommand.setAdapter(mAdapter);
     }
 
     private void initGoodsType(List<IndexClassfiy.DataBean> dataBeans) {
@@ -121,10 +122,10 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
         //排序
         GoodsSortLinearLayout sortLineFixed = (GoodsSortLinearLayout) LayoutInflater.from(_mActivity).inflate(R.layout.goods_sort_tab, null);
 
-        recommandGoodsAdapter.addHeaderView(viewBanner);//0.添加banner
-        recommandGoodsAdapter.addHeaderView(recyclerViewType);//1.添加小类目分类列表项
-        recommandGoodsAdapter.addHeaderView(space);//2.添加分割间隙
-        recommandGoodsAdapter.addHeaderView(sortLineFixed);//3.添加排序
+        mAdapter.addHeaderView(viewBanner);//0.添加banner
+        mAdapter.addHeaderView(recyclerViewType);//1.添加小类目分类列表项
+        mAdapter.addHeaderView(space);//2.添加分割间隙
+        mAdapter.addHeaderView(sortLineFixed);//3.添加排序
         //筛选条件排序
         sortLineFixed.setListener(new GoodsSortLinearLayout.OnSortClickListener() {
             @Override
@@ -148,47 +149,50 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
 
         //每页的Banner,数据
         BannerUtils.addImageToBanner(_mActivity, dataProvider.shop, Integer.parseInt("1" + Cid), banner);
-//        BannerUtils.addImageToBanner(_mActivity, dataProvider.shop, Integer.parseInt("1" + Cid), banner, new BannerUtils.onShowBannerListener() {
-//            @Override
-//            public void show() {
-//                recyclerViewRecommand.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                    @Override
-//                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {//dy <0 表示 下滑， dy>0 表示上滑
-//                        super.onScrolled(recyclerView, dx, dy);
-//                        int scrollHeight = gridLayoutManager.getScollYDistance();
-//                        int menuHeight = recyclerViewType.getMeasuredHeight()+banner.getMeasuredHeight()+space.getMeasuredHeight();//顶部菜单高度+间隙高度
-//                        L.e("menuHeight=="+menuHeight+"  scrollHeight=="+scrollHeight+"  dy=="+dy);
-//                        boolean upShow = scrollHeight >= menuHeight&&dy>0;
-//                        boolean downHide = scrollHeight < menuHeight&&dy<0;
-//                        if (upShow){
-//                            sortLine.setVisibility(View.VISIBLE);
-//                        }else if (downHide){
-//                            sortLine.setVisibility(View.GONE);
-//                        }
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void hide() {
-//                recyclerViewRecommand.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                    @Override
-//                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {//dy <0 表示 下滑， dy>0 表示上滑
-//                        super.onScrolled(recyclerView, dx, dy);
-//                        int scrollHeight = gridLayoutManager.getScollYDistance();
-//                        int menuHeight = recyclerViewType.getMeasuredHeight()+space.getMeasuredHeight();//顶部菜单高度+间隙高度
-//                        L.e("menuHeight=="+menuHeight+"  scrollHeight=="+scrollHeight+"  dy=="+dy);
-//                        boolean upShow = scrollHeight >= menuHeight&&dy>0;
-//                        boolean downHide = scrollHeight < menuHeight&&dy<0;
-//                        if (upShow){
-//                            sortLine.setVisibility(View.VISIBLE);
-//                        }else if (downHide){
-//                            sortLine.setVisibility(View.GONE);
-//                        }
-//                    }
-//                });
-//            }
-//        });
+
+        //显示排序置顶
+        BannerUtils.addImageToBanner(_mActivity, dataProvider.shop, Integer.parseInt("1" + Cid), banner, new BannerUtils.onShowBannerListener() {
+            @Override
+            public void show() {
+                recyclerViewRecommand.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {//dy <0 表示 下滑， dy>0 表示上滑
+                        super.onScrolled(recyclerView, dx, dy);
+                        int scrollHeight = gridLayoutManager.getScollYDistance();
+                        int menuHeight = recyclerViewType.getMeasuredHeight()+banner.getMeasuredHeight()+space.getMeasuredHeight();//顶部菜单高度+间隙高度
+                        L.e("menuHeight=="+menuHeight+"  scrollHeight=="+scrollHeight+"  dy=="+dy);
+                        boolean upShow = scrollHeight >= menuHeight&&dy>0;
+                        boolean downHide = scrollHeight < menuHeight&&dy<0;
+                        if (upShow){
+                            sortLine.setVisibility(View.VISIBLE);
+                        }else if (downHide){
+                            sortLine.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+
+
+            @Override
+            public void hide() {
+                recyclerViewRecommand.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {//dy <0 表示 下滑， dy>0 表示上滑
+                        super.onScrolled(recyclerView, dx, dy);
+                        int scrollHeight = gridLayoutManager.getScollYDistance();
+                        int menuHeight = recyclerViewType.getMeasuredHeight()+space.getMeasuredHeight();//顶部菜单高度+间隙高度
+                        L.e("menuHeight=="+menuHeight+"  scrollHeight=="+scrollHeight+"  dy=="+dy);
+                        boolean upShow = scrollHeight >= menuHeight&&dy>0;
+                        boolean downHide = scrollHeight < menuHeight&&dy<0;
+                        if (upShow){
+                            sortLine.setVisibility(View.VISIBLE);
+                        }else if (downHide){
+                            sortLine.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+        });
 
         mAdaper.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -224,6 +228,12 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
                         }
                     }
 
+                    @Override
+                    protected void onErr(String msg) {
+                        if (msg.contains("HTTP 500")){
+                            mAdapter.loadMoreEnd();
+                        }
+                    }
                 });
     }
 
@@ -231,18 +241,18 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
         //如果没有数据，没有更多
         if (results == null || results.size() == 0) {
             ToastUtil.showShort("没有更多相关商品了！");
-            recommandGoodsAdapter.loadMoreEnd();
+            mAdapter.loadMoreEnd();
             return;
         }
         //添加下一页数据
-        if (needClean)recommandGoodsAdapter.setNewData(null);
-        recommandGoodsAdapter.addData(results);
-        recommandGoodsAdapter.loadMoreComplete();
+        if (needClean) mAdapter.setNewData(null);
+        mAdapter.addData(results);
+        mAdapter.loadMoreComplete();
     }
 
     private void onEvent() {
         //加载更多
-        recommandGoodsAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 if (totalPage==0){
@@ -250,12 +260,12 @@ public class HomeGoodsFragment extends BaseFragment implements SwipeRefreshLayou
                 }else if (AllPn<totalPage){
                     searchByWord(false);
                 }else {
-                    recommandGoodsAdapter.loadMoreEnd();
+                    mAdapter.loadMoreEnd();
                 }
             }
         }, recyclerViewRecommand);
         //点击跳转到商品详情页
-        recommandGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
