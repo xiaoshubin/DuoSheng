@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         app:contentScrim="?attr/colorAccent"
         app:elevation="0dp">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="#F04612"
@@ -36,7 +36,7 @@
 
                     <include layout="@layout/action_common_bar" />
 
-                    <android.support.v7.widget.CardView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -78,7 +78,7 @@
                                     tools:text="昨日邀请人数\n\n3" />
                             </LinearLayout>
 
-                            <android.support.design.widget.TabLayout
+                            <com.google.android.material.tabs.TabLayout
                                 android:id="@+id/tab_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                                 android:background="@drawable/bottom_round9_lightgray_bg"
                                 app:tabIndicatorHeight="0dp">
 
-                                <android.support.design.widget.TabItem
+                                <com.google.android.material.tabs.TabItem
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -95,7 +95,7 @@
                                     android:textSize="14sp"
                                     tools:text="直属粉丝(235)" />
 
-                                <android.support.design.widget.TabItem
+                                <com.google.android.material.tabs.TabItem
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -103,17 +103,17 @@
                                     android:text="裂变粉丝(0)"
                                     android:textSize="14sp"
                                     tools:text="裂变粉丝(2335)" />
-                            </android.support.design.widget.TabLayout>
+                            </com.google.android.material.tabs.TabLayout>
                         </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/electricity_bar_height" />
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
         <!--筛选排序-->
         <com.qiqia.duosheng.custom.MemberFansSortLinearLayout
             android:id="@+id/sort_line"
@@ -123,9 +123,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/round9_white_bg" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
     <!--会员列表-->
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -133,5 +133,5 @@
         android:layout_marginBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
-</android.support.design.widget.CoordinatorLayout>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,7 +8,7 @@
             type="com.qiqia.duosheng.search.bean.GoodsInfo" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_goods_root"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:paddingRight="1dp"
         android:paddingBottom="8dp">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,5 +120,5 @@
             tools:text="￥29.9" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,6 @@
 package com.qiqia.duosheng.main.adapter;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;

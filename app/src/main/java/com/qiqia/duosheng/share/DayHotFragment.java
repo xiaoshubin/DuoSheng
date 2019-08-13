@@ -1,10 +1,10 @@
 package com.qiqia.duosheng.share;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,13 +58,13 @@ public class DayHotFragment extends BaseFragment {
                     ClipboardUtils.copy(item.getComment());
                     break;
                 case R.id.tv_goods_info_desc:
-                    jumpToActivity(item);
+                    goGoodsInfoFragmentByActivity(item);
                     break;
             }
         });
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-            jumpToActivity(item);
+            goGoodsInfoFragmentByActivity(item);
         });
     }
     private void getDayHotData() {

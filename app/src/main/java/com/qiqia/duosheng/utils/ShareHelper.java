@@ -44,12 +44,13 @@ public class ShareHelper {
             e.printStackTrace();
         }
         //分享的二维码图片
-        Bitmap qrCode = Code2Utils.createQRCode("http://192.168.1.158:9000/share.html?id="+item.getItemId()+"&superCode="+superCode, 200);
+        Bitmap qrCode = Code2Utils.createQRCode("http://192.168.1.158:9000/share.html?id="+item.getItemId()+"&superCode="+superCode, 200,1);
         ivCode2.setImageBitmap(qrCode);
 
 
         tvTitle.setText(item.getItemShortTitle());
-        tvPrice.setText(item.getItemEndPrice());
+        SpannableStringBuilder priceSpan = SpannableStringUtils.getBuilder("￥").setBold().append(item.getItemEndPrice()).setBold().setProportion(1.6f).append("券后价").create();
+        tvPrice.setText(priceSpan);
         SpannableStringBuilder oldPriceSales = SpannableStringUtils.getBuilder("￥" + item.getItemPrice() + "原价").setStrikethrough()
                 .append("    销量" + item.getItemSale()).create();
         tvOldPreceSales.setText(oldPriceSales);

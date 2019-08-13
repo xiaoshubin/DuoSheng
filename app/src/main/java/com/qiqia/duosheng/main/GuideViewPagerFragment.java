@@ -1,12 +1,16 @@
 package com.qiqia.duosheng.main;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseFragment;
@@ -23,6 +27,7 @@ public class GuideViewPagerFragment extends BaseFragment {
     public static ViewPager viewPagerGuide;
     @BindView(R.id.layout_indicator)
     LinearLayout layoutIndicator;
+
     public static GuideViewPagerFragment newInstance() {
         Bundle args = new Bundle();
         GuideViewPagerFragment fragment = new GuideViewPagerFragment();
@@ -46,28 +51,44 @@ public class GuideViewPagerFragment extends BaseFragment {
 
             @Override
             public Fragment getItem(int i) {
-                return i==0? new GuideFragment1():new GuideFragment2();
+                return i == 0 ? new GuideFragment1() : new GuideFragment2();
             }
         };
         viewPagerGuide.setAdapter(fragmentPagerAdapter);
         viewPagerGuide.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
 
             @Override
-            public void onPageSelected(int i) {
-                selectIndicator(i);
+            public void onPageSelected(int position) {
+                selectIndicator(position);
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
     }
-    private void selectIndicator(int selectPosition){
-        for (int i = 0; i < layoutIndicator.getChildCount(); i++) layoutIndicator.getChildAt(i).setAlpha(i==selectPosition ? 1f : 0.4f);
+
+    private void selectIndicator(int selectPosition) {
+        for (int i = 0; i < layoutIndicator.getChildCount(); i++) {
+            View view = layoutIndicator.getChildAt(i);
+            if (i==selectPosition) animPot(view);
+            else {
+                view.setAlpha(0.3f);
+            }
+        }
     }
+    private void animPot(View view){
+        PropertyValuesHolder anim1 = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
+        PropertyValuesHolder anim2 = PropertyValuesHolder.ofFloat("rotationX", 0, 180);
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(view,anim1,anim2);
+        animator.setDuration(300);
+        animator.setInterpolator(new OvershootInterpolator());
+        animator.start();
+    }
+
 }

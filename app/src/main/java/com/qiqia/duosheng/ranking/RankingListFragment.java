@@ -1,12 +1,13 @@
 package com.qiqia.duosheng.ranking;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
@@ -24,9 +25,7 @@ import butterknife.BindView;
 import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.SPUtils;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class RankingListFragment extends BaseFragment {
@@ -69,26 +68,18 @@ public class RankingListFragment extends BaseFragment {
     }
 
     public void initAllClassify() {
-        Observable.create(new Observable.OnSubscribe<List<Classfiy>>() {
-            @Override
-            public void call(Subscriber<? super List<Classfiy>> subscriber) {
-                long t1 = System.currentTimeMillis();
-                List<Classfiy> classfiys = SPUtils.readObject(SPStr.CLASSFIYS);
-                long t2 = System.currentTimeMillis();
-                L.e("查询Classfiy耗时==" + (t2 - t1));
+        Observable.create((Observable.OnSubscribe<List<Classfiy>>) subscriber -> {
+            long t1 = System.currentTimeMillis();
+            List<Classfiy> classfiys = SPUtils.readObject(SPStr.CLASSFIYS);
+            long t2 = System.currentTimeMillis();
+            L.e("查询Classfiy耗时==" + (t2 - t1));
 
-                if (classfiys == null || classfiys.size() == 0) return;
-                allClassfiys.addAll(classfiys);
-                subscriber.onNext(classfiys);
-            }
+            if (classfiys == null || classfiys.size() == 0) return;
+            allClassfiys.addAll(classfiys);
+            subscriber.onNext(classfiys);
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<Classfiy>>() {
-                    @Override
-                    public void call(List<Classfiy> classfiys) {
-                        initTabLayout();
-                    }
-                });
+                .subscribe(classfiys -> initTabLayout());
 
 
     }
@@ -126,7 +117,7 @@ public class RankingListFragment extends BaseFragment {
         };
         long t1 = System.currentTimeMillis();
         viewPager.setAdapter(fragmentPagerAdapter);
-        viewPager.setOffscreenPageLimit(allClassfiys.size() / 3);//130ms
+        viewPager.setOffscreenPageLimit(allClassfiys.size());//130ms
         long t2 = System.currentTimeMillis();
         L.e("预加载耗时==" + (t2 - t1));
     }

@@ -1,7 +1,7 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.RadioGroup;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;

@@ -1,20 +1,22 @@
 package com.qiqia.duosheng.main;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;
 import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.custom.GoodsSortLinearLayout;
+import com.qiqia.duosheng.custom.OnSortClickListener;
 import com.qiqia.duosheng.main.bean.Classfiy;
 
 import java.util.ArrayList;
@@ -32,9 +34,8 @@ import cn.com.smallcake_utils.SPUtils;
  */
 
 public class PracticalListFragment extends BaseBarFragment {
-    int type = 1;
-    int cid;
-    int sort;
+    private int type = 1,sort;
+
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.sort_line)
@@ -65,6 +66,7 @@ public class PracticalListFragment extends BaseBarFragment {
      */
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
+        assert getArguments() != null;
         sort = getArguments().getInt("sort");
         String title;
         switch (sort) {
@@ -92,6 +94,7 @@ public class PracticalListFragment extends BaseBarFragment {
             String mainName = classfiy.getMainName();
             tabLayout.addTab(tabLayout.newTab());
             TabLayout.Tab tabAt = tabLayout.getTabAt(i);
+            assert tabAt != null;
             tabAt.setText(mainName);
         }
         initViewPager(allClassfiys);
@@ -100,7 +103,7 @@ public class PracticalListFragment extends BaseBarFragment {
 
     private void onEvent(List<ItemPracticalListFragment> fragments) {
         //筛选条件排序
-        sortLine.setListener(new GoodsSortLinearLayout.OnSortClickListener() {
+        sortLine.setListener(new OnSortClickListener() {
             @Override
             public void onItemClick(int order) {
                 fragments.get(pageIndex).onRefreshByFilter(order);
@@ -114,21 +117,21 @@ public class PracticalListFragment extends BaseBarFragment {
     }
     private int pageIndex;
     private void initViewPager(List<Classfiy> allClassfiys) {
-        List<ItemPracticalListFragment> fragments = new ArrayList<ItemPracticalListFragment>();
+        List<ItemPracticalListFragment> fragments = new ArrayList<>();
         for (int i = 0; i < allClassfiys.size(); i++) {
-            cid = allClassfiys.get(i).getCid();
+            int cid = allClassfiys.get(i).getCid();
             ItemPracticalListFragment itemRankingListFragment = ItemPracticalListFragment.newInstance(type, cid,sort);
             fragments.add(itemRankingListFragment);
         }
-        FragmentManager fm = this.getChildFragmentManager();
-        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(fm) {
+        FragmentStatePagerAdapter fragmentPagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager(), 0) {
             @Override
             public int getCount() {
                 return fragments.size();
             }
+            @NonNull
             @Override
-            public Fragment getItem(int i) {
-                return fragments.get(i);
+            public Fragment getItem(int position) {
+                return fragments.get(position);
             }
             @Nullable
             @Override

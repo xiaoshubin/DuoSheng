@@ -6,7 +6,7 @@
             type="com.qiqia.duosheng.mine.bean.OrderBean" />
     </data>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,14 +42,15 @@
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:alpha="0.54"
-        android:textColor="#000000"
         android:id="@+id/tv_order_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginBottom="2dp"
+        android:alpha="0.54"
         android:text="下单：2019.03.20 21:12:28"
+        android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_shop_logo"
         app:layout_constraintStart_toEndOf="@+id/iv_shop_logo"
@@ -82,7 +83,7 @@
         app:layout_constraintStart_toStartOf="@+id/iv_shop_logo"
         app:layout_constraintTop_toBottomOf="@+id/iv_shop_logo"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/logo" />
+        app:srcCompat="@drawable/load_img" />
 
     <TextView
 
@@ -173,5 +174,5 @@
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,8 @@
 package com.qiqia.duosheng.utils;
 
-import android.databinding.BindingAdapter;
 import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -13,6 +14,9 @@ import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.SmallUtils;
 
 public class ImageBindingAdapter {
+    public  static  RequestOptions getImgOptions(){
+        return new RequestOptions().placeholder(R.drawable.load_img).error(R.drawable.no_banner);
+    }
     //图片加载绑定为：普通图片
     @BindingAdapter("url")
     public static void bindUrl(ImageView view, String imageUrl){
@@ -24,8 +28,8 @@ public class ImageBindingAdapter {
     @BindingAdapter("imageCircleUrl")
     public static void bindImageCircleUrl(ImageView view, String imageUrl){
         RequestOptions options = new RequestOptions()
-                        .placeholder(R.mipmap.logo)
-                        .error(R.mipmap.logo)
+                .placeholder(R.drawable.load_img)
+                .error(R.drawable.no_banner)
                         .circleCrop();
         Glide.with(view)
                 .load(imageUrl)
@@ -37,6 +41,8 @@ public class ImageBindingAdapter {
     public static void bindImageRoundUrl(ImageView view, String imageRoundUrl,int roundingRadius){
         RequestOptions options = new RequestOptions()
                         .centerCrop()
+                        .placeholder(R.drawable.load_img)
+                        .error(R.drawable.no_banner)
                         .transform(new RoundedCorners((int) DpPxUtils.dp2pxFloat(roundingRadius==0?9:roundingRadius)));
         Glide.with(view)
                 .load(imageRoundUrl)

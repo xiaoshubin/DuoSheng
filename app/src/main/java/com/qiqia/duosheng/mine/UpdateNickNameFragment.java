@@ -7,11 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.lsxiao.apollo.core.Apollo;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;
 import com.qiqia.duosheng.base.BaseResponse;
-import com.qiqia.duosheng.base.EventStr;
 import com.qiqia.duosheng.bean.User;
 import com.qiqia.duosheng.utils.DataLocalUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
@@ -39,11 +37,6 @@ public class UpdateNickNameFragment extends BaseBarFragment {
         tvTitle.setText("昵称");
          user = DataLocalUtils.getUser();
     }
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-//        ImmersionBar.with(this).statusBarColor(R.color.white).autoStatusBarDarkModeEnable(true, 0.2f).init();
-    }
     @OnClick({R.id.btn_confirm, R.id.iv_clean})
     public void doClicks(View view) {
         switch (view.getId()) {
@@ -64,12 +57,9 @@ public class UpdateNickNameFragment extends BaseBarFragment {
                     protected void onSuccess(BaseResponse baseResponse) {
                         user.setNickname(nick);
                         DataLocalUtils.saveUser(user);
-                        Apollo.emit(EventStr.UPDATE_NICKNAME, nick);
                         ToastUtil.showLong("修改成功！");
                         pop();
                     }
-
-
                 });
 
     }

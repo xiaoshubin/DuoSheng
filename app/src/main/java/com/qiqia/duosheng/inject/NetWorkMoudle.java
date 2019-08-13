@@ -6,11 +6,11 @@ import com.qiqia.duosheng.api.LoginApi;
 import com.qiqia.duosheng.api.ShopApi;
 import com.qiqia.duosheng.api.TbLoginApi;
 import com.qiqia.duosheng.api.UserApi;
+import com.qiqia.duosheng.dialog.LoadImgDialog;
 import com.smallcake.okhttp.retrofit2.RetrofitHttp;
 
 import javax.inject.Singleton;
 
-import cn.com.smallcake_utils.dialog.LoadDialog;
 import dagger.Module;
 import dagger.Provides;
 
@@ -27,8 +27,8 @@ public class NetWorkMoudle {
     }
     @Singleton
     @Provides
-    public LoadDialog providerLoadDialog(Context context){
-        return new LoadDialog(context);
+    public LoadImgDialog providerLoadDialog(Context context){
+        return new LoadImgDialog(context);
     }
     //登录部分
     @Singleton

@@ -1,8 +1,8 @@
 package com.qiqia.duosheng.search;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;

@@ -2,26 +2,25 @@
 <layout>
 
 
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        app:contentScrim="@drawable/bar_gradual_black_bg"
-        app:elevation="0dp">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
             app:contentScrim="@drawable/bar_gradual_black_bg"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="@drawable/bar_gradual_black_bg"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -29,42 +28,65 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/action_black_common_bar" />
+
                     <com.qiqia.duosheng.custom.RollTextView
                         android:id="@+id/tv_notice"
                         style="@style/OrangeNoticeText"
-                        android:text="提醒：今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒!"
-                        />
+                        android:text="提醒：今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒，今天的提醒已经到期，请明天提醒!" />
+
                     <RadioGroup
-                        android:background="@color/white"
-                        android:orientation="horizontal"
+                        android:id="@+id/radio_group"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/main_tab_height">
-                        <RadioButton android:checked="true" android:id="@+id/rb1" style="@style/OrangeRadioButton" android:text="我的订单"/>
-                        <View style="@style/VerticalLine" android:layout_marginBottom="8dp" android:layout_marginTop="8dp"/>
-                        <RadioButton android:id="@+id/rb2" style="@style/OrangeRadioButton" android:text="团队订单"/>
+                        android:layout_height="@dimen/main_tab_height"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb1"
+                            style="@style/OrangeRadioButton"
+                            android:checked="true"
+                            android:text="我的订单" />
+
+                        <View
+                            style="@style/VerticalLine"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp" />
+
+                        <RadioButton
+                            android:id="@+id/rb2"
+                            style="@style/OrangeRadioButton"
+                            android:text="团队订单" />
                     </RadioGroup>
                 </LinearLayout>
 
-            <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/electricity_bar_height" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <!--筛选排序-->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/electricity_bar_height" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-        <!--筛选排序-->
-        <net.lucode.hackware.magicindicator.MagicIndicator
-            android:layout_margin="8dp"
-            android:background="@drawable/round9_white_bg"
-            android:id="@+id/magic_indicator"
+                android:layout_height="@dimen/main_tab_height"
+                android:layout_margin="8dp"
+                android:background="@drawable/round9_white_bg"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <net.lucode.hackware.magicindicator.MagicIndicator
+                    android:id="@+id/magic_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+        <!--会员列表-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/main_tab_height"/>
-    </android.support.design.widget.AppBarLayout>
-    <!--会员列表-->
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginBottom="24dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
-</android.support.design.widget.CoordinatorLayout>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

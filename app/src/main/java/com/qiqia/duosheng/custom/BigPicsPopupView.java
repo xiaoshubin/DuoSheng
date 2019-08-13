@@ -6,23 +6,24 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.transition.ChangeBounds;
-import android.support.transition.ChangeImageTransform;
-import android.support.transition.ChangeTransform;
-import android.support.transition.Transition;
-import android.support.transition.TransitionListenerAdapter;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeImageTransform;
+import androidx.transition.ChangeTransform;
+import androidx.transition.Transition;
+import androidx.transition.TransitionListenerAdapter;
+import androidx.transition.TransitionManager;
+import androidx.transition.TransitionSet;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
@@ -149,10 +150,10 @@ public class BigPicsPopupView extends BasePopupView implements OnDragChangeListe
     protected void doAfterShow() {
         //do nothing self.
     }
-
+    protected int bgColor = Color.rgb(32, 36, 46);//弹窗的背景颜色，可以自定义
     @Override
     public void doShowAnimation() {
-        photoViewContainer.isReleaseing = true;
+//        photoViewContainer.isReleaseing = true;
         snapshotView.setVisibility(VISIBLE);
         snapshotView.post(new Runnable() {
             @Override
@@ -169,7 +170,7 @@ public class BigPicsPopupView extends BasePopupView implements OnDragChangeListe
                                 pager.setVisibility(VISIBLE);
                                 snapshotView.setVisibility(INVISIBLE);
                                 showPagerIndicator();
-                                photoViewContainer.isReleaseing = false;
+//                                photoViewContainer.isReleaseing = false;
                                 BigPicsPopupView.super.doAfterShow();
                             }
                         }));
@@ -179,7 +180,8 @@ public class BigPicsPopupView extends BasePopupView implements OnDragChangeListe
                 XPopupUtils.setWidthHeight(snapshotView, photoViewContainer.getWidth(), photoViewContainer.getHeight());
 
                 // do _xpopup_shadow anim.
-                animateShadowBg(photoViewContainer.blackColor);
+
+                animateShadowBg(bgColor);
             }
         });
 
@@ -207,7 +209,7 @@ public class BigPicsPopupView extends BasePopupView implements OnDragChangeListe
         tv_save.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
-        photoViewContainer.isReleaseing = true;
+//        photoViewContainer.isReleaseing = true;
         TransitionManager.beginDelayedTransition((ViewGroup) snapshotView.getParent(), new TransitionSet()
                 .setDuration(XPopup.getAnimationDuration())
                 .addTransition(new ChangeBounds())

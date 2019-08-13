@@ -2,7 +2,7 @@ package com.qiqia.duosheng.mine;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewGroup;

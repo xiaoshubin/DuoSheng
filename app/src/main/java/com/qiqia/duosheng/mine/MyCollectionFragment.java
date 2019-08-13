@@ -1,8 +1,8 @@
 package com.qiqia.duosheng.mine;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +76,7 @@ public class MyCollectionFragment extends BaseBarFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToFragmentByType(item);
+                goGoodsInfoFragment(item);
             }
         });
 

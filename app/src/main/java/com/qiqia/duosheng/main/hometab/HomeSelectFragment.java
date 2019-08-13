@@ -1,17 +1,19 @@
 package com.qiqia.duosheng.main.hometab;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.activities.WebViewShopActivity;
 import com.qiqia.duosheng.base.BaseFragment;
@@ -20,7 +22,6 @@ import com.qiqia.duosheng.bean.GoodsList;
 import com.qiqia.duosheng.impl.ShopImpl;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.main.adapter.MainGoodsAdapter;
-import com.qiqia.duosheng.main.adapter.MainHGoodsAdapter;
 import com.qiqia.duosheng.main.adapter.MainMenuAdapter;
 import com.qiqia.duosheng.main.bean.IndexResponse;
 import com.qiqia.duosheng.main.bean.MainTypeGoods;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import hugo.weaving.DebugLog;
 
 public class HomeSelectFragment extends BaseFragment {
 
@@ -45,13 +47,12 @@ public class HomeSelectFragment extends BaseFragment {
     @BindView(R.id.refresh)
     SwipeRefreshLayout refresh;
 
-    Banner banner;
-    Banner bannerMiddle;
-    RecyclerView recyclerViewMainMenu;
-    RecyclerView recyclerViewMainGoods;
-    GoodsVAdapter recommandGoodsAdapter;//底部推荐
-    MainGoodsAdapter mainSectionGoodsAdapter;//中间今日人气，今日推荐，9.9
-    MainHGoodsAdapter mainHGoodsAdapter;//中间今日人气，今日推荐，9.9
+    private Banner banner;
+    private Banner bannerMiddle;
+    private RecyclerView recyclerViewMainMenu;
+    private RecyclerView recyclerViewMainGoods;
+    private GoodsVAdapter recommandGoodsAdapter;//底部推荐
+    private MainGoodsAdapter mainSectionGoodsAdapter;//中间今日人气，今日推荐，9.9
 
     public static HomeSelectFragment newInstance() {
         Bundle args = new Bundle();
@@ -69,24 +70,21 @@ public class HomeSelectFragment extends BaseFragment {
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
 
     }
-
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getMiddleGoods();
-                page = 1;
-                recommandGoodsAdapter.setNewData(null);
-                getRecommonGoods();
-            }
+        refresh.setOnRefreshListener(() -> {
+            getMiddleGoods();
+            page = 1;
+            recommandGoodsAdapter.setNewData(null);
+            getRecommonGoods();
         });
         initView();
 
 
     }
-
+    View emptyView;
+    @DebugLog//耗时80ms
     private void initView() {
         //头部
         View headerView = LayoutInflater.from(this.getContext()).inflate(R.layout.home_first_page_header, null);
@@ -95,27 +93,44 @@ public class HomeSelectFragment extends BaseFragment {
         recyclerViewMainMenu = headerView.findViewById(R.id.recycler_view_main_menu);
         recyclerViewMainGoods = headerView.findViewById(R.id.recycler_view_main_goods);
         headerView.findViewById(R.id.iv_invite_friends).setOnClickListener((v -> goWhiteBarActivity(InviteFriendFragment.class.getSimpleName())));
-        //底部商品，并添加头部
+        //屏蔽到banner的焦点获取事件，避免因为滚动后获取焦点而自动滑动到banner位置
+        banner.setFocusable(false);
+        banner.setFocusableInTouchMode(false);
+        bannerMiddle.setFocusable(false);
+        bannerMiddle.setFocusableInTouchMode(false);
+        //底部为你精选商品
         recyclerViewRecommand.setLayoutManager(new GridLayoutManager(_mActivity, 2));
         recommandGoodsAdapter = new GoodsVAdapter();
+        //空布局文件
+        emptyView = LayoutInflater.from(_mActivity).inflate(R.layout.empty_view, null);
+        View loadView = LayoutInflater.from(_mActivity).inflate(R.layout.loading_view, null);
+        recommandGoodsAdapter.setEmptyView(loadView);
+        emptyView.setOnClickListener(v -> {
+            getMiddleGoods();
+            page = 1;
+            recommandGoodsAdapter.setNewData(null);
+            getRecommonGoods();
+        });
+
         recommandGoodsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         recyclerViewRecommand.setAdapter(recommandGoodsAdapter);
+        //添加头部
         recommandGoodsAdapter.addHeaderView(headerView);
         //榜单，推荐，9.9
         recyclerViewMainGoods.setHasFixedSize(true);
         recyclerViewMainGoods.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(_mActivity);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewMainGoods.setLayoutManager(linearLayoutManager);
-//        recyclerViewMainGoods.setLayoutManager(new GridLayoutManager(_mActivity,3));
         mainSectionGoodsAdapter = new MainGoodsAdapter();
         recyclerViewMainGoods.setAdapter(mainSectionGoodsAdapter);
 
-        onEvent();
+        onEvent();//跳转点击事件
         initMainMenu();//主页八个固定菜单
-        initBanner();//Banner可以延迟加载
-        getMiddleGoods();//有加载圈
-        getRecommonGoods();//多次请求
+        initBanner();
+        //延迟加载处理banner和底部的商品
+        new Handler().postDelayed(this::getRecommonGoods,300);
+        new Handler().postDelayed(this::getMiddleGoods,800);
+
 
     }
 
@@ -123,6 +138,7 @@ public class HomeSelectFragment extends BaseFragment {
         //首页推荐商品：更多点击事件
         mainSectionGoodsAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             MainTypeGoods item = (MainTypeGoods) adapter.getItem(position);
+            assert item != null;
             switch (item.getHeadTitle()) {
                 case "9.9包邮":
                     goPracticalListFragment(0);
@@ -139,30 +155,23 @@ public class HomeSelectFragment extends BaseFragment {
             }
         });
         //首页推荐商品：商品点击事件
-        mainSectionGoodsAdapter.setOnItemGoodsClickListener(item -> jumpToActivity(item));
+        mainSectionGoodsAdapter.setOnItemGoodsClickListener(this::goGoodsInfoFragmentByActivity);
         //为你精选商品:商品点击事件
-        recommandGoodsAdapter.setOnItemClickListener((adapter, view, position) -> {
-            GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-            jumpToActivity(item);
-        });
+        recommandGoodsAdapter.setOnItemClickListener((adapter, view, position) ->
+                goGoodsInfoFragmentByActivity((GoodsInfo) adapter.getItem(position))
+        );
         //为你精选商品:加载更多商品事件
-        recommandGoodsAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                getRecommonGoods();
-            }
-        }, recyclerViewRecommand);
+        recommandGoodsAdapter.setOnLoadMoreListener(this::getRecommonGoods, recyclerViewRecommand);
     }
 
     /**
      * 底部
      * 为你精选商品部分
      */
-    int page = 1;
-
+    private int page = 1;
     private void getRecommonGoods() {
         dataProvider.shop.leaderboard(1, page, 0)
-                .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsList>>() {
+                .subscribe(new OnSuccessAndFailListener<BaseResponse<GoodsList>>(refresh) {
                     @Override
                     protected void onSuccess(BaseResponse<GoodsList> goodsListBaseResponse) {
                         GoodsList data = goodsListBaseResponse.getData();
@@ -175,6 +184,11 @@ public class HomeSelectFragment extends BaseFragment {
                         recommandGoodsAdapter.loadMoreComplete();
                         page = data.getMinId();
                     }
+
+                    @Override
+                    protected void onErr(String err) {
+                        recommandGoodsAdapter.setEmptyView(emptyView);
+                    }
                 });
 
     }
@@ -185,9 +199,10 @@ public class HomeSelectFragment extends BaseFragment {
      * 今日必买推荐
      * 9.9包邮
      */
+    @DebugLog
     private void getMiddleGoods() {
         dataProvider.shop.index()
-                .subscribe(new OnSuccessAndFailListener<BaseResponse<IndexResponse>>(refresh) {
+                .subscribe(new OnSuccessAndFailListener<BaseResponse<IndexResponse>>() {
                     @Override
                     protected void onSuccess(BaseResponse<IndexResponse> indexResponseBaseResponse) {
                         IndexResponse data = indexResponseBaseResponse.getData();
@@ -195,23 +210,10 @@ public class HomeSelectFragment extends BaseFragment {
                         List<GoodsInfo> day = data.getDay();
                         List<GoodsInfo> list9 = data.getList9();
                         List<MainTypeGoods> datas = new ArrayList<>();
-                        if (day != null)
-                            datas.add(new MainTypeGoods(R.mipmap.icon_hot, "今日人气榜单", day));
-                        if (hour != null)
-                            datas.add(new MainTypeGoods(R.mipmap.icon_rec, "今日必买推荐", hour));
-                        if (list9 != null)
-                            datas.add(new MainTypeGoods(R.mipmap.icon_sale, "9.9包邮", list9));
+                        if (day != null) datas.add(new MainTypeGoods(R.mipmap.icon_hot, "今日人气榜单", day));
+                        if (hour != null) datas.add(new MainTypeGoods(R.mipmap.icon_rec, "今日必买推荐", hour));
+                        if (list9 != null) datas.add(new MainTypeGoods(R.mipmap.icon_sale, "9.9包邮", list9));
                         mainSectionGoodsAdapter.setNewData(datas);
-//                        List<MainSectionGoods> datas = new ArrayList<>();
-//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "今日人气榜单"));
-//                        for (GoodsInfo goodsInfo : day) datas.add(new MainSectionGoods(goodsInfo));
-//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "今日必买推荐"));
-//                        for (GoodsInfo goodsInfo : hour) datas.add(new MainSectionGoods(goodsInfo));
-//                        datas.add(new MainSectionGoods(R.mipmap.icon_hot, "9.9包邮"));
-//                        for (GoodsInfo goodsInfo : list9) datas.add(new MainSectionGoods(goodsInfo));
-//
-//                        mainHGoodsAdapter = new MainHGoodsAdapter(datas);
-//                        recyclerViewMainGoods.setAdapter(mainHGoodsAdapter);
                     }
 
                     @Override
@@ -222,7 +224,7 @@ public class HomeSelectFragment extends BaseFragment {
 
 
     }
-
+    //八大菜单项
     private void initMainMenu() {
         int[] icons = new int[]{R.mipmap.icon_tao, R.mipmap.icon_smarket, R.mipmap.icon_import, R.mipmap.icon_fresh, R.mipmap.icon_ju,
                 R.mipmap.icon_cart, R.mipmap.icon_hotrank, R.mipmap.icon_big_coupon, R.mipmap.icon_heighcomm, R.mipmap.icon_sales};
@@ -235,33 +237,27 @@ public class HomeSelectFragment extends BaseFragment {
         MainMenuAdapter mainMenuAdapter = new MainMenuAdapter();
         recyclerViewMainMenu.setAdapter(mainMenuAdapter);
         mainMenuAdapter.setNewData(datas);
-        mainMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                MenuItem item = (MenuItem) adapter.getItem(position);
-                if (position < 6) goWebView(position, item);//前六项跳网页
-                else switch (position) {
-                    case 6://疯抢榜单
-                        MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
-                        break;
-                    case 7://大额券
-                        goPracticalListFragment(3);
-                        break;
-                    case 8://高佣榜
-                        goPracticalListFragment(5);
-                        break;
-                    case 9://白菜价
-                        goPracticalListFragment(0);
-                        break;
-
-                }
-
-
+        mainMenuAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MenuItem item = (MenuItem) adapter.getItem(position);
+            if (position < 6) goWebView(position, item);//前六项跳网页
+            else switch (position) {
+                case 6://疯抢榜单
+                    MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
+                    break;
+                case 7://大额券
+                    goPracticalListFragment(3);
+                    break;
+                case 8://高佣榜
+                    goPracticalListFragment(5);
+                    break;
+                case 9://白菜价
+                    goPracticalListFragment(0);
+                    break;
             }
         });
     }
 
-    String[] urls = new String[]{
+   private String[] urls = new String[]{
             "https://h5.m.taobao.com",
             "https://chaoshi.m.tmall.com",
             "https://www.tmall.hk",
@@ -276,20 +272,50 @@ public class HomeSelectFragment extends BaseFragment {
         bundle.putString("url", urls[position]);
         goActivity(WebViewShopActivity.class, bundle);
     }
+    //页面停止时，停止banner滚动，降低性能消耗
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (banner!=null)banner.stopAutoPlay();
+        if (bannerMiddle!=null)bannerMiddle.stopAutoPlay();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (banner!=null)banner.startAutoPlay();
+        if (bannerMiddle!=null)bannerMiddle.startAutoPlay();
+    }
 
     /**
      * 1 APP首页顶部轮banner,
      * 2 APP首页中部轮banner
      */
+    OnBannerChangeListener listener;
+    public interface OnBannerChangeListener {
+        void onPageSelected(int position);
+    }
+
+    public void setListener(OnBannerChangeListener listener) {
+        this.listener = listener;
+    }
     private void initBanner() {
         ShopImpl shop = dataProvider.shop;
         BannerUtils.addImageToBanner(_mActivity, shop, 1, banner);
         BannerUtils.addImageToBanner(_mActivity, shop, 2, bannerMiddle);
-    }
 
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        ImmersionBar.with(this).init();
+        banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (listener!=null)listener.onPageSelected(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

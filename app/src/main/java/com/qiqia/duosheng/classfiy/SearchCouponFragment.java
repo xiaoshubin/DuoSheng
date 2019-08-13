@@ -1,22 +1,23 @@
 package com.qiqia.duosheng.classfiy;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseFragment;
 import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.classfiy.adapter.ClassfiyMenuTabAdapter;
-import com.qiqia.duosheng.custom.VerticalViewPager;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.main.bean.Classfiy;
 import com.qiqia.duosheng.search.SearchHistoryFragment;
@@ -27,6 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.SPUtils;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
+import q.rorbin.verticaltablayout.widget.TabView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,7 +54,7 @@ public class SearchCouponFragment extends BaseFragment {
     @BindView(R.id.tab_layout)
     VerticalTabLayout tabLayout;
     @BindView(R.id.view_pager)
-    VerticalViewPager viewPager;
+    ViewPager2 viewPager;
 
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -91,11 +93,42 @@ public class SearchCouponFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classfiys -> {
                     //注意：先关联TabLayout和ViewPager,后设置适配器，避免TabLayout样式丢失
-                    tabLayout.setupWithViewPager(initViewPager(classfiys));
+//                    tabLayout.setupWithViewPager(initViewPager(classfiys));
+                    setupWithViewPager( initViewPager(classfiys),tabLayout);
                     tabLayout.setTabAdapter(new ClassfiyMenuTabAdapter(classfiys));
                 });
 
     }
+
+    public void setupWithViewPager(@Nullable ViewPager2 viewPager, @Nullable VerticalTabLayout tabLayout) {
+        tabLayout.addOnTabSelectedListener(new VerticalTabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabView tab, int position) {
+                if (viewPager != null && viewPager.getAdapter().getItemCount() >= position) {
+                    viewPager.setCurrentItem(position);
+                }
+            }
+            @Override
+            public void onTabReselected(TabView tab, int position) {
+            }
+        });
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.setTabSelected(position,true);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+    }
+
 
 
     @OnClick({R.id.layout_search, R.id.iv_back, R.id.tv_right})
@@ -115,21 +148,40 @@ public class SearchCouponFragment extends BaseFragment {
      * 初始化ViewPager片段数据
      * Classfiy为分类数据对象，每个人不一样，自己定义
      */
-    private ViewPager initViewPager(List<Classfiy> classfiys) {
-        viewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
+    private ViewPager2 initViewPager(List<Classfiy> classfiys) {
+        viewPager.setAdapter(new FragmentStateAdapter(_mActivity) {
+            @NonNull
             @Override
-            public Fragment getItem(int i) {
-                return ClassfiyFragment.newInstance(classfiys.get(i));
+            public Fragment createFragment(int position) {
+                return ClassfiyFragment.newInstance(classfiys.get(position));
             }
+
             @Override
-            public int getCount() {
-                return classfiys.size();
+            public int getItemCount() {
+                 return classfiys.size();
             }
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return classfiys.get(position).getMainName();
-            }
+
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return classfiys.get(position).getMainName();
+//            }
+
         });
+
+//        viewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
+//            @Override
+//            public Fragment getItem(int i) {
+//                return ClassfiyFragment.newInstance(classfiys.get(i));
+//            }
+//            @Override
+//            public int getCount() {
+//                return classfiys.size();
+//            }
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return classfiys.get(position).getMainName();
+//            }
+//        });
         return viewPager;
     }
 

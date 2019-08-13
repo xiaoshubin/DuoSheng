@@ -1,19 +1,19 @@
 package com.qiqia.duosheng.mine;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.ali.auth.third.core.model.Session;
 import com.alibaba.baichuan.android.trade.adapter.login.AlibcLogin;
@@ -21,17 +21,18 @@ import com.alibaba.baichuan.android.trade.callback.AlibcLoginCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.lsxiao.apollo.core.annotations.Receive;
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
-import com.qiqia.duosheng.base.BaseBarFragment;
+import com.qiqia.duosheng.base.BaseBindBarFragment;
 import com.qiqia.duosheng.base.BaseResponse;
-import com.qiqia.duosheng.base.EventStr;
 import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.bean.User;
+import com.qiqia.duosheng.databinding.FragmentSetBinding;
+import com.qiqia.duosheng.dialog.DownloadCircleDialog;
 import com.qiqia.duosheng.login.LoginFragment;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
 import com.qiqia.duosheng.utils.DataLocalUtils;
+import com.qiqia.duosheng.utils.DownloadUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
 import com.smallcake.okhttp.FileRequestBody;
 import com.yanzhenjie.permission.Action;
@@ -42,10 +43,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import cn.com.smallcake_utils.AppUtils;
 import cn.com.smallcake_utils.DataCleanUtil;
 import cn.com.smallcake_utils.FileUtils;
@@ -55,6 +53,8 @@ import cn.com.smallcake_utils.SPUtils;
 import cn.com.smallcake_utils.SdUtils;
 import cn.com.smallcake_utils.ToastUtil;
 import cn.com.smallcake_utils.dialog.BottomMenuDialog;
+import cn.com.smallcake_utils.dialog.CakeResolveDialog;
+import me.jessyan.progressmanager.body.ProgressInfo;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -62,39 +62,16 @@ import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
-public class SetFragment extends BaseBarFragment {
-    @BindView(R.id.iv_head)
-    ImageView ivHead;
-    @BindView(R.id.tv_clean_cache)
-    TextView tvCleanCache;
-    @BindView(R.id.tv_about_us)
-    TextView tvAboutUs;
-    @BindView(R.id.btn_login_out)
-    Button btnLoginOut;
-    @BindView(R.id.tv_nick)
-    TextView tvNick;
-    @BindView(R.id.tv_sex)
-    TextView tvSex;
-    @BindView(R.id.tv_tb_auth_login)
-    TextView tvTbAuthLogin;
-    @BindView(R.id.tv_update_phone)
-    TextView tvUpdatePhone;
-    @BindView(R.id.tv_update_wxkf)
-    TextView tvUpdateWxkf;
-    @BindView(R.id.tv_version_name)
-    TextView tvVersionName;
+public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
+
     AlibcLogin alibcLogin;
     User user;
-    @BindView(R.id.layout_bar)
-    LinearLayout layoutBar;
-    @BindView(R.id.tv_notice)
-    TextView tvNotice;
-    Unbinder unbinder;
-
+    DownloadCircleDialog dialogProgress;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
 //        ImmersionBar.with(this).statusBarColor(R.color.transparent).autoStatusBarDarkModeEnable(true, 0.2f).init();
+        initUser();
     }
 
     public static SetFragment newInstance() {
@@ -114,30 +91,27 @@ public class SetFragment extends BaseBarFragment {
         tvTitle.setText("设置");
         tvTitle.setTextColor(Color.WHITE);
         ivBack.setImageResource(R.mipmap.icon_backwhite);
-        layoutBar.setBackgroundColor(Color.TRANSPARENT);
-
-
-        //初始化个人信息
-        initUser();
+        mBinding.layoutBar.setBackgroundColor(Color.TRANSPARENT);
         //获取缓存大小，清理缓存
         setCacheSize();
         //版本号设置
         String versionName = AppUtils.getVersionName();
-        tvVersionName.setText("版本V" + versionName);
+        mBinding.tvVersionName.setText("版本V" + versionName);
         //淘宝授权信息设置
         alibcLogin = AlibcLogin.getInstance();
-
         if (alibcLogin.isLogin()) {
             Session session = AlibcLogin.getInstance().getSession();
-            tvTbAuthLogin.setText(session.nick);
+            mBinding.tvTbAuthLogin.setText(session.nick);
         }
+        //下载更新
+        dialogProgress = new DownloadCircleDialog(_mActivity);
     }
 
 
     private void setCacheSize() {
         try {
             String totalCacheSize = DataCleanUtil.getTotalCacheSize(_mActivity);
-            tvCleanCache.setText(totalCacheSize);
+            mBinding.tvCleanCache.setText(totalCacheSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,60 +120,38 @@ public class SetFragment extends BaseBarFragment {
     private void initUser() {
         user = DataLocalUtils.getUser();
         if (user == null) return;
-        //1.头像
-        String headimgurl = user.getHeadimgurl();
-        RequestOptions options = new RequestOptions();
-        options.transform(new CircleCrop()).placeholder(R.mipmap.logo).error(R.mipmap.logo);
-        Glide.with(this).load(headimgurl).apply(options).into(ivHead);
-        //2.昵称
-        tvNick.setText(user.getNickname());
-        //3.性别
-        tvSex.setText(user.getSex().equals("0") ? "女" : "男");
-        //4.手机号
-        tvUpdatePhone.setText(user.getPhone());
-        //5.微信客服
-        tvUpdateWxkf.setText(user.getWx());
-
+        mBinding.setItem(user);
     }
 
-    @Receive(EventStr.UPDATE_NICKNAME)
-    public void updateNick(String nick) {
-        tvNick.setText(nick);
-    }
-
-    @Receive(EventStr.UPDATE_PHONE)
-    public void updatePhoneString(String phone) {
-        tvUpdatePhone.setText(phone);
-    }
-
-    @Receive(EventStr.UPDATE_WXKF)
-    public void updateWxkf(String wxkf) {
-        tvUpdateWxkf.setText(wxkf);
-    }
-
-
-    @OnClick({R.id.tv_nick, R.id.tv_update_phone, R.id.tv_update_wxkf, R.id.tv_notice, R.id.tv_tb_auth_login, R.id.btn_login_out, R.id.tv_clean_cache,
-            R.id.tv_about_us, R.id.tv_sex, R.id.iv_head})
+    @OnClick({R.id.layout_nick, R.id.tv_nick, R.id.layout_update_phone, R.id.tv_update_phone, R.id.layout_update_wxkf, R.id.tv_update_wxkf,
+            R.id.tv_notice, R.id.layout_tb_auth_login, R.id.tv_tb_auth_login,
+            R.id.btn_login_out, R.id.layout_clean_cache, R.id.tv_clean_cache, R.id.tv_about_us, R.id.layout_sex, R.id.tv_sex, R.id.iv_head
+            , R.id.layout_version_name, R.id.tv_version_name})
     public void doClicks(View view) {
         switch (view.getId()) {
             case R.id.iv_head:
 //                selectPic();
                 break;
+            case R.id.layout_nick:
             case R.id.tv_nick:
                 start(new UpdateNickNameFragment());
                 break;
+            case R.id.layout_update_phone:
             case R.id.tv_update_phone:
                 start(new UpdatePhoneFragment());
                 break;
+            case R.id.layout_update_wxkf:
             case R.id.tv_update_wxkf:
                 start(new UpdateWxkfFragment());
                 break;
+            case R.id.layout_sex:
             case R.id.tv_sex:
                 showUpdateSexDialog();
                 break;
             case R.id.tv_notice:
                 start(new NoticeSetFragment());
                 break;
+            case R.id.layout_tb_auth_login:
             case R.id.tv_tb_auth_login:
                 tbAuthLogin();
                 break;
@@ -209,15 +161,22 @@ public class SetFragment extends BaseBarFragment {
             case R.id.tv_about_us:
                 start(new AboutUsFragment());
                 break;
+            case R.id.layout_clean_cache:
             case R.id.tv_clean_cache:
-                new XPopup.Builder(getContext()).asConfirm(getString(R.string.app_name), "确认要清除缓存吗？",
-                        () -> {
-                            DataCleanUtil.clearAllCache(getContext());
-                            ToastUtil.showShort("清理成功！");
-                            tvCleanCache.setText("");
-                        })
+                new XPopup.Builder(getContext())
+                        .asConfirm(getString(R.string.app_name), "确认要清除缓存吗？",
+                                () -> {
+                                    DataCleanUtil.clearAllCache(getContext());
+                                    ToastUtil.showShort("清理成功！");
+                                    mBinding.tvCleanCache.setText("");
+                                })
                         .show();
                 break;
+            case R.id.layout_version_name:
+            case R.id.tv_version_name:
+                showNewVersion();
+                break;
+
             default:
                 ToastUtil.showLong("开发中...");
                 break;
@@ -248,18 +207,7 @@ public class SetFragment extends BaseBarFragment {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
-            // 从相册返回的数据
-            if (data != null) {
-                // 得到图片的全路径
-                Uri uri = data.getData();
-                compressPic(uri);
-            }
-        }
-    }
+   
 
     //压缩图片
     private void compressPic(Uri uri) {
@@ -327,7 +275,6 @@ public class SetFragment extends BaseBarFragment {
 
     /**
      * 使用图片上传地址，提交修改头像
-     *
      * @param headPicUrl
      */
     private void updateHead(String headPicUrl) {
@@ -340,7 +287,7 @@ public class SetFragment extends BaseBarFragment {
                         ToastUtil.showLong("修改成功！");
                         RequestOptions options = new RequestOptions();
                         options.transform(new CircleCrop()).placeholder(R.mipmap.logo).error(R.mipmap.logo);
-                        Glide.with(_mActivity).load(headPicUrl).apply(options).into(ivHead);
+                        Glide.with(_mActivity).load(headPicUrl).apply(options).into(mBinding.ivHead);
                     }
 
                 });
@@ -348,12 +295,8 @@ public class SetFragment extends BaseBarFragment {
 
 
     /**
-     * 淘宝授权
-     * 登录成功后可以获取：
-     * nick:昵称
-     * ava 头像 ,
-     * openId,
-     * openSid
+     * 淘宝授权登录成功后可以获取：
+     * nick:昵称ava 头像 ,openId,openSid
      */
     private void tbAuthLogin() {
         if (alibcLogin.isLogin()) {
@@ -363,9 +306,8 @@ public class SetFragment extends BaseBarFragment {
         alibcLogin.showLogin(_mActivity, new AlibcLoginCallback() {
             @Override
             public void onSuccess() {
-//                ToastUtil.showLong("授权成功！");
                 Session session = alibcLogin.getSession();
-                tvTbAuthLogin.setText(session.nick);
+                mBinding.tvTbAuthLogin.setText(session.nick);
                 //获取淘宝用户信息
                 L.e("获取淘宝用户信息: " + session);
             }
@@ -379,6 +321,9 @@ public class SetFragment extends BaseBarFragment {
 
     /**
      * 退出登录
+     * 1.清空user用户数据
+     * 2.主页选中第一项
+     * 3.跳转到登录页面，关闭本Fragment和其基于的Activity
      */
     private void loginOut() {
         new XPopup.Builder(getContext()).asConfirm(getString(R.string.app_name), "确认要退出吗？",
@@ -406,18 +351,11 @@ public class SetFragment extends BaseBarFragment {
     }
 
     private void showUpdateSexDialog() {
-        new BottomMenuDialog.BottomMenuBuilder().addItem("男", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSex("1");
-            }
-        }).addItem("女", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSex("0");
-
-            }
-        }).addItem("取消", null).build().show(this.getFragmentManager());
+        new BottomMenuDialog.BottomMenuBuilder()
+                .addItem("男", v -> updateSex("1"))
+                .addItem("女", v -> updateSex("0"))
+                .addItem("取消", null)
+                .build().show(this.getFragmentManager());
     }
 
     private void updateSex(String sexStr) {
@@ -425,27 +363,108 @@ public class SetFragment extends BaseBarFragment {
                 .subscribe(new OnSuccessAndFailListener<BaseResponse>(dialog) {
                     @Override
                     protected void onSuccess(BaseResponse baseResponse) {
-                        tvSex.setText(sexStr.equals("0") ? "女" : "男");
+                        mBinding.tvSex.setText(sexStr.equals("0") ? "女" : "男");
                         user.setSex(sexStr);
                         DataLocalUtils.saveUser(user);
                         ToastUtil.showLong("修改成功！");
                     }
-
-
                 });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
+    //1.权限申请，通过后开始下载
+    private void showNewVersion() {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
+                .onGranted(data -> {
+                    L.e("以获得权限" + data.toString());
+                    new AlertDialog.Builder(_mActivity).setTitle("软件更新").setMessage("发现新版本")
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                String down_url = "https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk";
+                                downloadApk(_mActivity, down_url);
+                            })
+                            .setNegativeButton("取消",null).show();
+
+                })
+                .onDenied(data -> {
+                    L.e("未获得权限" + data.toString());
+                    new AlertDialog.Builder(_mActivity).setTitle("权限申请").setMessage("更新应用需要存储权限")
+                            .setPositiveButton("去开启", (dialog, which) -> {
+                                AppUtils.goIntentSetting();
+                            })
+                            .setNegativeButton("取消",null).show();
+
+                }).start();
+    }
+    //2.开始下载apk
+    public void downloadApk(final Activity context, String down_url) {
+        dialogProgress.show();
+        DownloadUtils.getInstance().download(down_url, SdUtils.getDownloadPath(), "QQ.apk", new DownloadUtils.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess() {
+                dialogProgress.dismiss();
+                L.i("恭喜你下载成功，开始安装！==" + SdUtils.getDownloadPath() + "QQ.apk");
+                ToastUtil.showShort("恭喜你下载成功，开始安装！");
+                String successDownloadApkPath = SdUtils.getDownloadPath() + "QQ.apk";
+                installApkO(_mActivity, successDownloadApkPath);
+            }
+            @Override
+            public void onDownloading(ProgressInfo progressInfo) {
+                dialogProgress.setProgress(progressInfo.getPercent());
+                boolean finish = progressInfo.isFinish();
+                if (!finish) {
+                    long speed = progressInfo.getSpeed();
+                    dialogProgress.setMsg("(" + (speed > 0 ? FormatUtils.formatSize(context, speed) : speed) + "/s)正在下载...");
+                } else {
+                    dialogProgress.setMsg("下载完成！");
+                }
+            }
+            @Override
+            public void onDownloadFailed() {
+                dialogProgress.dismiss();
+                ToastUtil.showShort("下载失败！");
+            }
+        });
+
+    }
+    // 3.下载成功，开始安装,兼容8.0安装位置来源的权限
+    private void installApkO(Context context, String downloadApkPath) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //是否有安装位置来源的权限
+            boolean haveInstallPermission = _mActivity.getPackageManager().canRequestPackageInstalls();
+            if (haveInstallPermission) {
+                L.i("8.0手机已经拥有安装未知来源应用的权限，直接安装！");
+                AppUtils.installApk(context, downloadApkPath);
+            } else {
+                new CakeResolveDialog(context, "安装应用需要打开安装未知来源应用权限，请去设置中开启权限", new CakeResolveDialog.OnOkListener() {
+                    @Override
+                    public void onOkClick() {
+                        Uri packageUri = Uri.parse("package:"+ AppUtils.getAppPackageName());
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageUri);
+                        startActivityForResult(intent,10086);
+                    }
+                }).show();
+            }
+        } else {
+            AppUtils.installApk(context, downloadApkPath);
+        }
+    }
+    //4.开启了安装未知来源应用权限后，再次进行步骤3的安装。
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10086) {
+            L.i("设置了安装未知应用后的回调。。。");
+            String successDownloadApkPath = SdUtils.getDownloadPath() + "QQ.apk";
+            installApkO(_mActivity, successDownloadApkPath);
+        }else if (requestCode == 2) {
+            // 从相册返回的数据
+            if (data != null) {
+                // 得到图片的全路径
+                Uri uri = data.getData();
+                compressPic(uri);
+            }
+        }
     }
 }

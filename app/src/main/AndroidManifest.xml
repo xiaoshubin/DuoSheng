@@ -12,6 +12,7 @@
     <uses-permission
         android:name="android.permission.WRITE_APN_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".MyApplication"
@@ -23,36 +24,42 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,UnusedAttribute"
         tools:replace="android:allowBackup,android:appComponentFactory"
-        tools:targetApi="n"
-        tools:ignore="AllowBackup,UnusedAttribute">
-        <!--适配华为（huawei）刘海屏-->
-        <meta-data
-            android:name="android.notch_support"
-            android:value="true"/>
-        <!--适配小米（xiaomi）刘海屏-->
-        <meta-data
-            android:name="notch.config"
-            android:value="portrait|landscape" />
-        <activity android:name=".activities.WebViewShopActivity" android:screenOrientation="portrait" />
-        <activity android:name=".activities.WhiteBarActivity" android:screenOrientation="portrait"/>
-        <activity
+        tools:targetApi="n">
+        <activity android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:name=".activities.TransparentBarActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustPan"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 适配华为（huawei）刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
+        <activity
+            android:name=".activities.WebViewShopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WhiteBarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TransparentBarActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan"/>
-        <!-- 微信登录回调页面 -->
+            android:windowSoftInputMode="adjustPan" /> <!-- 微信登录回调页面 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -60,8 +67,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="net.sourceforge.simcpux"
-            android:theme="@style/AppTheme" />
-        <!-- QQ分享回调页面 -->
+            android:theme="@style/AppTheme" /> <!-- QQ分享回调页面 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -74,37 +80,29 @@
 
                 <data android:scheme="tencent1109176982" />
             </intent-filter>
-        </activity>
-        <!-- QQ空间分享 -->
+        </activity> <!-- QQ空间分享 -->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <!-- 阿里百川第三方登录淘宝授权 -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 阿里百川第三方登录淘宝授权 -->
         <activity
             android:name="com.ali.auth.third.ui.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AlibcLoginTheme"
-            tools:replace="android:theme" />
-        <!-- 百川SDK在Android9上需要配置此项 -->
+            tools:replace="android:theme" /> <!-- 百川SDK在Android9上需要配置此项 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!-- Android7 需要通过FileProvider获取图片Uri -->
+            android:required="false" /> <!-- Android7 需要通过FileProvider获取图片Uri -->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepath_data" />
-        </provider>
-
-        <!-- 极光推送服务 开始 -->
-
-
+        </provider> <!-- 极光推送服务 开始 -->
         <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
@@ -116,9 +114,7 @@
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-
-        <!-- Required since 3.0.7 -->
+        </service> <!-- Required since 3.0.7 -->
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
         <!-- 3.3.0开始所有事件将通过该类回调 -->
         <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
@@ -131,8 +127,7 @@
 
                 <category android:name="${applicationId}" />
             </intent-filter>
-        </receiver>
-        <!-- 自定义Receiver 全部类型的广播都接收 -->
+        </receiver> <!-- 自定义Receiver 全部类型的广播都接收 -->
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
@@ -147,11 +142,7 @@
 
                 <category android:name="${applicationId}" />
             </intent-filter>
-        </receiver>
-
-        <!-- 极光推送服务 结束 -->
-
-
+        </receiver> <!-- 极光推送服务 结束 -->
         <!-- 分享辅助服务 -->
         <service
             android:name=".share.utils.ShareAccessibilityService"

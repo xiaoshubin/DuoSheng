@@ -1,8 +1,6 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.qiqia.duosheng.R;
 
 import java.util.ArrayList;
@@ -43,12 +43,7 @@ public class MemberFansSortLinearLayout extends LinearLayout implements View.OnC
         this.listener = listener;
     }
 
-    public interface OnSortClickListener {
-        void onItemClick(int order);
 
-        void onFilterClick(int lowPrice, int highPrice);
-
-    }
 
     private void initView() {
         LayoutInflater.from(this.getContext()).inflate(R.layout.member_fans_sort_layout, this);
@@ -63,19 +58,21 @@ public class MemberFansSortLinearLayout extends LinearLayout implements View.OnC
         layoutPrice.setOnClickListener(this);
         layoutSelect.setOnClickListener(this);
 
-        initFilter();
+//        initFilter();
     }
 
 
     @Override
     public void onClick(View v) {
         if (listener == null) return;
-        cleanStyle();
+
         switch (v.getId()) {
             case R.id.layout_sell:
+                cleanStyle();
                 selectSell();
                 break;
             case R.id.layout_price:
+                cleanStyle();
                 selectPrice();
                 break;
             case R.id.layout_select:
@@ -83,13 +80,26 @@ public class MemberFansSortLinearLayout extends LinearLayout implements View.OnC
                 break;
         }
     }
-
+    /**
+     * 价格区间查询
+     */
     private void selectOrder() {
-        TextView tvName = (TextView) layoutSelect.getChildAt(0);
-        tvName.setTextColor(ContextCompat.getColor(getContext(), R.color.text_black));
-        ImageView ivIcon = (ImageView) layoutSelect.getChildAt(1);
-        ivIcon.setImageResource(selectIcons[2]);
-        if (goodsFilterPop != null) goodsFilterPop.show();
+        new XPopup.Builder(getContext())
+                .hasShadowBg(false)
+                .hasStatusBarShadow(false)
+                .atView(layoutSelect)
+                .offsetY(-8)
+                .isCenterHorizontal(true)
+                .asAttachList(new String[]{"全部", "VIP会员"}, null,
+                        (position, text) -> {
+                            cleanStyle();
+                            TextView tvName = (TextView) layoutSelect.getChildAt(0);
+                            tvName.setTextColor(ContextCompat.getColor(getContext(), R.color.text_black));
+                            ImageView ivIcon = (ImageView) layoutSelect.getChildAt(1);
+                            ivIcon.setImageResource(selectIcons[2]);
+                            ToastUtil.showLong("click " + text);
+                            if (listener != null) listener.onItemClick(position);
+                        }).show();
     }
 
 
@@ -128,26 +138,21 @@ public class MemberFansSortLinearLayout extends LinearLayout implements View.OnC
         layoutPrice.setTag(tag == 1 ? 2 : 1);
     }
 
-    /**
-     * 价格区间查询
-     */
-    private void initFilter() {
-        goodsFilterPop = new XPopup.Builder(getContext())
-                .hasShadowBg(false)
-                .hasStatusBarShadow(false)
-                .atView(layoutSelect)
-                .isCenterHorizontal(true)
-                .asAttachList(new String[]{"全部", "VIP会员"}, null,
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                ToastUtil.showLong("click " + text);
-                                if (listener != null) listener.onItemClick(position);
-                            }
-                        });
 
-
-    }
+//    private void initFilter() {
+//        goodsFilterPop = new XPopup.Builder(getContext())
+//                .hasShadowBg(false)
+//                .hasStatusBarShadow(false)
+//                .atView(layoutSelect)
+//                .isCenterHorizontal(true)
+//                .asAttachList(new String[]{"全部", "VIP会员"}, null,
+//                        (position, text) -> {
+//                            ToastUtil.showLong("click " + text);
+//                            if (listener != null) listener.onItemClick(position);
+//                        });
+//
+//
+//    }
 
 
     public MemberFansSortLinearLayout(Context context, @Nullable AttributeSet attrs) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,15 +9,15 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     app:contentScrim="?attr/colorAccent">
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:background="?attr/colorAccent"
+        android:background="#F6412D"
         >
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:background="#F6412D"
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
@@ -169,13 +169,13 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_search"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 app:contentInsetStart="0dp" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
         <!--顶部Tab分类栏-->
         <LinearLayout
             android:padding="6dp"
@@ -201,13 +201,13 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/icon_white_arr_down" />
         </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
     <!-- 底部广告栏 -->
     <TextView
         android:id="@+id/tv_index_ad"
@@ -234,4 +234,4 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,14 +1,14 @@
 package com.qiqia.duosheng.main;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseFragment;
@@ -27,8 +27,8 @@ public class ItemPracticalListFragment extends BaseFragment implements SwipeRefr
     RecyclerView recyclerView;
     @BindView(R.id.refresh)
     SwipeRefreshLayout refresh;
-    RankingGoodsAdapter mAdapter = new RankingGoodsAdapter();
-    int type = 1, page = 1, cid,sort,startPrice,endPrice;
+    private RankingGoodsAdapter mAdapter = new RankingGoodsAdapter(false);
+    private int type = 1, page = 1, cid,sort,startPrice,endPrice;
 
     public static ItemPracticalListFragment newInstance(int type,int cid, int sort) {
         Bundle args = new Bundle();
@@ -58,6 +58,7 @@ public class ItemPracticalListFragment extends BaseFragment implements SwipeRefr
         refresh.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerView.setAdapter(mAdapter);
+        assert getArguments() != null;
         type = getArguments().getInt("type");
         cid = getArguments().getInt("cid");
         sort = getArguments().getInt("sort");
@@ -68,19 +69,11 @@ public class ItemPracticalListFragment extends BaseFragment implements SwipeRefr
 
     private void onEvent() {
         //精选商品
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToActivity(item);
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            GoodsInfo item = (GoodsInfo) adapter.getItem(position);
+            goGoodsInfoFragmentByActivity(item);
         });
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                getRankingData();
-            }
-        }, recyclerView);
+        mAdapter.setOnLoadMoreListener(this::getRankingData, recyclerView);
 
     }
     private void getRankingData() {
@@ -106,16 +99,15 @@ public class ItemPracticalListFragment extends BaseFragment implements SwipeRefr
     }
 
     /**
-     * 外层筛选回调
-     * @param sort
+     * @param sort 外层筛选回调
      */
-    public void onRefreshByFilter(int sort) {
+     void onRefreshByFilter(int sort) {
         this.sort = sort;
         page = 1;
         mAdapter.setNewData(null);
         getRankingData();
     }
-    public void onRefreshByFilter(int startPrice,int endPrice) {
+     void onRefreshByFilter(int startPrice,int endPrice) {
         this.startPrice = startPrice;
         this.endPrice = endPrice;
         page = 1;

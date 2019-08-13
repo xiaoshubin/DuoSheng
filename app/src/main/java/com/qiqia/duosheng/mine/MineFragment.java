@@ -1,13 +1,14 @@
 package com.qiqia.duosheng.mine;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -121,9 +122,8 @@ public class MineFragment extends BaseFragment {
             tvNickname.setText(user.getNickname());
             tvInviteCode.setText(user.getSuperCode());
             String headimgurl = user.getHeadimgurl();
-            RequestOptions options = new RequestOptions();
-            options.transform(new CircleCrop()).placeholder(R.mipmap.logo).error(R.mipmap.logo);
-            Glide.with(this).load(headimgurl).apply(options).into(ivHead);
+
+            Glide.with(this).load(headimgurl).apply(new RequestOptions().transform(new CircleCrop()).placeholder(R.mipmap.logo).error(R.mipmap.logo)).into(ivHead);
             int level = user.getLevel();
             int levelRes = IdentifierUtils.getMipmapResourceID("vip_level_" + level);
             ivLevel.setImageResource(levelRes);

@@ -17,6 +17,7 @@ import com.qiqia.duosheng.mine.NoticeSetFragment;
 import com.qiqia.duosheng.mine.SetFragment;
 import com.qiqia.duosheng.mine.VipUpgradeFragment;
 import com.qiqia.duosheng.search.GoodsInfoFragment;
+import com.qiqia.duosheng.search.GoodsInfoFragment2;
 import com.qiqia.duosheng.search.SearchFragment;
 import com.qiqia.duosheng.search.SearchHistoryFragment;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
@@ -59,6 +60,11 @@ public class WhiteBarActivity extends BaseActivity {
                 String id = intent.getStringExtra("id");
                 GoodsInfo goodsInfo = (GoodsInfo) intent.getSerializableExtra("goodsInfo");
                 loadFragment(TextUtils.isEmpty(id)?GoodsInfoFragment.newInstance(goodsInfo):GoodsInfoFragment.newInstance(id));
+                break;
+            case "GoodsInfoFragment2":
+                String id2 = intent.getStringExtra("id");
+                GoodsInfo goodsInfo2 = (GoodsInfo) intent.getSerializableExtra("goodsInfo");
+                loadFragment(TextUtils.isEmpty(id2)? GoodsInfoFragment2.newInstance(goodsInfo2):GoodsInfoFragment2.newInstance(id2));
                 break;
             case "VipUpgradeFragment":
                 loadFragment(VipUpgradeFragment.newInstance());

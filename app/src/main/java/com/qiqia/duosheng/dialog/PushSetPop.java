@@ -2,7 +2,7 @@ package com.qiqia.duosheng.dialog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.qiqia.duosheng.R;

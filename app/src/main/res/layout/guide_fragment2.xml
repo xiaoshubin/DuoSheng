@@ -1,58 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginRight="49dp"
-        android:layout_above="@+id/layout_bottom"
-        android:background="@mipmap/play_video_bg"
+
+    <VideoView
+        android:id="@+id/video_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <VideoView
-            android:background="@color/transparent"
-            android:id="@+id/video_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:src="@mipmap/play_video_bg"
-            android:id="@+id/iv_first_bit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_play_again"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:paddingBottom="8dp"
-        android:id="@+id/layout_bottom"
-        android:layout_marginRight="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="56dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:textColor="@color/orangered"
-            android:background="@drawable/round_orange_rim_white_bg"
-            android:id="@+id/btn_play_again"
-            style="@style/DefaultOrangeButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="重新播放"
-            />
-        <Button
-            android:layout_marginLeft="32dp"
-            android:id="@+id/btn_start_use"
-            style="@style/DefaultOrangeButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="立即体验"
-            />
-    </LinearLayout>
+    <ImageView
+        android:background="@color/white"
+        android:id="@+id/iv_first_bit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_play_again"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/iv_play"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="32dp"
+        android:src="@mipmap/icon_play_btn"
+        app:layout_constraintBottom_toTopOf="@+id/btn_play_again"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+
+    <Button
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:id="@+id/btn_play_again"
+        style="@style/DefaultOrangeButton"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/round_orange_rim_white_bg"
+        android:text="重新播放"
+        android:textColor="@color/orangered"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_start_use"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <Button
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:id="@+id/btn_start_use"
+        style="@style/DefaultOrangeButton"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:text="立即体验"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/btn_play_again"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        tools:layout_constraintHorizontal_weight="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 package com.qiqia.duosheng.search.adapter;
 
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiqia.duosheng.R;

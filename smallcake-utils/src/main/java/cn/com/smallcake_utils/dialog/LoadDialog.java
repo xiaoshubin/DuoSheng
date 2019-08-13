@@ -1,6 +1,6 @@
 package cn.com.smallcake_utils.dialog;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,14 +9,14 @@ import android.widget.TextView;
 import cn.com.smallcake_utils.R;
 
 
-public class LoadDialog extends Dialog {
+public class LoadDialog extends AlertDialog {
 	String text;
 	public LoadDialog(Context context, String text) {
 		super(context, R.style.Theme_Loading_Dialog);
 		this.text = text;
 	}
 	public LoadDialog(Context context) {
-		super(context, R.style.Theme_Loading_Dialog);
+		super(context,R.style.Theme_Loading_Dialog);
 	}
 
 	public void setText(String text) {

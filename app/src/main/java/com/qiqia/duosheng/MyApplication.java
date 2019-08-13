@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-import android.support.annotation.RequiresApi;
-import android.support.multidex.MultiDex;
+
+import androidx.multidex.MultiDex;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
@@ -25,41 +25,33 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MyApplication extends Application {
     public static boolean isRunInBackground=true;//首次从后台进入
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
         super.onCreate();
-        SmallUtils.init(this);
-        RetrofitHttp.init(this, Contants.BASE_URL);
-        Apollo.init(AndroidSchedulers.mainThread(), this);
-
-        JPushInterface.init(this);
-        JPushInterface.setDebugMode(BuildConfig.DEBUG);
-
 //        Fragmentation.builder()
 //                .stackViewMode(Fragmentation.BUBBLE)
 //                .debug(BuildConfig.DEBUG)
 //             .install();
 
-        LitePal.initialize(this);
-        //阿里百川：淘宝授权，跳淘宝购买，领券，
-        initAliBc();
         //前台监听：对当前应用生命周期的监听，方便知道应用在前台还是后台，以此来确定是否需要智能搜索
-        OnFrontUtil.listenOnFront(this, new OnFrontUtil.OnFrontCallback() {
-            @Override
-            public void onFront() {
-                //数据上报，App回到前台
-                L.e("App回到前台");
-                isRunInBackground=true;
+        OnFrontUtil.listenOnFront(this,() ->isRunInBackground=true);
+        new Thread(() -> {
+            SmallUtils.init(this);
+            RetrofitHttp.init(this, Contants.BASE_URL);
+            Apollo.init(AndroidSchedulers.mainThread(), this);
+
+            JPushInterface.init(MyApplication.this);
+            JPushInterface.setDebugMode(BuildConfig.DEBUG);
+            LitePal.initialize(MyApplication.this);
+            //阿里百川：淘宝授权，跳淘宝购买，领券，
+            initAliBc();
+            // android 7.0系统解决拍照的问题
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                builder.detectFileUriExposure();
             }
-        });
-
-        // android 7.0系统解决拍照的问题
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
-
+        }).start();
     }
 
     private void initAliBc() {

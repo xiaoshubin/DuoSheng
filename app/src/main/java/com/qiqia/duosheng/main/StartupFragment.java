@@ -36,6 +36,6 @@ public class StartupFragment extends BaseFragment {
                 startActivity(new Intent(_mActivity, MainActivity.class));
                 _mActivity.finish();
             }
-        },800);
+        },3000);
     }
 }

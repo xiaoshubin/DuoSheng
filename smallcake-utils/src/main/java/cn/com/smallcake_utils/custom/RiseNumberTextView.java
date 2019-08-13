@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
  * 可以滚动的数字，例如资金，从0变幻为8888的动画效果
  */
 
-public class RiseNumberTextView extends android.support.v7.widget.AppCompatTextView implements RiseNumberBase{
+public class RiseNumberTextView extends androidx.appcompat.widget.AppCompatTextView implements RiseNumberBase{
     private static final int STOPPED = 0;
 
     private static final int RUNNING = 1;

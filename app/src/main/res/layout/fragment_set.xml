@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.bean.User" />
+    </data>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,13 +20,13 @@
             android:layout_height="168dp"
             android:background="@drawable/orangered_top_bg"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:behavior_overlapTop="80dp"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,11 +47,12 @@
                     android:background="@drawable/round9_white_bg"></LinearLayout>
 
                 <ImageView
+                    imageCircleUrl="@{item.headimgurl}"
                     android:id="@+id/iv_head"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/logo" />
+                    android:src="@mipmap/logo"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -71,6 +76,7 @@
                 android:padding="16dp">
 
                 <LinearLayout
+                    android:id="@+id/layout_nick"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -86,7 +92,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:text="@{user.nickname}"
+                        android:text="@{item.nickname}"
                         android:id="@+id/tv_nick"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/tablayout_height"
@@ -102,6 +108,7 @@
                 <View style="@style/HorizontalLine" />
 
                 <LinearLayout
+                    android:id="@+id/layout_sex"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -123,7 +130,8 @@
                         android:drawableRight="@mipmap/icon_arr"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical|right"
-                        android:text="未设置"
+                        tools:text="未设置"
+                        android:text="@{item.sex.equals(`0`)?`女`:`男`}"
                         android:textColor="@color/text_gray"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -132,6 +140,7 @@
                 <View style="@style/HorizontalLine" />
 
                 <LinearLayout
+                    android:id="@+id/layout_tb_auth_login"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -170,6 +179,7 @@
                 android:padding="16dp">
 
                 <LinearLayout
+                    android:id="@+id/layout_update_phone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -185,6 +195,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:text="@{item.phone}"
                         android:id="@+id/tv_update_phone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/tablayout_height"
@@ -199,6 +210,7 @@
                 <View style="@style/HorizontalLine" />
 
                 <LinearLayout
+                    android:id="@+id/layout_update_wxkf"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -214,6 +226,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:text="@{item.wx}"
                         android:id="@+id/tv_update_wxkf"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/tablayout_height"
@@ -251,6 +264,7 @@
                 <View style="@style/HorizontalLine" />
 
                 <LinearLayout
+                    android:id="@+id/layout_clean_cache"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -294,6 +308,7 @@
                 <View style="@style/HorizontalLine" />
 
                 <LinearLayout
+                    android:id="@+id/layout_version_name"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tablayout_height"
                     android:orientation="horizontal">
@@ -327,7 +342,7 @@
                 android:layout_margin="16dp"
                 android:text="退出登录" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/layout_bar"
@@ -393,4 +408,5 @@
                 tools:visibility="visible" />
         </RelativeLayout>
     </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

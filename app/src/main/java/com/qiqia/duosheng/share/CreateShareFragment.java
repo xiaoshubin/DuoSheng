@@ -8,9 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -22,6 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -98,7 +100,7 @@ public class CreateShareFragment extends BaseBarFragment {
     @BindView(R.id.tv_qzone)
     TextView tvQzone;
     @BindView(R.id.layout_img)
-    LinearLayout layoutImg;
+    ConstraintLayout layoutImg;
 
     String commision;//预估收益
     String down_link;//下载链接
@@ -308,7 +310,10 @@ public class CreateShareFragment extends BaseBarFragment {
                 for (int i = 0; i < layoutImgs.getChildCount(); i++) {
                     RelativeLayout relativeLayout = (RelativeLayout) layoutImgs.getChildAt(i);
                     ImageView  childAt = (ImageView) relativeLayout.getChildAt(0);
-                    Bitmap bm = ((BitmapDrawable) childAt.getDrawable()).getBitmap();
+                    BitmapDrawable drawable = (BitmapDrawable) childAt.getDrawable();
+                    Bitmap bm = null;
+                    if (drawable!=null)bm = drawable.getBitmap();
+//                    else bm = BitmapFactory.decodeResource(getResources(),R.mipmap.logo);
                     bitmaps.add(bm);
                 }
                 showPics(layoutImgs,bitmaps,ivIcon,position);

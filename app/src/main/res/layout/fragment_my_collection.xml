@@ -8,7 +8,7 @@
 
     <include layout="@layout/action_common_bar" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -20,7 +20,7 @@
         android:layout_height="@dimen/head_line_height"
         android:visibility="gone"
         tools:visibility="visible">
-
+        <View style="@style/HorizontalLine"/>
         <RadioButton
             android:id="@+id/rb_select_all"
             android:layout_width="wrap_content"

@@ -9,11 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lsxiao.apollo.core.Apollo;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;
 import com.qiqia.duosheng.base.BaseResponse;
-import com.qiqia.duosheng.base.EventStr;
 import com.qiqia.duosheng.bean.User;
 import com.qiqia.duosheng.custom.TimeCount;
 import com.qiqia.duosheng.utils.DataLocalUtils;
@@ -52,13 +50,6 @@ public class UpdatePhoneFragment extends BaseBarFragment {
         if (user == null) return;
         etPhone.setText(user.getPhone());
     }
-
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-//        ImmersionBar.with(this).statusBarColor(R.color.white).autoStatusBarDarkModeEnable(true, 0.2f).init();
-    }
-
     @OnClick({R.id.btn_confirm, R.id.tv_get_code, R.id.iv_clean})
     public void doClicks(View view) {
         switch (view.getId()) {
@@ -85,7 +76,6 @@ public class UpdatePhoneFragment extends BaseBarFragment {
                         ToastUtil.showLong("修改成功！");
                         user.setPhone(phone);
                         DataLocalUtils.saveUser(user);
-                        Apollo.emit(EventStr.UPDATE_PHONE, phone);
                         pop();
                     }
 

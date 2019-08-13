@@ -3,12 +3,14 @@ package com.qiqia.duosheng.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.lsxiao.apollo.core.Apollo;
 import com.lsxiao.apollo.core.contract.ApolloBinder;
 import com.qiqia.duosheng.activities.TransparentBarActivity;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
+import com.qiqia.duosheng.dialog.LoadImgDialog;
 import com.qiqia.duosheng.inject.DaggerCommonComponent;
 import com.qiqia.duosheng.inject.DataProvider;
 import com.qiqia.duosheng.inject.NetWorkMoudle;
@@ -19,7 +21,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import cn.com.smallcake_utils.ActivityCollector;
-import cn.com.smallcake_utils.dialog.LoadDialog;
 import me.yokeyword.fragmentation.SupportActivity;
 
 public class BaseActivity extends SupportActivity {
@@ -27,7 +28,7 @@ public class BaseActivity extends SupportActivity {
     protected DataProvider dataProvider;
     private ApolloBinder apolloBinder;//事件通知
     @Inject
-    protected LoadDialog dialog;//加载圈
+    protected LoadImgDialog dialog;//加载圈
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);

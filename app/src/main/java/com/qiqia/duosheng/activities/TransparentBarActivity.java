@@ -22,7 +22,6 @@ import com.qiqia.duosheng.mine.SetFragment;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
 import com.qiqia.duosheng.share.CreateShareFragment;
 
-import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -30,21 +29,12 @@ import me.yokeyword.fragmentation.SupportFragment;
  * 不传LOAD_FRAGMENT默认为搜索历史页面
  */
 public class TransparentBarActivity extends BaseActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_white_bar);
-        ButterKnife.bind(this);
         ImmersionBar.with(this).statusBarColor(R.color.transparent).autoStatusBarDarkModeEnable(true,0.2f).init();
         loadFragmentByType();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     private void loadFragmentByType() {

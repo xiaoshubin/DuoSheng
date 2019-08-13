@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 
-public class RollTextView extends android.support.v7.widget.AppCompatTextView {
+public class RollTextView extends androidx.appcompat.widget.AppCompatTextView {
     public RollTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

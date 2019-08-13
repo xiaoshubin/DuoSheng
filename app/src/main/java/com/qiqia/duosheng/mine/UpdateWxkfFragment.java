@@ -7,11 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.lsxiao.apollo.core.Apollo;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;
 import com.qiqia.duosheng.base.BaseResponse;
-import com.qiqia.duosheng.base.EventStr;
 import com.qiqia.duosheng.bean.User;
 import com.qiqia.duosheng.utils.DataLocalUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
@@ -62,7 +60,6 @@ public class UpdateWxkfFragment extends BaseBarFragment {
                         ToastUtil.showLong("修改成功！");
                         user.setWx(wxkf);
                         DataLocalUtils.saveUser(user);
-                        Apollo.emit(EventStr.UPDATE_WXKF,wxkf);
                         pop();
                     }
 

@@ -6,7 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
+import android.provider.Settings;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -124,6 +125,17 @@ public class AppUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void goIntentSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", SmallUtils.getApp().getPackageName(), null);
+        intent.setData(uri);
+        try {
+            SmallUtils.getApp().startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

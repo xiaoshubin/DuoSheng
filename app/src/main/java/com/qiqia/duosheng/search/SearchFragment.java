@@ -2,15 +2,16 @@ package com.qiqia.duosheng.search;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiqia.duosheng.R;
@@ -20,6 +21,7 @@ import com.qiqia.duosheng.bean.GoodsList;
 import com.qiqia.duosheng.bean.GoodsListAll;
 import com.qiqia.duosheng.bean.SearchKey;
 import com.qiqia.duosheng.custom.GoodsSortLinearLayout;
+import com.qiqia.duosheng.custom.OnSortClickListener;
 import com.qiqia.duosheng.search.adapter.GoodsHAdapter;
 import com.qiqia.duosheng.search.adapter.GoodsVAdapter;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
@@ -31,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.L;
+import cn.com.smallcake_utils.S;
 import cn.com.smallcake_utils.TimeUtils;
 import cn.com.smallcake_utils.ToastUtil;
 
@@ -99,7 +102,7 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
 
     private void sortFilterEvent() {
         //筛选条件排序
-        sortLine.setListener(new GoodsSortLinearLayout.OnSortClickListener() {
+        sortLine.setListener(new OnSortClickListener() {
             @Override
             public void onItemClick(int order) {
                 Order = order;
@@ -154,14 +157,14 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToFragment(item);
+                goGoodsInfoFragment(item);
             }
         });
         vAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-                jumpToFragment(item);
+                goGoodsInfoFragment(item);
             }
         });
     }
@@ -260,11 +263,13 @@ public class SearchFragment extends BaseBarFragment implements SwipeRefreshLayou
 
                     @Override
                     protected void onErr(String msg) {
-                        ToastUtil.showShort(msg);
+                       S.showShort(SearchFragment.this.getView(),msg);
+//                        ToastUtil.showShort(msg);
                         L.e("商品搜索错误=="+msg);
                     }
                 });
     }
+
 
     private void showGuide() {
         //新用户引导2.搜索商品列表引导

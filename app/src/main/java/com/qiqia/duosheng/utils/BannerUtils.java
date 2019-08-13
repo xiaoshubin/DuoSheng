@@ -3,10 +3,11 @@ package com.qiqia.duosheng.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.qiqia.duosheng.activities.WebViewShopActivity;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
@@ -16,7 +17,6 @@ import com.qiqia.duosheng.bean.BannerResponse;
 import com.qiqia.duosheng.impl.ShopImpl;
 import com.qiqia.duosheng.search.GoodsInfoFragment;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,26 +75,23 @@ public class BannerUtils {
         banner.setDelayTime(5000);
         banner.setImages(images);
         banner.start();
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                BannerResponse item = datas.get(position);
-                String value = item.getValue();
-                switch (item.getType()){
-                    case 0:
-                        break;
-                    case 1:
-                        goGoodsInfoFragment(activity,value);
-                        break;
-                    case 2:
-                        goWebActivity(activity,item.getTitle(),value);
-                        break;
-                    case 3:
-                        ToastUtil.showLong("专题开发中....");
-                        break;
-                }
-
+        banner.setOnBannerListener(position -> {
+            BannerResponse item = datas.get(position);
+            String value = item.getValue();
+            switch (item.getType()){
+                case 0:
+                    break;
+                case 1:
+                    goGoodsInfoFragment(activity,value);
+                    break;
+                case 2:
+                    goWebActivity(activity,item.getTitle(),value);
+                    break;
+                case 3:
+                    ToastUtil.showLong("专题开发中....");
+                    break;
             }
+
         });
     }
 

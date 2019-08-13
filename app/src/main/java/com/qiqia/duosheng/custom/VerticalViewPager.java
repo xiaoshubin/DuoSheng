@@ -2,7 +2,7 @@ package com.qiqia.duosheng.custom;
 
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -15,7 +15,7 @@ public class VerticalViewPager extends ViewPager {
     }
     public VerticalViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //设置viewpage的切换动画,这里设置才能真正实现垂直滑动的viewpager
+        //设置viewpage的切换动画,这里设置才能真正实现垂直滑动的viewpager的动画
         setPageTransformer(true, new DefaultTransformer());
     }
     /**

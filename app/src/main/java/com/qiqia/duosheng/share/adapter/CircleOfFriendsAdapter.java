@@ -15,6 +15,7 @@ import com.qiqia.duosheng.custom.BigPicPopImageLoader;
 import com.qiqia.duosheng.databinding.ItemCircleOfFriendsBinding;
 import com.qiqia.duosheng.share.bean.ShareList;
 import com.qiqia.duosheng.utils.DataBindBaseViewHolder;
+import com.qiqia.duosheng.utils.ImageBindingAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +70,7 @@ public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean,
             ImageView imageView = (ImageView) layout.getChildAt(i);
             imageView.setVisibility(View.VISIBLE);
             imageView.setLayoutParams(layoutParams);
-            Glide.with(mContext).load(itemPicList.get(i)).into(imageView);
+            Glide.with(mContext).load(itemPicList.get(i)).apply(ImageBindingAdapter.getImgOptions()).into(imageView);
             //点击单张图片进行大图浏览
             int finalI = i;
             imageView.setOnClickListener(v -> showPics(layout, itemPicList, imageView, finalI));

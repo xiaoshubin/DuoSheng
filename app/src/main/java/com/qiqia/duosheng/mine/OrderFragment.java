@@ -1,10 +1,12 @@
 package com.qiqia.duosheng.mine;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.qiqia.duosheng.R;
@@ -26,6 +28,8 @@ import cn.com.smallcake_utils.ToastUtil;
 public class OrderFragment extends BaseBindBarFragment<FragmentOrderBinding> {
 
     OrderAdapter mAdapter;
+    int type;//类型0：我的订单 1：团队订单
+    private int page = 1;
 
     @Override
     public int setLayout() {
@@ -39,14 +43,13 @@ public class OrderFragment extends BaseBindBarFragment<FragmentOrderBinding> {
         ivRight.setVisibility(View.VISIBLE);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mAdapter = new OrderAdapter(getData());
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mBinding.recyclerView.setAdapter(mAdapter);
         String[] names = getResources().getStringArray(R.array.order_tab_names);
         TabCreateUtils.setOrangeTab(this.getContext(), mBinding.magicIndicator, names, index -> ToastUtil.showShort(names[index]));
         initDatePicker();
         onEvent();
     }
-
-    int page = 1;
 
     private void onEvent() {
         mAdapter.setOnLoadMoreListener(() -> {
@@ -60,16 +63,30 @@ public class OrderFragment extends BaseBindBarFragment<FragmentOrderBinding> {
                 } else {
                     mAdapter.loadMoreEnd();
                 }
-            }, 300);
+            }, 800);
 
         }, mBinding.recyclerView);
+        mBinding.radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId){
+                case R.id.rb1:
+                   type=0;
+                    break;
+                case R.id.rb2:
+                    type=1;
+                    break;
+            }
+            page=1;
+            mAdapter.setNewData(getData());
+        });
     }
 
     @NotNull
     private List<OrderBean> getData() {
         List<OrderBean> datas = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            datas.add(new OrderBean());
+        for (int i = 0; i < 10; i++) {
+            OrderBean orderBean = new OrderBean();
+            orderBean.setType(type);
+            datas.add(orderBean);
         }
         return datas;
     }

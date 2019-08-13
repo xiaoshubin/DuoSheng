@@ -1,13 +1,17 @@
 package com.qiqia.duosheng.search;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
@@ -39,9 +43,11 @@ import java.util.Objects;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.SPUtils;
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.SpannableStringUtils;
 import cn.com.smallcake_utils.TimeUtils;
 import cn.com.smallcake_utils.ToastUtil;
+import cn.com.smallcake_utils.popup.GoodView;
 import io.reactivex.Observable;
 
 public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding>{
@@ -89,13 +95,19 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
             initData(goodsInfo);
             isCollect();//直接获取的对象，就需要查询此商品是否已收藏
             //因为没有猜你喜欢内容，故隐藏猜你喜欢部分
-            GuideUtils.showGuide(this, mBinding.layoutCoupon, mBinding.layoutBuy);
             showShareTakeNotieByTime();
             if (!TextUtils.isEmpty(goodsInfo.getItemId()))getGuessLike(goodsInfo.getItemId());//查询此商品对应的猜你喜欢
         } else {//（好单库）如果id有值，就根据id查询商品详情，并根据id查询商品对应的猜你喜欢
             getGoodsInfo(id);//查询商品详情,结果出来后再查询商品id对应的猜你喜欢
         }
         onEvent();
+
+        //是全面屏，设置顶部电量栏高度
+        if (ScreenUtils.isAllScreenDevice(this.getContext())){
+            int statusHeight = ScreenUtils.getStatusHeight();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusHeight);
+            mBinding.viewStatusBar.setLayoutParams(layoutParams);
+        }
 
 
 
@@ -161,7 +173,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         mBinding.tvOwnbuyRecom.setText(SpannableStringUtils.getBuilder(getString(R.string.buy_return)).append(getString(R.string.rmb_symbol)).setProportion(0.6f).append(commission_price).create());
 
         initBanner(goodsInfo);
-        GuideUtils.showGuide(this, mBinding.layoutCoupon, mBinding.layoutBuy);
+        GuideUtils.showGuide(this, mBinding.layoutCouponIn, mBinding.layoutBuy);
 
     }
 
@@ -250,7 +262,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
         //精选商品
         recommandGoodsAdapter.setOnItemClickListener((adapter, view, position) -> {
             GoodsInfo item = (GoodsInfo) adapter.getItem(position);
-            jumpToFragment(item);
+            goGoodsInfoFragment(item);
         });
         //不需要登录也可以返回，单独列出
         mBinding.ivBack.setOnClickListener(v -> popActivity());
@@ -306,6 +318,7 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
             @Override
             protected void onSuccess(BaseResponse stringBaseResponse) {
                 ToastUtil.showShort(stringBaseResponse.getMsg());
+                animCollectColor(0 == goodsInfo.getIsCollect());
                 goodsInfo.setIsCollect(goodsInfo.getIsCollect()==1?0:1);
             }
         });
@@ -331,6 +344,18 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
             return;
         }
         AlibcUtils.openUrlNative(_mActivity, goodsInfo.getCouponLink());
+    }
+
+    private void animCollectColor(boolean isCollect){
+        if (isCollect){
+            GoodView img = new GoodView(_mActivity);
+            img.setImage(R.mipmap.icon_collected);
+            img.show(mBinding.tvCollection);
+        }
+        ObjectAnimator animator = ObjectAnimator.ofInt(mBinding.tvCollection,"textColor", isCollect?0xff707070:0xffFF5836, isCollect?0xffFF5836:0xff707070);
+        animator.setDuration(300);
+        animator.setEvaluator(new ArgbEvaluator());
+        animator.start();
     }
 
     /**

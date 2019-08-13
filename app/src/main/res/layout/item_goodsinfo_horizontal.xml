@@ -9,7 +9,7 @@
             type="com.qiqia.duosheng.search.bean.GoodsInfo" />
     </data>
 
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -167,5 +167,5 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_zk_final_price" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

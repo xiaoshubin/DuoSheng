@@ -2,8 +2,8 @@ package com.qiqia.duosheng.custom;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import android.widget.Button;
 import android.widget.TextView;
 

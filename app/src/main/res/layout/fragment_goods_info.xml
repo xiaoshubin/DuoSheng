@@ -10,14 +10,14 @@
         <import type="cn.com.smallcake_utils.SpannableStringUtils" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:contentScrim="?attr/colorAccent"
             app:elevation="0dp">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                   <!-- banner 和 返回按钮 -->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -159,6 +159,7 @@
                         android:background="@color/white">
 
                         <LinearLayout
+                            android:id="@+id/layout_coupon_in"
                             android:layout_width="match_parent"
                             android:layout_height="82dp"
                             android:layout_marginLeft="8dp"
@@ -269,21 +270,21 @@
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_search"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
                     app:contentInsetStart="0dp" />
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
         <!-- 猜你喜欢商品 -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_recommand"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/head_line_height"
             android:background="@color/bg_gray"
-            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
         <!-- 底部，收藏，分享，自购 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -293,11 +294,12 @@
             android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingTop="4dp"
-            android:paddingRight="4dp"
+            android:paddingRight="16dp"
             android:paddingBottom="4dp"
             app:layout_behavior="com.qiqia.duosheng.custom.BottomTabPinBehavior">
 
             <TextView
+                android:textColor="@color/gray"
                 android:id="@+id/tv_collection"
                 isCollect="@{item.isCollect}"
                 android:layout_width="wrap_content"
@@ -349,37 +351,42 @@
             </LinearLayout>
         </LinearLayout>
         <!-- 顶部，渐显导返回栏 -->
-        <RelativeLayout
+        <LinearLayout
+            android:background="@drawable/bar_gradual_black_bg"
+            android:orientation="vertical"
             android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_bar_height"
-            android:background="@color/white"
+            android:layout_height="wrap_content"
             app:layout_behavior="com.qiqia.duosheng.custom.GoodsInfoTitleBehavior">
+
             <View
-                android:visibility="gone"
                 android:id="@+id/view_status_bar"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/electricity_bar_height"/>
+                android:layout_height="@dimen/electricity_bar_height"
+                android:visibility="visible" />
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <ImageView
-                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
                 android:id="@+id/iv_back_arraw"
                 android:layout_width="40dp"
                 android:layout_height="@dimen/common_bar_height"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:src="@mipmap/icon_back" />
+                android:src="@mipmap/icon_backwhite" />
             <TextView
-                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/common_bar_height"
-                android:layout_toRightOf="@+id/iv_back_arraw"
                 android:gravity="center_vertical"
                 android:text="@{item.shopName}"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

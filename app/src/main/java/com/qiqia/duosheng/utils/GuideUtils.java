@@ -1,9 +1,9 @@
 package com.qiqia.duosheng.utils;
 
-import android.arch.lifecycle.DefaultLifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -51,6 +51,7 @@ public class GuideUtils {
         if (checkFirstCom(SPStr.GUIDE_GOODSINFO_FRAGMENT))return;
         switch (baseFragment.getClass().getSimpleName()){
             case "GoodsInfoFragment":
+            case "GoodsInfoFragment2":
                 layoutListener(baseFragment,view,view2);
                 break;
         }
@@ -195,12 +196,9 @@ public class GuideUtils {
 
 
 
-        fragmentComponent.setListener(new OnComponentClickListener(){
-            @Override
-            public void onClick() {
-                finalGuide1.dismiss();
-                SPUtils.put(SPStr.GUIDE_GOODSINFO_FRAGMENT, 1);
-            }
+        fragmentComponent.setListener(() -> {
+            finalGuide1.dismiss();
+            SPUtils.put(SPStr.GUIDE_GOODSINFO_FRAGMENT, 1);
         });
 
 

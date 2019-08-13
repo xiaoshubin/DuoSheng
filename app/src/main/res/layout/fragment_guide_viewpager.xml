@@ -1,59 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<android.support.v4.view.ViewPager
-    android:id="@+id/view_pager_guide"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
 
-    <!--<android.support.design.widget.TabLayout-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--app:tabPaddingStart="0dp"-->
-        <!--app:tabPaddingEnd="0dp"-->
-        <!--app:tabMaxWidth="30dp"-->
-        <!--android:id="@+id/tab_layout_guide"-->
-        <!--app:tabMode="scrollable"-->
-        <!--style="@style/GuideTabLayout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<android.support.design.widget.TabItem-->
-            <!--android:text="●"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-        <!--<android.support.design.widget.TabItem-->
-
-            <!--android:text="●"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-    <!--</android.support.design.widget.TabLayout>-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:padding="16dp"
         android:id="@+id/layout_indicator"
-        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.3">
+
         <TextView
-            android:textSize="12sp"
-            android:textColor="#FDB657"
-            android:text="●"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="●"
+            android:textColor="@color/tab_orange"
+            android:textSize="12sp" />
+
         <TextView
-            android:textSize="12sp"
-            android:textColor="#FDB657"
-            android:alpha="0.4"
-            android:layout_marginLeft="16dp"
-            android:text="●"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:alpha="0.3"
+            android:text="●"
+            android:textColor="@color/tab_orange"
+            android:textSize="12sp" />
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

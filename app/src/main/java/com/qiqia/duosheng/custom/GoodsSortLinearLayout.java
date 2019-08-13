@@ -1,14 +1,15 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -38,11 +39,6 @@ public class GoodsSortLinearLayout extends LinearLayout implements View.OnClickL
     public void setListener(OnSortClickListener listener) {
         this.listener = listener;
     }
-    public interface OnSortClickListener{
-        void onItemClick(int order);
-        void onFilterClick(int lowPrice, int highPrice);
-
-    }
 
     private void initView() {
         LayoutInflater.from(this.getContext()).inflate(R.layout.goods_sort_layout,this);
@@ -68,15 +64,16 @@ public class GoodsSortLinearLayout extends LinearLayout implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (listener==null)return;
-        cleanStyle();
         switch (v.getId()){
             case R.id.layout_com:
                 if (comPopupView!=null)comPopupView.show();
                 break;
             case R.id.layout_sell:
+                cleanStyle();
                 selectSell();
                 break;
             case R.id.layout_price:
+                cleanStyle();
                 selectPrice();
                 break;
             case R.id.layout_select:
@@ -89,36 +86,30 @@ public class GoodsSortLinearLayout extends LinearLayout implements View.OnClickL
      * 综合选择项
      */
     private void initCom() {
-        TextView tvName = (TextView) layoutCom.getChildAt(0);
-        tvName.setTextColor(ContextCompat.getColor(getContext(),R.color.text_black));
-        ImageView ivIcon = (ImageView) layoutCom.getChildAt(1);
-        ivIcon.setImageResource(selectIcons[0]);
         ComprehensivePopWindow comprehensivePopWindow = new ComprehensivePopWindow(this.getContext());
-        comprehensivePopWindow.setListener(new ComprehensivePopWindow.OnComListener() {
-            @Override
-            public void onItemChecked(int position) {
-                TextView tvName = (TextView) layoutCom.getChildAt(0);
-                tvName.setTextColor(ContextCompat.getColor(getContext(),R.color.text_black));
-                ImageView ivIcon = (ImageView) layoutCom.getChildAt(1);
-                ivIcon.setImageResource(selectIcons[0]);
-                if (listener!=null){
-                    switch (position){
-                        case 0://综合，默认
-                            listener.onItemClick(14);
-                            break;
-                        case 1://佣金比例从高到低
-                            listener.onItemClick(5);
-                            break;
-                        case 2://佣金比例从低到高
-                            listener.onItemClick(8);
-                            break;
-                    }
-
+        comprehensivePopWindow.setListener(position -> {
+            cleanStyle();
+            TextView tvName = (TextView) layoutCom.getChildAt(0);
+            tvName.setTextColor(ContextCompat.getColor(getContext(),R.color.text_black));
+            ImageView ivIcon = (ImageView) layoutCom.getChildAt(1);
+            ivIcon.setImageResource(selectIcons[0]);
+            if (listener!=null){
+                switch (position){
+                    case 0://综合，默认
+                        listener.onItemClick(14);
+                        break;
+                    case 1://佣金比例从高到低
+                        listener.onItemClick(5);
+                        break;
+                    case 2://佣金比例从低到高
+                        listener.onItemClick(8);
+                        break;
                 }
+
             }
         });
-         comPopupView = new XPopup.Builder(getContext())
-                .atView(this)
+        comPopupView = new XPopup.Builder(getContext())
+                .atView(GoodsSortLinearLayout.this)
                 .asCustom(comprehensivePopWindow);
     }
 
@@ -161,17 +152,14 @@ public class GoodsSortLinearLayout extends LinearLayout implements View.OnClickL
      * 价格区间查询
      */
     private void initFilter() {
-
         GoodsFilterPopWindow goodsFilterPopWindow = new GoodsFilterPopWindow(getContext());
-        goodsFilterPopWindow.setListener(new GoodsFilterPopWindow.OnFilterListener() {
-            @Override
-            public void onFilterConfirm(int lowPrice, int highPrice) {
-                TextView tvName = (TextView) layoutSelect.getChildAt(0);
-                tvName.setTextColor(ContextCompat.getColor(getContext(),R.color.text_black));
-                ImageView ivIcon = (ImageView) layoutSelect.getChildAt(1);
-                ivIcon.setImageResource(selectIcons[3]);
-                if (listener!=null)listener.onFilterClick(lowPrice,highPrice);
-            }
+        goodsFilterPopWindow.setListener((lowPrice, highPrice) -> {
+            cleanStyle();
+            TextView tvName = (TextView) layoutSelect.getChildAt(0);
+            tvName.setTextColor(ContextCompat.getColor(getContext(),R.color.text_black));
+            ImageView ivIcon = (ImageView) layoutSelect.getChildAt(1);
+            ivIcon.setImageResource(selectIcons[3]);
+            if (listener!=null)listener.onFilterClick(lowPrice,highPrice);
         });
          goodsFilterPop = new XPopup.Builder(getContext())
                 .atView(this)

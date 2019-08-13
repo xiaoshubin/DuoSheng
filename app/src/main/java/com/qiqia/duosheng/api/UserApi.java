@@ -29,7 +29,13 @@ public interface UserApi {
 
     /**
      * uid int是用户id
-     * type int是修改的类型，默认为0。 0：用户名 1：性别 2：头像 3：客服微信
+     *
+     * type int是修改的类型，默认为0。
+     * 0：用户名
+     * 1：性别
+     * 2：头像
+     * 3：客服微信
+     *
      * value string是修改的值
      * token string是用户token
      *

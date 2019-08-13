@@ -2,17 +2,19 @@ package com.qiqia.duosheng.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.lsxiao.apollo.core.Apollo;
 import com.lsxiao.apollo.core.contract.ApolloBinder;
 import com.qiqia.duosheng.activities.TransparentBarActivity;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
+import com.qiqia.duosheng.dialog.LoadImgDialog;
 import com.qiqia.duosheng.inject.DaggerCommonComponent;
 import com.qiqia.duosheng.inject.DataProvider;
 import com.qiqia.duosheng.inject.NetWorkMoudle;
@@ -28,7 +30,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.com.smallcake_utils.SoftInputUtils;
-import cn.com.smallcake_utils.dialog.LoadDialog;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
 public abstract class BaseFragment extends SwipeBackFragment {
@@ -37,7 +38,7 @@ public abstract class BaseFragment extends SwipeBackFragment {
     protected DataProvider dataProvider;//请求接口资源提供者
     private ApolloBinder apolloBinder;//事件通知
     @Inject
-    protected LoadDialog dialog;//加载圈
+    protected LoadImgDialog dialog;//加载圈
 
     public abstract int setLayout();
 
@@ -118,17 +119,21 @@ public abstract class BaseFragment extends SwipeBackFragment {
      }
 
     /**
-     * 跳转到商品详情页
+     * 跳转到商品详情页(通过ID)
      * @param id
      */
     protected void goGoodsInfoFragment(String id){
          Intent intent = new Intent(_mActivity, WhiteBarActivity.class);
-         intent.putExtra(Contants.LOAD_FRAGMENT,GoodsInfoFragment.class.getSimpleName());
+         intent.putExtra(Contants.LOAD_FRAGMENT, GoodsInfoFragment.class.getSimpleName());
          intent.putExtra("id",id);
          startActivity(intent);
      }
-
-    protected  void jumpToFragment( GoodsInfo item) {
+    /**
+     * 跳转到商品详情页(通过商品实体类)
+     * 如果有couponInfo：就判定为【好单库商品】，可以通过id来查询商品详情
+     * 否则为【全网商品】，直接使用此对象
+     */
+    protected  void goGoodsInfoFragment(GoodsInfo item) {
         String couponInfo = item.getCouponInfo();
         if (TextUtils.isEmpty(couponInfo)){
            start(GoodsInfoFragment.newInstance(item.getItemId()));
@@ -136,24 +141,18 @@ public abstract class BaseFragment extends SwipeBackFragment {
            start(GoodsInfoFragment.newInstance(item));
         }
     }
-
     /**
+     * 跳转到商品详情页(通过商品实体类，并走Activity)
      * 类型 默认0  0：好单库 1：淘宝全网
-     * @param item
+     * 如果有couponInfo：就判定为【好单库商品】，可以通过id来查询商品详情
+     * 否则为【全网商品】，直接使用此对象
      */
-    protected  void jumpToFragmentByType(GoodsInfo item) {
-        int type = item.getType();
-        start(type==0?GoodsInfoFragment.newInstance(item.getItemId()):GoodsInfoFragment.newInstance(item));
-    }
-    protected  void jumpToActivity(GoodsInfo item) {
+    protected  void goGoodsInfoFragmentByActivity(GoodsInfo item) {
         String couponInfo = item.getCouponInfo();
         Intent intent = new Intent(_mActivity, WhiteBarActivity.class);
         intent.putExtra(Contants.LOAD_FRAGMENT,GoodsInfoFragment.class.getSimpleName());
-        if (TextUtils.isEmpty(couponInfo)){
-            intent.putExtra("id",item.getItemId());
-        }else {
-            intent.putExtra("goodsInfo",item);
-        }
+        if (TextUtils.isEmpty(couponInfo)) intent.putExtra("id",item.getItemId());
+        else intent.putExtra("goodsInfo",item);
         startActivity(intent);
     }
 

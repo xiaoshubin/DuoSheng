@@ -1,9 +1,9 @@
 package com.qiqia.duosheng.search.bean;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.qiqia.duosheng.BR;
 
 import java.io.Serializable;
 import java.util.List;
@@ -76,15 +76,15 @@ public class GoodsInfo extends BaseObservable implements Serializable {
     @Bindable
     public int isCollect;//0未收藏 1已收藏
     //收藏列表，判定全网或好单库
-    private int type;
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
+//    private int type;
+//
+//    public int getType() {
+//        return type;
+//    }
+//
+//    public void setType(int type) {
+//        this.type = type;
+//    }
 
     public int getIsCollect() {
         return isCollect;

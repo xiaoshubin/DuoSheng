@@ -4,23 +4,23 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
 import com.qiqia.duosheng.base.BaseFragment;
@@ -43,15 +43,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.com.smallcake_utils.DpPxUtils;
+import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.SPUtils;
+import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.TimeUtils;
 import cn.com.smallcake_utils.ToastUtil;
+import hugo.weaving.DebugLog;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnBannerChangeListener{
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.iv_show_all_type)
@@ -77,11 +79,17 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.magic_indicator)
     MagicIndicator magicIndicator;
 
+    private List<Classfiy> allClassfiys;//所有分类：包含精选和全部，的弹出pop窗口数据
+
+
+    @Override
+    public int setLayout() {
+        return R.layout.fragment_home;
+    }
     public void onSupportVisible() {
         super.onSupportVisible();
         ImmersionBar.with(this).statusBarColor(R.color.transparent).autoDarkModeEnable(true).init();
     }
-
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
@@ -90,12 +98,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public int setLayout() {
-        return R.layout.fragment_home;
-    }
-
-    @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
+        //是全面屏，设置顶部电量栏高度
+        if (ScreenUtils.isAllScreenDevice(this.getContext())) {
+            int statusHeight = ScreenUtils.getStatusHeight();
+            CollapsingToolbarLayout.LayoutParams layoutParams = new CollapsingToolbarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusHeight);
+            toolbarSearch.setLayoutParams(layoutParams);
+        }
     }
 
     @Override
@@ -105,33 +114,29 @@ public class HomeFragment extends BaseFragment {
         allPopClassfiy();//所有的弹窗分类
         IndexTextAd();//首页底部文字广告
         GuideUtils.showGuide(this, layoutSearchRed);//引导层
+
     }
 
     //首页底部文字广告
     private void IndexTextAd() {
         dataProvider.shop.indexTextAd()
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<IndexTextAd>>() {
-            @Override
-            protected void onSuccess(BaseResponse<IndexTextAd> indexTextAdBaseResponse) {
-                tvIndexAd.setVisibility(View.VISIBLE);
-                IndexTextAd data = indexTextAdBaseResponse.getData();
-                String content = data.getContent();
-                int time = data.getTime();
-                tvIndexAd.setText(TimeUtils.tsToYMD(time) + " : " + content);
-                //10秒后隐藏
-                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void run() {
-                        hideIndexAdwithAnim();
+                    protected void onSuccess(BaseResponse<IndexTextAd> indexTextAdBaseResponse) {
+                        tvIndexAd.setVisibility(View.VISIBLE);
+                        IndexTextAd data = indexTextAdBaseResponse.getData();
+                        String content = data.getContent();
+                        int time = data.getTime();
+                        tvIndexAd.setText(String.format("%s : %s", TimeUtils.tsToYMD(time), content));
+                        //10秒后隐藏
+                        new Handler().postDelayed(HomeFragment.this::hideIndexAdwithAnim, 10000);
                     }
-                }, 10000);
-            }
 
-            @Override
-            protected void onErr(String msg) {
+                    @Override
+                    protected void onErr(String msg) {
 
-            }
-        });
+                    }
+                });
     }
 
 
@@ -168,10 +173,9 @@ public class HomeFragment extends BaseFragment {
                     getIndexClassfiyData(false);
                 });
     }
+
     /**
-     * 是否需要添加
-     *
-     * @param isAdd
+     * @param isAdd 是否需要添加数据到当前顶部的TabLayout菜单中
      */
     private void getIndexClassfiyData(boolean isAdd) {
         dataProvider.shop.indexClassfiy().subscribe(new OnSuccessAndFailListener<BaseResponse<List<IndexClassfiy>>>() {
@@ -185,8 +189,9 @@ public class HomeFragment extends BaseFragment {
 
         });
     }
+
     /**
-     * 弹出POP所有分类
+     * 弹出POP【所有分类】
      * io线程读取本地Pop分类数据
      */
     private void allPopClassfiy() {
@@ -207,7 +212,8 @@ public class HomeFragment extends BaseFragment {
                 });
     }
 
-    int queryIndex;//请求的次数
+    private int queryIndex;//请求的次数
+
     private void getPopClassfiy(List<Classfiy> allClassfiyCache) {
         dataProvider.shop.classfiy()
                 .subscribe(new OnSuccessAndFailListener<BaseResponse<List<Classfiy>>>() {
@@ -229,7 +235,7 @@ public class HomeFragment extends BaseFragment {
                 });
     }
 
-    BasePopupView allTypePop;//顶部弹出pop
+
     private void initAllGoodsTypePop(List<Classfiy> classfiys) {
         if (classfiys == null) {
             classfiys = new ArrayList<>();
@@ -238,10 +244,14 @@ public class HomeFragment extends BaseFragment {
         Classfiy endClassfiy = new Classfiy(R.mipmap.img_all, "全部");
         classfiys.add(0, startClassfiy);
         classfiys.add(classfiys.size(), endClassfiy);
-        allTypePop = new XPopup.Builder(getContext())
-                .atView(magicIndicator)
-                .offsetY(-DpPxUtils.dp2px(32))
-                .asCustom(new GoodsTypePopWindow(getContext(), classfiys));
+        allClassfiys = classfiys;
+
+    }
+
+    private void showAllGoodsTypePop() {
+        if (allClassfiys != null && allClassfiys.size() > 0) new XPopup.Builder(getContext())
+                .atView(collapsingToolbarLayout)
+                .asCustom(new GoodsTypePopWindow(getContext(), allClassfiys)).show();
     }
 
     //顶部横条Tab
@@ -249,20 +259,33 @@ public class HomeFragment extends BaseFragment {
         if (classfiys == null || classfiys.size() == 0) return;
         if (magicIndicator.getChildCount() > 2) return;
         classfiys.add(0, new IndexClassfiy("精选"));
-        TabCreateUtils.setDefaultTab2(this.getContext(), magicIndicator,viewPager,classfiys);
-        initViewPager(classfiys);
+        TabCreateUtils.setDefaultTab2(this.getContext(), magicIndicator, viewPager, classfiys);
+        //延迟处理，可以让用户更快的看到首页的Tab选项栏
+        new Handler().postDelayed(() -> initViewPager(classfiys), 1);
+
     }
 
+    /**
+     * 【1108ms】 -->viewPager.setOffscreenPageLimit(classfiys.size()【840ms】延迟处理后，此方法变为【180ms】
+     * 默认缓存2个页面，所以getItem方法返回的第三个页面会在设置了此方法后的大概800ms后返回打印
+     */
+    @DebugLog
     private void initViewPager(List<IndexClassfiy> classfiys) {
-        FragmentStatePagerAdapter fragmentPagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
+
+        FragmentStatePagerAdapter fragmentPagerAdapter = new FragmentStatePagerAdapter(getChildFragmentManager(), 0) {
             @Override
             public int getCount() {
                 return classfiys.size();
             }
 
-            @Override
+            @Override //180ms
             public Fragment getItem(int i) {
-                if (i == 0) return HomeSelectFragment.newInstance();
+//                L.e(i + "t==" + System.currentTimeMillis());
+                if (i == 0){
+                    HomeSelectFragment homeSelectFragment = HomeSelectFragment.newInstance();
+                    homeSelectFragment.setListener(HomeFragment.this);
+                    return homeSelectFragment;
+                }
                 else return HomeGoodsFragment.newInstance(classfiys.get(i));
             }
 
@@ -273,7 +296,10 @@ public class HomeFragment extends BaseFragment {
             }
         };
         viewPager.setAdapter(fragmentPagerAdapter);
-        viewPager.setOffscreenPageLimit(classfiys.size());
+
+        new Handler().postDelayed(() -> {
+            viewPager.setOffscreenPageLimit(classfiys.size());//耗时840ms
+        }, 800);
     }
 
     @OnClick({R.id.layout_search_red, R.id.iv_show_all_type, R.id.tv_look_guide_video, R.id.tv_index_ad})
@@ -286,11 +312,18 @@ public class HomeFragment extends BaseFragment {
                 ToastUtil.showShort("开发中...");
                 break;
             case R.id.iv_show_all_type:
-                if (allTypePop != null) allTypePop.show();
+                showAllGoodsTypePop();
                 break;
             case R.id.tv_index_ad:
                 hideIndexAdwithAnim();
                 break;
         }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        L.e("banner=="+position);
+//        if (position%2==0) ObjectAnimUtils.transColor(layoutTab);
+//        else ObjectAnimUtils.transColor2(layoutTab);
     }
 }

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.mine.bean.OrderBean" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/round9_white_bg"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_commission_rates2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="订单来源\n13800138000"
+        android:textColor="@color/text_light_black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_commission_rates"
+        app:layout_constraintTop_toBottomOf="@+id/tv_commission_rates" />
+
+    <TextView
+        android:id="@+id/tv_pay_money2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="会员佣金\n￥119.00"
+        android:textColor="@color/text_light_black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pay_money" />
+
+    <TextView
+        android:id="@+id/tv_predict_commission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="我的奖励\n￥16.08"
+        android:textColor="@color/text_light_black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/tv_commission_rates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="奖金比例\n16.2%"
+        android:textColor="@color/text_light_black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/tv_order_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="2dp"
+        android:alpha="0.54"
+        android:text="下单：2019.03.20 21:12:28"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_shop_logo"
+        app:layout_constraintStart_toEndOf="@+id/iv_shop_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_shop_logo" />
+
+    <ImageView
+        android:id="@+id/iv_shop_logo"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@mipmap/icon_tmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_stop_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019-4-23到账"
+        android:textColor="@color/text_lightorange"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_good_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/iv_shop_logo"
+        app:layout_constraintTop_toBottomOf="@+id/iv_shop_logo"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/load_img" />
+
+    <TextView
+
+        android:id="@+id/tv_goods_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="2019夏装新款珠片绣黑色打底短袖休闲t恤女3G2B3251A夏装新款珠片绣黑色打底短袖休闲t恤女3G2B3251A"
+        android:textColor="@color/text_light_black"
+        app:layout_constraintStart_toEndOf="@+id/iv_good_pic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_time" />
+
+    <TextView
+        android:textColor="@color/text_gray_a5"
+        android:id="@+id/tv_order_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="订单号：2168425226256868"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_copy_order_num"
+        app:layout_constraintStart_toEndOf="@+id/iv_good_pic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_goods_name" />
+
+    <TextView
+        android:textColor="@color/text_gray_a5"
+        android:id="@+id/tv_copy_order_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/round_gray_rim_bg"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="2dp"
+        android:text="复制"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_order_num"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_num"
+        app:layout_constraintTop_toTopOf="@+id/tv_order_num" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_text_lightorange_bg"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="2dp"
+        android:text="已付款"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_good_pic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_num" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#F2F2F2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_good_pic" />
+
+    <TextView
+        android:id="@+id/tv_pay_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="付款金额\n￥119.00"
+        android:textColor="@color/text_light_black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

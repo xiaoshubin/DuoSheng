@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.qiqia.duosheng.search.bean.GoodsInfo" />
+    </data>
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- banner 和 返回按钮 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="360dp" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="24dp"
+                android:alpha="0.3"
+                android:background="@drawable/round_gray_btn_bg"
+                android:padding="4dp"
+                android:src="@mipmap/icon_backwhite" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tv_price"
+                couponUsePrice2="@{item.itemEndPrice}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tab_orange"
+                android:textSize="12sp"
+                tools:text="￥39券后" />
+
+
+            <TextView
+                android:id="@+id/tv_commission_price"
+                predictIncome="@{item.commision}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/round2_pink_bg"
+                android:paddingLeft="4dp"
+                android:paddingTop="2dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/tab_orange"
+                android:textSize="12sp"
+                tools:text="预估收益 ￥10.8" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原价"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_org_price"
+                oldPrice="@{item.itemPrice}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥0"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_shop_icon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_tmall" />
+
+            <TextView
+                android:id="@+id/tv_shop_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="@{item.shopName}"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"
+                tools:text="朵发母婴专营店" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_goods_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{item.itemShortTitle}"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            tools:text="抖音王红同款18色眼影4代NUDE沙漠玫瑰彩妆珠光眼影盘高品质" />
+
+        <RelativeLayout
+            android:id="@+id/layout_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_in"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/coupon_gradual_orange_bg"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_coupon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:text="0元优惠券"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_coupon_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:text="使用期限："
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        tools:text="使用期限：2019-03-12到2019-03-20" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/v_dot_line"
+                    android:layerType="software" />
+
+                <TextView
+                    android:id="@+id/tv_get_coupon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingRight="8dp"
+                    android:text="立即领券"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_white_bg" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_white_bg" />
+        </RelativeLayout>
+
+        <View
+            style="@style/HorizontalLine"
+            android:layout_height="@dimen/line_space_height"
+            android:background="@color/white" />
+
+        <View
+            style="@style/HorizontalLine"
+            android:layout_height="@dimen/line_space_height" />
+
+        <TextView
+            android:id="@+id/tv_details_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="--  宝贝详情  --"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_details_pic"
+            url="@{item.itemDetailPic}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:id="@+id/tv_guesslike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_gray"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="一 猜你喜欢 一"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+    </LinearLayout>
+</layout>
