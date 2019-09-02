@@ -44,7 +44,8 @@ public class NetWorkMoudle {
     @Singleton
     @Provides
     public TbLoginApi providerTbLoginApi(){
-        return RetrofitHttp.getRetrofit("https://oauth.m.taobao.com").create(TbLoginApi.class);
+//        return RetrofitHttp.getRetrofit("https://oauth.m.taobao.com").create(TbLoginApi.class);
+        return RetrofitHttp.create(TbLoginApi.class);
     }
     @Singleton
     @Provides

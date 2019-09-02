@@ -67,6 +67,7 @@ public class MyApplication extends Application {
                     L.e("百川SDK初始化成功");
                     AlibcTradeSDK.setTaokeParams(new AlibcTaokeParams(Contants.PID, "", ""));//设置淘客全局参数
                     AlibcTradeSDK.setChannel("多省APP推广位", Contants.PID);
+
                     Apollo.emit(EventStr.ALIBCTRADESDK_INIT_SUCCESS);
                 }
 

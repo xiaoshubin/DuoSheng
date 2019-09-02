@@ -93,7 +93,8 @@
             tools:replace="android:theme" /> <!-- 百川SDK在Android9上需要配置此项 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" /> <!-- Android7 需要通过FileProvider获取图片Uri -->
+            android:required="false" />
+        <!-- Android7 需要通过FileProvider获取图片Uri -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

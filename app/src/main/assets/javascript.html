@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Carson</title>
-    <script type="text/javascript">
-    function pushClick(url,id) {
-        var string = JSON.parse('{"url":"'+url+'","id":"'+id+'"}');
-        window.webkit.messageHandlers.push.postMessage(string);
-    }
-      </script>
-    <script type="text/javascript">
-    function callAndroid(url,id) {
-        test.hello(url+"==js调用了android中的hello方法=="+id);
-    }
+    <script>
+         function callAndroid(){
+            /*约定的url协议为：js://webview?arg1=111&arg2=222*/
+            document.location = "js://webview?arg1=111&arg2=222";
+         }
       </script>
 </head>
+<!-- 点击按钮则调用callAndroid（）方法  -->
 <body>
-//点击按钮则调用callAndroid函数
-<input type="button" id="button1" onclick="callAndroid('http://www.fanlihi.com/index.php/goods/viewapp/','612077')" value="点击调用"/>
+<button type="button" id="button1" onclick="callAndroid()">点击调用Android代码</button>
 </body>
 </html>

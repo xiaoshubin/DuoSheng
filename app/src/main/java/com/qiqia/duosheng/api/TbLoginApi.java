@@ -1,5 +1,6 @@
 package com.qiqia.duosheng.api;
 
+import com.qiqia.duosheng.base.BaseResponse;
 import com.qiqia.duosheng.bean.TbTokenResponse;
 
 import io.reactivex.Observable;
@@ -34,4 +35,10 @@ public interface TbLoginApi {
     @FormUrlEncoded
     @POST("authorize")
     Observable<ResponseBody> oauthUrl(@Field("response_type") String response_type, @Field("client_id") String client_id, @Field("redirect_uri") String redirect_uri);
+
+    @FormUrlEncoded
+    @POST("v4.php?ctr=App_Profit.GetSqUrl")
+    Observable<BaseResponse<String>> getSqUrl(@Field("uid") String uid);
+
+
 }

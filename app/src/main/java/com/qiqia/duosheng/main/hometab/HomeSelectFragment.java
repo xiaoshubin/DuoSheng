@@ -18,6 +18,7 @@ import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.activities.WebViewShopActivity;
 import com.qiqia.duosheng.base.BaseFragment;
 import com.qiqia.duosheng.base.BaseResponse;
+import com.qiqia.duosheng.base.Contants;
 import com.qiqia.duosheng.bean.GoodsList;
 import com.qiqia.duosheng.impl.ShopImpl;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
@@ -251,14 +252,21 @@ public class HomeSelectFragment extends BaseFragment {
                     goPracticalListFragment(5);
                     break;
                 case 9://白菜价
-                    goPracticalListFragment(0);
+//                    goPracticalListFragment(0);
+                    goTaoAuth();
                     break;
             }
         });
     }
 
+    private void goTaoAuth(){
+        String title = "淘宝授权";
+        String url = "https://oauth.taobao.com/authorize?response_type=code&client_id="+ Contants.ALI_BAICHUAN_APP_KEY+"&redirect_uri=http://www.zaoxingwu.cn/v4.php?ctr=App_Profit.code&state=1212&view=wap";
+        goWebViewFragment(title,url);
+    }
+
    private String[] urls = new String[]{
-            "https://h5.m.taobao.com",
+            "https://www.taobao.com",
             "https://chaoshi.m.tmall.com",
             "https://www.tmall.hk",
             "https://miao.tmall.com",

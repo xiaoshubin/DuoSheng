@@ -11,6 +11,7 @@ import com.qiqia.duosheng.main.GuideViewPagerFragment;
 import butterknife.OnClick;
 
 public class GuideFragment1 extends BaseFragment {
+
     @Override
     public int setLayout() {
         return R.layout.guide_fragment1;
@@ -18,10 +19,10 @@ public class GuideFragment1 extends BaseFragment {
 
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
-
     }
-    @OnClick(R.id.btn_next)
-    public void doClick(){
+
+    @OnClick({R.id.btn_next})
+    public void doClick() {
         GuideViewPagerFragment.viewPagerGuide.setCurrentItem(1);
     }
 }

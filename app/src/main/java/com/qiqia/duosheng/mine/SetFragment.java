@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.ali.auth.third.core.model.Session;
+import com.ali.auth.third.login.callback.LogoutCallback;
+import com.ali.auth.third.ui.context.CallbackContext;
+import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.adapter.login.AlibcLogin;
 import com.alibaba.baichuan.android.trade.callback.AlibcLoginCallback;
 import com.bumptech.glide.Glide;
@@ -31,17 +34,17 @@ import com.qiqia.duosheng.databinding.FragmentSetBinding;
 import com.qiqia.duosheng.dialog.DownloadCircleDialog;
 import com.qiqia.duosheng.login.LoginFragment;
 import com.qiqia.duosheng.main.MainViewPagerFragment;
+import com.qiqia.duosheng.main.TbLoginWebViewFragment;
+import com.qiqia.duosheng.utils.AlibcUtils;
 import com.qiqia.duosheng.utils.DataLocalUtils;
 import com.qiqia.duosheng.utils.DownloadUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
 import com.smallcake.okhttp.FileRequestBody;
-import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.OnClick;
 import cn.com.smallcake_utils.AppUtils;
@@ -58,15 +61,14 @@ import me.jessyan.progressmanager.body.ProgressInfo;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
 
-    AlibcLogin alibcLogin;
-    User user;
-    DownloadCircleDialog dialogProgress;
+    private static final String TAG = "SetFragment";
+    private User user;
+    private DownloadCircleDialog dialogProgress;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -92,18 +94,16 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
         tvTitle.setTextColor(Color.WHITE);
         ivBack.setImageResource(R.mipmap.icon_backwhite);
         mBinding.layoutBar.setBackgroundColor(Color.TRANSPARENT);
-        //获取缓存大小，清理缓存
+        //获取缓存大小
         setCacheSize();
         //版本号设置
-        String versionName = AppUtils.getVersionName();
-        mBinding.tvVersionName.setText("版本V" + versionName);
+        mBinding.tvVersionName.setText(String.format("版本V%s", AppUtils.getVersionName()));
         //淘宝授权信息设置
-        alibcLogin = AlibcLogin.getInstance();
-        if (alibcLogin.isLogin()) {
+        if (AlibcLogin.getInstance().isLogin()) {
             Session session = AlibcLogin.getInstance().getSession();
             mBinding.tvTbAuthLogin.setText(session.nick);
         }
-        //下载更新
+        //下载更新进度圈
         dialogProgress = new DownloadCircleDialog(_mActivity);
     }
 
@@ -153,7 +153,13 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
                 break;
             case R.id.layout_tb_auth_login:
             case R.id.tv_tb_auth_login:
-                tbAuthLogin();
+//                tbAuthLogin();
+                getTbLoginUrl();
+
+
+//                AlibcUtils.openMyOrder(_mActivity);
+//                AlibcUtils.openShop(_mActivity,"225693988");
+//                AlibcUtils.openMiniDetail(_mActivity,"598154431324");
                 break;
             case R.id.btn_login_out:
                 loginOut();
@@ -166,7 +172,7 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
                 new XPopup.Builder(getContext())
                         .asConfirm(getString(R.string.app_name), "确认要清除缓存吗？",
                                 () -> {
-                                    DataCleanUtil.clearAllCache(getContext());
+                                    DataCleanUtil.clearAllCache(_mActivity);
                                     ToastUtil.showShort("清理成功！");
                                     mBinding.tvCleanCache.setText("");
                                 })
@@ -187,22 +193,14 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
         AndPermission.with(this)
                 .runtime()
                 .permission(Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE)
-                .onGranted(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> data) {
-                        L.e("以获得权限" + data.toString());
-                        //1.从相册获取照片
-                        Intent intent = new Intent(Intent.ACTION_PICK, null);
-                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        startActivityForResult(intent, 2);
-                    }
+                .onGranted(data -> {
+                    L.e("以获得权限" + data.toString());
+                    //1.从相册获取照片
+                    Intent intent = new Intent(Intent.ACTION_PICK, null);
+                    intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(intent, 2);
                 })
-                .onDenied(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> data) {
-                        L.e("未获得权限" + data.toString());
-                    }
-                }).start();
+                .onDenied(data -> L.e("未获得权限" + data.toString())).start();
 
     }
 
@@ -219,12 +217,7 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
                 .load(file)
                 .ignoreBy(2000)
                 .setTargetDir(SdUtils.getCameraPath())
-                .filter(new CompressionPredicate() {
-                    @Override
-                    public boolean apply(String path) {
-                        return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
-                    }
-                })
+                .filter(path -> !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")))
                 .setCompressListener(new OnCompressListener() {
                     @Override
                     public void onStart() {
@@ -294,30 +287,59 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
     }
 
 
+
     /**
      * 淘宝授权登录成功后可以获取：
      * nick:昵称ava 头像 ,openId,openSid
+     * 获取淘宝用户信息:
+     * nick = 肖述宾,
+     * ava = https://wwc.alicdn.com/avatar/getAvatar.do?userIdStrV2=WA6ZLstNt8RjdcWaigHpfgTT&type=taobao ,
+     * openId=AAEQEWFpAHxm-4PlMODyQd9w,
+     * openSid=bb88187286da814970a02b0aeff391d194f0f288ed13bd955587dd15eea469040340c6223f2a62cb6f944506d686ad0b
      */
     private void tbAuthLogin() {
-        if (alibcLogin.isLogin()) {
-            ToastUtil.showLong("你已经授权成功！");
-            return;
-        }
-        alibcLogin.showLogin(_mActivity, new AlibcLoginCallback() {
+
+//        if (alibcLogin.isLogin()) {
+//            ToastUtil.showLong("你已经授权成功！");
+//            return;
+//        }
+
+        AlibcLogin.getInstance().showLogin(_mActivity, new AlibcLoginCallback() {
             @Override
             public void onSuccess() {
-                Session session = alibcLogin.getSession();
+                ToastUtil.showShort("授权成功！");
+                Session session =  AlibcLogin.getInstance().getSession();
                 mBinding.tvTbAuthLogin.setText(session.nick);
                 //获取淘宝用户信息
-                L.e("获取淘宝用户信息: " + session);
+                L.e(TAG,"tbAuthLogin获取淘宝用户信息: " + session);
             }
-
             @Override
             public void onFailure(int code, String msg) {
-                L.e(code + "淘宝登录失败: " + msg);
+                L.e(TAG,code + "tbAuthLogin淘宝登录失败: " + msg);
             }
         });
     }
+    private void getTbLoginUrl() {
+        dataProvider.tbLogin.getSqUrl(user.getUid())
+                .subscribe(new OnSuccessAndFailListener<BaseResponse<String>>(dialog) {
+                    @Override
+                    protected void onSuccess(BaseResponse<String> responseBody) {
+                        String tbUrl = responseBody.getData();
+//                        goWebViewFragment("应用授权",tbUrl+"&view=wap");
+                        AlibcUtils.openUrlNative(_mActivity,tbUrl+"&view=wap");
+//                        openTbLoginBySdkWeb(tbUrl+"&view=wap");
+                    }
+                });
+
+    }
+    private void openTbLoginBySdkWeb(String url){
+        Bundle bundle = new Bundle();
+        bundle.putString("title","淘宝授权");
+        bundle.putString("url",url);
+        goTransparentBarActivity(TbLoginWebViewFragment.class.getSimpleName(),bundle);
+//        _mActivity.startActivity(new Intent(_mActivity, LoginWebViewActivity.class));
+    }
+
 
     /**
      * 退出登录
@@ -328,26 +350,21 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
     private void loginOut() {
         new XPopup.Builder(getContext()).asConfirm(getString(R.string.app_name), "确认要退出吗？",
                 () -> {
-                    SPUtils.remove(SPStr.USER);
-                    ((RadioButton) MainViewPagerFragment.rgBottomTab.getChildAt(0)).setChecked(true);
                     goWhiteBarActivity(LoginFragment.class.getSimpleName());
                     pop();
                     _mActivity.finish();
-
-//                    AlibcTradeSDK.destory();
-//                    AlibcLogin.getInstance().logout(_mActivity, new LogoutCallback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            L.e("onSuccess");
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int i, String s) {
-//                            L.e("onFailure=="+s);
-//                        }
-//                    });
+                    ((RadioButton) MainViewPagerFragment.rgBottomTab.getChildAt(0)).setChecked(true);
+                    SPUtils.remove(SPStr.USER);
+                    AlibcLogin.getInstance().logout(_mActivity, new LogoutCallback() {
+                        @Override
+                        public void onSuccess() { L.e("登出成功"); }
+                        @Override
+                        public void onFailure(int code, String msg) { L.e("登出失败=="+msg); }
+                    });
+                    AlibcTradeSDK.destory();
                 })
                 .show();
+
     }
 
     private void showUpdateSexDialog() {
@@ -385,20 +402,16 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
                                 downloadApk(_mActivity, down_url);
                             })
                             .setNegativeButton("取消",null).show();
-
                 })
                 .onDenied(data -> {
                     L.e("未获得权限" + data.toString());
                     new AlertDialog.Builder(_mActivity).setTitle("权限申请").setMessage("更新应用需要存储权限")
-                            .setPositiveButton("去开启", (dialog, which) -> {
-                                AppUtils.goIntentSetting();
-                            })
+                            .setPositiveButton("去开启", (dialog, which) -> AppUtils.goIntentSetting())
                             .setNegativeButton("取消",null).show();
-
                 }).start();
     }
     //2.开始下载apk
-    public void downloadApk(final Activity context, String down_url) {
+    private void downloadApk(final Activity context, String down_url) {
         dialogProgress.show();
         DownloadUtils.getInstance().download(down_url, SdUtils.getDownloadPath(), "QQ.apk", new DownloadUtils.OnDownloadListener() {
             @Override
@@ -437,13 +450,10 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
                 L.i("8.0手机已经拥有安装未知来源应用的权限，直接安装！");
                 AppUtils.installApk(context, downloadApkPath);
             } else {
-                new CakeResolveDialog(context, "安装应用需要打开安装未知来源应用权限，请去设置中开启权限", new CakeResolveDialog.OnOkListener() {
-                    @Override
-                    public void onOkClick() {
-                        Uri packageUri = Uri.parse("package:"+ AppUtils.getAppPackageName());
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageUri);
-                        startActivityForResult(intent,10086);
-                    }
+                new CakeResolveDialog(context, "安装应用需要打开安装未知来源应用权限，请去设置中开启权限", () -> {
+                    Uri packageUri = Uri.parse("package:"+ AppUtils.getAppPackageName());
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageUri);
+                    startActivityForResult(intent,10086);
                 }).show();
             }
         } else {
@@ -454,6 +464,8 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        L.e(TAG,"onActivityResult"+requestCode+"=="+resultCode+"=="+data);
+        CallbackContext.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10086) {
             L.i("设置了安装未知应用后的回调。。。");
             String successDownloadApkPath = SdUtils.getDownloadPath() + "QQ.apk";

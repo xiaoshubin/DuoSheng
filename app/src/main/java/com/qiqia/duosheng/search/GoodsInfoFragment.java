@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
@@ -94,7 +95,6 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
             goodsInfo = (GoodsInfo) getArguments().getSerializable("goodsInfo");
             initData(goodsInfo);
             isCollect();//直接获取的对象，就需要查询此商品是否已收藏
-            //因为没有猜你喜欢内容，故隐藏猜你喜欢部分
             showShareTakeNotieByTime();
             if (!TextUtils.isEmpty(goodsInfo.getItemId()))getGuessLike(goodsInfo.getItemId());//查询此商品对应的猜你喜欢
         } else {//（好单库）如果id有值，就根据id查询商品详情，并根据id查询商品对应的猜你喜欢
@@ -237,24 +237,17 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
     }
 
     private void isCollect() {
-        if (user == null) {
-            ToastUtil.showShort("请先登录！");
-            goWhiteBarActivity(LoginFragment.class.getSimpleName());
-            return;
-        }
+        if (user == null) return;
         dataProvider.user.isCollect(user.getUid(), user.getToken(), goodsInfo.getItemId())
                 .subscribe(new OnSuccessAndFailListener<BaseResponse>() {
                     @Override
                     protected void onSuccess(BaseResponse baseResponse) {
                         goodsInfo.setIsCollect(1);
                     }
-
                     @Override
                     protected void onErr(String msg) {
                     }
-
                 });
-
     }
 
 
@@ -330,6 +323,12 @@ public class GoodsInfoFragment extends BaseBindFragment<FragmentGoodsInfoBinding
     private void toTbBuy() {
         if (goodsInfo == null) return;
         AlibcUtils.openDetailNative(_mActivity, goodsInfo.getItemId());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AlibcTradeSDK.destory();
     }
 
     /**

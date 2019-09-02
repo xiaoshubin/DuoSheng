@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -74,7 +73,7 @@ public class MainActivity extends BaseActivity {
 //        getPermission();      //权限管理
         initSearchDialog();   //智能搜索
         getIndexAd();         //APP首页广告弹窗
-        new Handler().postDelayed(this::showPushSetPop,800);//推送设置弹窗
+//        new Handler().postDelayed(this::showPushSetPop,800);//推送设置弹窗
 
 
         //下载更新

@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lsxiao.apollo.core.Apollo;
 import com.qiqia.duosheng.R;
@@ -83,7 +84,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
             }else {
                 //用code登录一下，如果是老用户就直接登录成功，如果是新用户则需要绑定手机好
                 finish();
-                ToastUtil.showShort("微信授权成功...检测是否是新用户！");
+                ToastUtil.showShort("微信授权成功！");
                 Apollo.emit(EventStr.WX_LOGIN_CODE,code);
 
             }

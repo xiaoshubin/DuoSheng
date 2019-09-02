@@ -1,6 +1,7 @@
 package com.qiqia.duosheng.impl;
 
 import com.qiqia.duosheng.api.TbLoginApi;
+import com.qiqia.duosheng.base.BaseResponse;
 import com.qiqia.duosheng.bean.TbTokenResponse;
 
 import javax.inject.Inject;
@@ -24,6 +25,11 @@ public class TbLoginImpl implements TbLoginApi {
     @Override
     public Observable<ResponseBody> oauthUrl(String response_type, String client_id, String redirect_uri) {
         return bindIoUI(tbLoginApi.oauthUrl( response_type,  client_id,  redirect_uri));
+    }
+
+    @Override
+    public Observable<BaseResponse<String>> getSqUrl(String uid) {
+        return bindIoUI(tbLoginApi.getSqUrl(uid));
     }
 
 }

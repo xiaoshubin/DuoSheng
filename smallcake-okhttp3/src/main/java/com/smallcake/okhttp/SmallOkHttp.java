@@ -14,11 +14,10 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import okhttp3.Cache;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -71,11 +70,14 @@ public class SmallOkHttp{
     }
 
     public static OkHttpClient createOkHttpClient(Context context) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .cache(new Cache(context.getCacheDir(), MAX_CACHE_SIZE))
-                .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
-                .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS);
+
+        OkHttpClient.Builder builder = RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
+
+//        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+//                .cache(new Cache(context.getCacheDir(), MAX_CACHE_SIZE))
+//                .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
+//                .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+//                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS);
 
         if (debug) {
 //            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

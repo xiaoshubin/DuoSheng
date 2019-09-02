@@ -43,12 +43,11 @@ public class GuideViewPagerFragment extends BaseFragment {
     @Override
     protected void onBindView(View view, ViewGroup container, Bundle savedInstanceState) {
         viewPagerGuide = view.findViewById(R.id.view_pager_guide);
-        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager(),0) {
             @Override
             public int getCount() {
                 return 2;
             }
-
             @Override
             public Fragment getItem(int i) {
                 return i == 0 ? new GuideFragment1() : new GuideFragment2();
@@ -57,19 +56,13 @@ public class GuideViewPagerFragment extends BaseFragment {
         viewPagerGuide.setAdapter(fragmentPagerAdapter);
         viewPagerGuide.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageSelected(int position) {
                 selectIndicator(position);
             }
-
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 
@@ -77,15 +70,13 @@ public class GuideViewPagerFragment extends BaseFragment {
         for (int i = 0; i < layoutIndicator.getChildCount(); i++) {
             View view = layoutIndicator.getChildAt(i);
             if (i==selectPosition) animPot(view);
-            else {
-                view.setAlpha(0.3f);
-            }
+            else view.setAlpha(0.3f);
+
         }
     }
     private void animPot(View view){
         PropertyValuesHolder anim1 = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
-        PropertyValuesHolder anim2 = PropertyValuesHolder.ofFloat("rotationX", 0, 180);
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(view,anim1,anim2);
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(view,anim1);
         animator.setDuration(300);
         animator.setInterpolator(new OvershootInterpolator());
         animator.start();

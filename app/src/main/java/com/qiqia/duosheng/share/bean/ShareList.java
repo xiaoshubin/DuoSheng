@@ -64,7 +64,7 @@ public class ShareList  implements Serializable {
         private String copyComment;
         private String couponUrl;
         private String addTime;
-        private String showTime;
+        private int showTime;
         private String click;
 
 
@@ -172,11 +172,11 @@ public class ShareList  implements Serializable {
             this.addTime = addTime;
         }
 
-        public String getShowTime() {
+        public int getShowTime() {
             return showTime;
         }
 
-        public void setShowTime(String showTime) {
+        public void setShowTime(int showTime) {
             this.showTime = showTime;
         }
 

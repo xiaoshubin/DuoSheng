@@ -75,6 +75,15 @@ public class GoodsInfo extends BaseObservable implements Serializable {
     private String couponInfo; //全网查包含的字段，如果没有此字段，就判定为好单库，可以通过id来查询商品详情
     @Bindable
     public int isCollect;//0未收藏 1已收藏
+    private int showTime;//展示时间
+
+    public int getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(int showTime) {
+        this.showTime = showTime;
+    }
     //收藏列表，判定全网或好单库
 //    private int type;
 //

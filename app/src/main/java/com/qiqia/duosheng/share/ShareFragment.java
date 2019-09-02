@@ -1,12 +1,13 @@
 package com.qiqia.duosheng.share;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
@@ -27,7 +28,7 @@ public class ShareFragment extends BaseBarFragment {
     ViewPager viewPager;
     @BindView(R.id.magic_indicator)
     MagicIndicator magicIndicator;
-    String[] tabNames = {"每日爆款", "朋友圈素材"};
+    private String[] tabNames = {"每日爆款", "朋友圈素材"};
 
     public static ShareFragment newInstance() {
         Bundle args = new Bundle();
@@ -49,7 +50,7 @@ public class ShareFragment extends BaseBarFragment {
 
     private void initViewPager() {
         TabCreateUtils.setOrangeTab(this.getContext(),magicIndicator,viewPager, tabNames);
-        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager(),0) {
             @Override
             public int getCount() {
                 return 2;
@@ -73,7 +74,7 @@ public class ShareFragment extends BaseBarFragment {
         ImmersionBar.with(this).init();
     }
     @OnClick({R.id.iv_back})
-    public void doClicks(View view) {
+    public void doClicks() {
         MainViewPagerFragment.rgBottomTab.check(R.id.rb3);
     }
 }

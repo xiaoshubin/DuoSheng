@@ -1,8 +1,6 @@
 package com.qiqia.duosheng.activities;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -71,6 +69,11 @@ public class WebViewShopActivity extends BaseBarActivity {
     private void initWebViewSet() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
         webView.setWebViewClient(new MyWebViewClient());
 
     }
@@ -114,13 +117,6 @@ public class WebViewShopActivity extends BaseBarActivity {
                     || url.startsWith("tmall://");//天猫
         }
 
-        private void startAction(String url) {
-            Intent intent = new Intent();
-            intent.setAction("android.intent.action.VIEW");
-            Uri uri = Uri.parse(url);
-            intent.setData(uri);
-            startActivity(intent);
-        }
     }
 
     /**

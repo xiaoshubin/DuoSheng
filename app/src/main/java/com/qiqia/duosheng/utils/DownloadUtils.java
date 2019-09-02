@@ -58,7 +58,6 @@ public class DownloadUtils {
      */
     public void download(final String url, final String saveDir, final String saveName, final OnDownloadListener listener) {
         Request request = new Request.Builder().url(url).build();
-
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

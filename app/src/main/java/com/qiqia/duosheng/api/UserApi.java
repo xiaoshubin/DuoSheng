@@ -84,7 +84,7 @@ public interface UserApi {
     Observable<BaseResponse> delCol(@Query("uid") String uid, @Query("token") String token, @Query("id") String id);
     @GET("v4.php?ctr=App_User.IsCollect")
     Observable<BaseResponse> isCollect(@Query("uid") String uid, @Query("token") String token, @Query("id") String id);
-
+    //绑定淘宝
     @GET("v4.php?ctr=App_User.BindDs")
     Observable<BaseResponse> bindDs(@Query("uid") String uid, @Query("token") String token, @Query("code") String code);
 }

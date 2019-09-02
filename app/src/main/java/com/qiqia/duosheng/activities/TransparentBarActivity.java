@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
+import com.ali.auth.third.ui.context.CallbackContext;
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseActivity;
 import com.qiqia.duosheng.base.Contants;
+import com.qiqia.duosheng.main.CoordinatorLayoutTestFragment;
 import com.qiqia.duosheng.main.GuideViewPagerFragment;
 import com.qiqia.duosheng.main.PracticalListFragment;
 import com.qiqia.duosheng.main.StartupFragment;
+import com.qiqia.duosheng.main.TbLoginWebViewFragment;
 import com.qiqia.duosheng.main.WebViewFragment;
 import com.qiqia.duosheng.mine.AboutUsFragment;
 import com.qiqia.duosheng.mine.FeedBackFragment;
@@ -22,6 +27,7 @@ import com.qiqia.duosheng.mine.SetFragment;
 import com.qiqia.duosheng.search.bean.GoodsInfo;
 import com.qiqia.duosheng.share.CreateShareFragment;
 
+import cn.com.smallcake_utils.L;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -42,6 +48,9 @@ public class TransparentBarActivity extends BaseActivity {
         String intExtra = intent.getStringExtra(Contants.LOAD_FRAGMENT);
         if (TextUtils.isEmpty(intExtra))intExtra= StartupFragment.class.getSimpleName();
         switch (intExtra) {
+            case "CoordinatorLayoutTestFragment":
+                loadFragment(CoordinatorLayoutTestFragment.newInstance());
+                break;
             case "StartupFragment":
                 loadFragment(StartupFragment.newInstance());
                 break;
@@ -62,6 +71,10 @@ public class TransparentBarActivity extends BaseActivity {
             case "WebViewFragment":
                 Bundle bundleWeb = intent.getBundleExtra("bundle");
                 loadFragment(WebViewFragment.newInstance(bundleWeb.getString("title"),bundleWeb.getString("url")));
+                break;
+            case "TbLoginWebViewFragment":
+                Bundle bundleTbWeb = intent.getBundleExtra("bundle");
+                loadFragment(TbLoginWebViewFragment.newInstance(bundleTbWeb.getString("title"),bundleTbWeb.getString("url")));
                 break;
             case "MyIncomeFragment":
                 loadFragment(new MyIncomeFragment());
@@ -87,5 +100,18 @@ public class TransparentBarActivity extends BaseActivity {
 
     private void loadFragment(SupportFragment fragment) {
         loadRootFragment(R.id.content,fragment);
+    }
+
+    /**
+     * 淘宝回调requestCode==59994  resultCode==0 data==null
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        L.e("淘宝回调requestCode=="+requestCode+"  resultCode=="+resultCode+" data=="+data);
+        CallbackContext.onActivityResult(requestCode, resultCode, data);
     }
 }

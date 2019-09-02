@@ -24,6 +24,7 @@ import java.util.List;
 import cn.com.smallcake_utils.DpPxUtils;
 import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.SpannableStringUtils;
+import cn.com.smallcake_utils.TimeUtils;
 import cn.com.smallcake_utils.custom.AutoNewLineLayout;
 
 /**
@@ -57,6 +58,9 @@ public class CircleOfFriendsAdapter extends BaseQuickAdapter<ShareList.DataBean,
         }else {
             setShowPic(binding.layoutPics,itemPicList);
         }
+        //时间
+        int showTime = item.getShowTime();
+        binding.tvTime.setText(TimeUtils.tsToCustom(showTime,"MM-dd  HH:mm"));
 
     }
     private void setShowPic(AutoNewLineLayout layout, List<String> itemPicList){

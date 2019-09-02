@@ -114,7 +114,7 @@
         <item name="android:textColor">#70FDB657</item>
         <item name="textAllCaps">false</item>
     </style>
-
+    <!-- 百川SDK在Android8上需要配置此项,否则闪退 -->
     <style name="AlibcLoginTheme" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">true</item>
@@ -130,6 +130,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:textColorPrimaryInverse">@android:color/black</item>
+    </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
 </resources>

@@ -43,7 +43,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.com.smallcake_utils.L;
 import cn.com.smallcake_utils.SPUtils;
 import cn.com.smallcake_utils.ScreenUtils;
 import cn.com.smallcake_utils.TimeUtils;
@@ -322,7 +321,7 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
 
     @Override
     public void onPageSelected(int position) {
-        L.e("banner=="+position);
+//        L.e("banner=="+position);
 //        if (position%2==0) ObjectAnimUtils.transColor(layoutTab);
 //        else ObjectAnimUtils.transColor2(layoutTab);
     }

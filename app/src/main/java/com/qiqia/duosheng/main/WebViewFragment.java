@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -59,11 +60,17 @@ public class WebViewFragment extends BaseBarFragment {
 //        webView.addJavascriptInterface(new AndroidJs(), "test");//AndroidtoJS类对象映射到js的test对象
 
     }
-
+//百川JSBridge <script src="//g.alicdn.com/mtb/lib-BCJSBridge/0.3.5/bc-jsbridge.js"></script>
     private void initWebSet() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
         webView.setWebViewClient(new MyWebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
     }
 
     class MyWebViewClient extends WebViewClient {
@@ -81,9 +88,9 @@ public class WebViewFragment extends BaseBarFragment {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView wv, String url) {
-            if (checkUrlCode(url)){
-                return false;
-            }
+//            if (checkUrlCode(url)){
+//                return false;
+//            }
             wv.loadUrl(url);
             return true;
         }
@@ -95,6 +102,7 @@ public class WebViewFragment extends BaseBarFragment {
      * 检测出淘宝的code
      * @param url
      * http://adms.ds.jxmj.com/v4.php?ctr=DataSettings.code&code=KQtd9uKIr8PmO31LJdPl9o9B31994968&state=
+     * http://adms.ds.jxmj.com/v4.php?ctr=DataSettings.code
      */
     private boolean checkUrlCode(String url) {
         String codeResponseUrl = "http://adms.ds.jxmj.com/v4.php?ctr=DataSettings.code&code=";

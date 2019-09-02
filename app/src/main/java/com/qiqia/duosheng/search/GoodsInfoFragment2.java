@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
@@ -265,11 +266,7 @@ public class GoodsInfoFragment2 extends BaseBindFragment<FragmentGoodsInfo2Bindi
     }
 
     private void isCollect() {
-        if (user == null) {
-            ToastUtil.showShort("请先登录！");
-            goWhiteBarActivity(LoginFragment.class.getSimpleName());
-            return;
-        }
+        if (user == null) return;
         dataProvider.user.isCollect(user.getUid(), user.getToken(), goodsInfo.getItemId())
                 .subscribe(new OnSuccessAndFailListener<BaseResponse>() {
                     @Override
@@ -436,6 +433,11 @@ public class GoodsInfoFragment2 extends BaseBindFragment<FragmentGoodsInfo2Bindi
     private void toTbBuy() {
         if (goodsInfo == null) return;
         AlibcUtils.openDetailNative(_mActivity, goodsInfo.getItemId());
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        AlibcTradeSDK.destory();
     }
 
     /**
