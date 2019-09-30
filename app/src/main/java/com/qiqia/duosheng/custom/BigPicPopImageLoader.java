@@ -2,8 +2,9 @@ package com.qiqia.duosheng.custom;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import androidx.annotation.NonNull;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;

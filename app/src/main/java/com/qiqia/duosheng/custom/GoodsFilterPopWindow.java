@@ -1,13 +1,14 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.impl.PartShadowPopupView;
 import com.qiqia.duosheng.R;

@@ -128,7 +128,7 @@ public class HomeSelectFragment extends BaseFragment {
         onEvent();//跳转点击事件
         initMainMenu();//主页八个固定菜单
         initBanner();
-        //延迟加载处理banner和底部的商品
+        //延迟加载处理商品
         new Handler().postDelayed(this::getRecommonGoods,300);
         new Handler().postDelayed(this::getMiddleGoods,800);
 

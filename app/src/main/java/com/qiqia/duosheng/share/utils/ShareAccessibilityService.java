@@ -3,11 +3,12 @@ package com.qiqia.duosheng.share.utils;
 import android.accessibilityservice.AccessibilityService;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.List;
 

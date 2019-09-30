@@ -1,9 +1,10 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
+import android.util.AttributeSet;
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
-import android.util.AttributeSet;
 
 public class ItemViewPager extends ViewPager {
     public ItemViewPager(@NonNull Context context) {

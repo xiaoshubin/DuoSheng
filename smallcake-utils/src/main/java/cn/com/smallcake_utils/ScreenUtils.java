@@ -6,12 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import androidx.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 public class ScreenUtils {
 
@@ -56,24 +57,20 @@ public class ScreenUtils {
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
-
+    @Deprecated
     public static int getScreenHeight() {
         return getScreenHeight(SmallUtils.getApp());
     }
 
 
     /**
-     * 获取屏幕实际高度（也包含虚拟导航栏）
-     *
-     * @param context
-     * @return
+     * @return 获取屏幕实际高度（也包含虚拟导航栏）
      */
-    public static int getRealHight(Context context) {
+    public static int getRealHight() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
-        else windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        WindowManager windowManager = (WindowManager) SmallUtils.getApp().getSystemService(Context.WINDOW_SERVICE);
+        assert windowManager != null;
+        windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
 

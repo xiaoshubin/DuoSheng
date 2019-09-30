@@ -156,5 +156,14 @@
  -dontwarn android.support.**
  # jsoup
  -keeppackagenames org.jsoup.nodes
+ # WebView
+ -keepattributes *Annotation*
+ -keepattributes *JavascriptInterface*
+ -keep public class org.mq.study.webview.DemoJavaScriptInterface{
+          public <methods>;
+       }
+ -keep public class org.mq.study.webview.webview.DemoJavaScriptInterface$InnerClass{
+          public <methods>;
+       }
 
 

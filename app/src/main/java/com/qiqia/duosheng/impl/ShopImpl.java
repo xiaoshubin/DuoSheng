@@ -19,6 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+
 import static com.smallcake.okhttp.retrofit2.RetrofitComposeUtils.bindIoUI;
 
 public class ShopImpl implements ShopApi {

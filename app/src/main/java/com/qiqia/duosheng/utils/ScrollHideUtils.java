@@ -3,10 +3,11 @@ package com.qiqia.duosheng.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import cn.com.smallcake_utils.L;
 

@@ -2,10 +2,15 @@ package com.qiqia.duosheng.main;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,18 +27,21 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;
+import com.qiqia.duosheng.activities.BrowserActivity;
 import com.qiqia.duosheng.activities.WhiteBarActivity;
 import com.qiqia.duosheng.base.BaseFragment;
 import com.qiqia.duosheng.base.BaseResponse;
 import com.qiqia.duosheng.base.SPStr;
 import com.qiqia.duosheng.bean.IndexTextAd;
 import com.qiqia.duosheng.custom.GoodsTypePopWindow;
+import com.qiqia.duosheng.custom.RollTextView;
 import com.qiqia.duosheng.main.bean.Classfiy;
 import com.qiqia.duosheng.main.bean.IndexClassfiy;
 import com.qiqia.duosheng.main.hometab.HomeGoodsFragment;
 import com.qiqia.duosheng.main.hometab.HomeSelectFragment;
 import com.qiqia.duosheng.utils.GuideUtils;
 import com.qiqia.duosheng.utils.OnSuccessAndFailListener;
+import com.qiqia.duosheng.utils.SonicJavaScriptInterface;
 import com.qiqia.duosheng.utils.TabCreateUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -45,14 +53,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.smallcake_utils.SPUtils;
 import cn.com.smallcake_utils.ScreenUtils;
+import cn.com.smallcake_utils.ShapeCreator;
 import cn.com.smallcake_utils.TimeUtils;
-import cn.com.smallcake_utils.ToastUtil;
 import hugo.weaving.DebugLog;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnBannerChangeListener{
+public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnBannerChangeListener {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.iv_show_all_type)
@@ -74,7 +82,7 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
     @BindView(R.id.layout_guide)
     LinearLayout layoutGuide;
     @BindView(R.id.tv_index_ad)
-    TextView tvIndexAd;
+    RollTextView tvIndexAd;
     @BindView(R.id.magic_indicator)
     MagicIndicator magicIndicator;
 
@@ -85,10 +93,12 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
     public int setLayout() {
         return R.layout.fragment_home;
     }
+
     public void onSupportVisible() {
         super.onSupportVisible();
         ImmersionBar.with(this).statusBarColor(R.color.transparent).autoDarkModeEnable(true).init();
     }
+
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
@@ -113,6 +123,19 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
         allPopClassfiy();//所有的弹窗分类
         IndexTextAd();//首页底部文字广告
         GuideUtils.showGuide(this, layoutSearchRed);//引导层
+
+        ShapeCreator.create()
+                .setCornerRadius(12)
+                .setSolidColor(Color.parseColor("#1AFFFFFF"))
+                .setStrokeWidth(1)
+                .setStrokeColor(Color.WHITE)
+                .into(tvLookGuideVideo);
+
+        ShapeCreator.create()
+                .setCornerRadius(20)
+                .setSolidColor(Color.parseColor("#FFF1D7"))
+                .into(tvIndexAd);
+
 
     }
 
@@ -181,7 +204,8 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
             @Override
             protected void onSuccess(BaseResponse<List<IndexClassfiy>> listBaseResponse) {
                 List<IndexClassfiy> data = listBaseResponse.getData();
-                SPUtils.saveObject(SPStr.INDEX_CLASSFIY_LIST, data);
+                new Thread(() -> SPUtils.saveObject(SPStr.INDEX_CLASSFIY_LIST, data)).start();
+
                 if (isAdd) initTabLayout(data);
             }
 
@@ -193,6 +217,7 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
      * 弹出POP【所有分类】
      * io线程读取本地Pop分类数据
      */
+
     private void allPopClassfiy() {
         //io线程读取本地Tab分类数据
         Observable.create((Observable.OnSubscribe<List<Classfiy>>) subscriber -> {
@@ -202,10 +227,9 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
                 return;
             }
             subscriber.onNext(allClassfiyCache);
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        }).subscribeOn(Schedulers.io())
                 .subscribe(allClassfiyCache -> {
+
                     initAllGoodsTypePop(allClassfiyCache);
                     getPopClassfiy(allClassfiyCache);
                 });
@@ -219,7 +243,7 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
                     @Override
                     protected void onSuccess(BaseResponse<List<Classfiy>> listBaseResponse) {
                         List<Classfiy> classfiys = listBaseResponse.getData();
-                        SPUtils.saveObject(SPStr.CLASSFIYS, new ArrayList<>(classfiys));
+                        new Thread(() -> SPUtils.saveObject(SPStr.CLASSFIYS, new ArrayList<>(classfiys))).start();
                         if (allClassfiyCache == null) initAllGoodsTypePop(classfiys);
                     }
 
@@ -254,6 +278,7 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
     }
 
     //顶部横条Tab
+    @DebugLog
     private void initTabLayout(List<IndexClassfiy> classfiys) {
         if (classfiys == null || classfiys.size() == 0) return;
         if (magicIndicator.getChildCount() > 2) return;
@@ -261,7 +286,6 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
         TabCreateUtils.setDefaultTab2(this.getContext(), magicIndicator, viewPager, classfiys);
         //延迟处理，可以让用户更快的看到首页的Tab选项栏
         new Handler().postDelayed(() -> initViewPager(classfiys), 1);
-
     }
 
     /**
@@ -280,12 +304,11 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
             @Override //180ms
             public Fragment getItem(int i) {
 //                L.e(i + "t==" + System.currentTimeMillis());
-                if (i == 0){
+                if (i == 0) {
                     HomeSelectFragment homeSelectFragment = HomeSelectFragment.newInstance();
                     homeSelectFragment.setListener(HomeFragment.this);
                     return homeSelectFragment;
-                }
-                else return HomeGoodsFragment.newInstance(classfiys.get(i));
+                } else return HomeGoodsFragment.newInstance(classfiys.get(i));
             }
 
             @Nullable
@@ -308,7 +331,15 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
                 goActivity(WhiteBarActivity.class);
                 break;
             case R.id.tv_look_guide_video:
-                ToastUtil.showShort("开发中...");
+//                ToastUtil.showShort("开发中...");
+//                startBrowserActivity(MODE_SONIC);
+
+                ObjectAnimator animator = ObjectAnimator.ofFloat(tvLookGuideVideo, "translationX", 0, -200, 0);
+                animator.setInterpolator(new BounceInterpolator());
+                animator.setRepeatCount(ValueAnimator.INFINITE);
+                animator.setRepeatMode(ValueAnimator.REVERSE);
+                animator.setDuration(1000);
+                animator.start();
                 break;
             case R.id.iv_show_all_type:
                 showAllGoodsTypePop();
@@ -318,6 +349,21 @@ public class HomeFragment extends BaseFragment implements HomeSelectFragment.OnB
                 break;
         }
     }
+
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_SONIC = 1;
+    private String DEMO_URL = "file:///android_asset/sonic-demo-index.html";
+
+    //    private String DEMO_URL="https://xiaoshubin.github.io/sonic-demo-index.html";
+//    private String DEMO_URL="https://www.taobao.com";
+    private void startBrowserActivity(int mode) {
+        Intent intent = new Intent(_mActivity, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.PARAM_URL, DEMO_URL);
+        intent.putExtra(BrowserActivity.PARAM_MODE, mode);
+        intent.putExtra(SonicJavaScriptInterface.PARAM_CLICK_TIME, System.currentTimeMillis());
+        startActivityForResult(intent, -1);
+    }
+
 
     @Override
     public void onPageSelected(int position) {

@@ -1,9 +1,10 @@
 package com.qiqia.duosheng.utils;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.annotation.NonNull;
-import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 

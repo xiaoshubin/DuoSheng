@@ -74,6 +74,7 @@ public class WebViewShopActivity extends BaseBarActivity {
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
+        settings.setDomStorageEnabled(true);
         webView.setWebViewClient(new MyWebViewClient());
 
     }

@@ -2,9 +2,10 @@ package com.qiqia.duosheng.custom;
 
 
 import android.content.Context;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 垂直滑动的ViewPager

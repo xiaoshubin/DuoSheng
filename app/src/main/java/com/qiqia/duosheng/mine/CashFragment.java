@@ -1,12 +1,13 @@
 package com.qiqia.duosheng.mine;
 
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseBarFragment;

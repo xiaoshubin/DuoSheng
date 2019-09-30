@@ -12,14 +12,20 @@ import android.net.Uri;
 public class WebUtils {
     /**
      * 跳转到手机默认浏览器相关网页
+     * 如果是打开第三方应用，未安装会报错，需要捕获
      * @param context
      * @param url
      */
     public static void goWeb(Context context, String url){
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(url);
-        intent.setData(content_url);
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse(url);
+            intent.setData(content_url);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            L.e("没有安装此第三方应用！");
+        }
     }
 }

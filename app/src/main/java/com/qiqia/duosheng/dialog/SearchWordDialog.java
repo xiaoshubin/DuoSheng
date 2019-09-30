@@ -2,10 +2,11 @@ package com.qiqia.duosheng.dialog;
 
 import android.app.Activity;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.qiqia.duosheng.R;

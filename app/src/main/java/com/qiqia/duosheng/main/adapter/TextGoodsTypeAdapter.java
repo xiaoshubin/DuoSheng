@@ -1,6 +1,7 @@
 package com.qiqia.duosheng.main.adapter;
 
 import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

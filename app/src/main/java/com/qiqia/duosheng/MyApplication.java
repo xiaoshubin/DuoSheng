@@ -51,8 +51,11 @@ public class MyApplication extends Application {
                 StrictMode.setVmPolicy(builder.build());
                 builder.detectFileUriExposure();
             }
+
+
         }).start();
     }
+
 
     private void initAliBc() {
         try {
@@ -67,10 +70,8 @@ public class MyApplication extends Application {
                     L.e("百川SDK初始化成功");
                     AlibcTradeSDK.setTaokeParams(new AlibcTaokeParams(Contants.PID, "", ""));//设置淘客全局参数
                     AlibcTradeSDK.setChannel("多省APP推广位", Contants.PID);
-
                     Apollo.emit(EventStr.ALIBCTRADESDK_INIT_SUCCESS);
                 }
-
                 @Override
                 public void onFailure(int code, String msg) {
                     //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明

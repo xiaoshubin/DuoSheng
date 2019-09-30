@@ -1,5 +1,6 @@
 package com.qiqia.duosheng;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,11 +8,25 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.aliyun.sls.android.sdk.ClientConfiguration;
+import com.aliyun.sls.android.sdk.LOGClient;
+import com.aliyun.sls.android.sdk.LogException;
+import com.aliyun.sls.android.sdk.SLSDatabaseManager;
+import com.aliyun.sls.android.sdk.SLSLog;
+import com.aliyun.sls.android.sdk.core.auth.PlainTextAKSKCredentialProvider;
+import com.aliyun.sls.android.sdk.core.callback.CompletedCallback;
+import com.aliyun.sls.android.sdk.model.Log;
+import com.aliyun.sls.android.sdk.model.LogGroup;
+import com.aliyun.sls.android.sdk.request.PostLogRequest;
+import com.aliyun.sls.android.sdk.result.PostLogResult;
+import com.aliyun.sls.android.sdk.utils.IPService;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -79,7 +94,98 @@ public class MainActivity extends BaseActivity {
         //下载更新
 //        dialogProgress = new DownloadCircleDialog(this);
 //        showNewVersion();
+        showPushSetPop();
+
+        //阿里云日志服务
+        initAliLog();
     }
+    LOGClient logClient;
+    private void initAliLog() {
+        SLSDatabaseManager.getInstance().setupDB(getApplicationContext());
+        // 配置信息
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
+        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+        conf.setCachable(true);     // 设置日志发送失败时，是否支持本地缓存。
+        conf.setConnectType(ClientConfiguration.NetworkPolicy.WIFI_ONLY);   // 设置缓存日志发送的网络策略。
+        SLSLog.enableLog(); // log打印在控制台
+        String endpoint = "http://cn-zhangjiakou.log.aliyuncs.com";
+        String AK = "LTAI4FkwHCo7AGkvQhBQR59p";
+        String SK = "drUAusWbJmG4DNooEPzK0iQOVcKsck";
+        PlainTextAKSKCredentialProvider credentialProvider =
+                new PlainTextAKSKCredentialProvider(AK, SK);
+        logClient = new LOGClient(getApplicationContext(), endpoint, credentialProvider, conf);
+        upLog();
+    }
+
+    public String project = "test-2019-9-25";
+    public String logStore = "duosheng";
+    public String source_ip = "";
+    public final static int HANDLER_MESSAGE_UPLOAD_FAILED = 00011;
+    public final static int HANDLER_MESSAGE_UPLOAD_SUCCESS = 00012;
+    private void upLog(){
+        // 1. 创建logGroup
+        LogGroup logGroup = new LogGroup("sls test", TextUtils.isEmpty(source_ip) ? " no ip " : source_ip);
+        // 2. 创建一条log
+        Log log = new Log();
+        log.PutContent("current time ", "" + System.currentTimeMillis() / 1000);
+        log.PutContent("content", "this is a log");
+        log.PutContent("qiqia", "from xiaomi5 first test");
+        // 3. 将log加入到group
+        logGroup.PutLog(log);
+        // 4. 发送log到sls服务器
+        try {
+            PostLogRequest request = new PostLogRequest(project, logStore, logGroup);
+            logClient.asyncPostLog(request, new CompletedCallback<PostLogRequest, PostLogResult>() {
+                @Override
+                public void onSuccess(PostLogRequest request, PostLogResult result) {
+                    Message message = Message.obtain(handler);
+                    message.what = HANDLER_MESSAGE_UPLOAD_SUCCESS;
+                    message.sendToTarget();
+                    L.e("日志上传成功！");
+//                    System.gc();
+                }
+
+                @Override
+                public void onFailure(PostLogRequest request, LogException exception) {
+                    Message message = Message.obtain(handler);
+                    message.what = HANDLER_MESSAGE_UPLOAD_FAILED;
+                    message.obj = exception.getMessage();
+                    message.sendToTarget();
+                    L.e("日志上传失败=="+exception.getErrorCode()+"  :"+exception.getErrorMessage());
+                    //                    System.gc();
+                }
+            });
+        } catch (LogException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        // 处理子线程给我们发送的消息。
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case IPService.HANDLER_MESSAGE_GETIP_CODE:
+                    source_ip = (String) msg.obj;
+                    L.e("获取Ip.....");
+//                    logText.setText(source_ip);
+                    return;
+                case HANDLER_MESSAGE_UPLOAD_FAILED:
+                    L.e("upload fail");
+//                    logText.setText((String) msg.obj);
+                    return;
+                case HANDLER_MESSAGE_UPLOAD_SUCCESS:
+                    L.e("upload success");
+                    ToastUtil.showShort("upload success");
+                    return;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     /**
      * 大于一天就显示一次推送设置弹窗

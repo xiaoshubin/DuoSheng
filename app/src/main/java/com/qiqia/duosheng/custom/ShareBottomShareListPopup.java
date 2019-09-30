@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.core.BottomPopupView;

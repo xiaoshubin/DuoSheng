@@ -2,13 +2,14 @@ package com.qiqia.duosheng.custom;
 
 import android.animation.ArgbEvaluator;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.appbar.AppBarLayout;
 import com.qiqia.duosheng.R;
 //设置页面，顶部滚动
 public class ColorGradBehavior extends CoordinatorLayout.Behavior<View> {

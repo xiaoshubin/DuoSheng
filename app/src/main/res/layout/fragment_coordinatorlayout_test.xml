@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <import
-            type="android.text.TextUtils" />
-        <import
-            type="android.view.View" />
-        <variable
-            name="item"
-            type="com.qiqia.duosheng.main.bean.MenuItem" />
-    </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-        <com.qiqia.duosheng.custom.MyView
-            android:visibility="gone"
-            android:id="@+id/finger_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/btn_call_js"
-            android:text="Android调用JS"
-            app:layout_constraintTop_toBottomOf="@id/web_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <WebView
-            android:id="@+id/web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    </LinearLayout>
-</layout>
+    <com.qiqia.duosheng.custom.FlowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff00ff">
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="Welcome"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="IT工程师"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="我真是可以的"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="你觉得呢"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="不要只知道挣钱"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="努力ing"
+            android:textColor="#43BBE7" />
+
+        <TextView
+            style="@style/text_flag_01"
+            android:text="I thick i can"
+            android:textColor="#43BBE7" />
+        <TextView
+            style="@style/text_flag_01"
+            android:text="I thick i can2"
+            android:textColor="#43BBE7" />
+
+    </com.qiqia.duosheng.custom.FlowLayout>
+</LinearLayout>

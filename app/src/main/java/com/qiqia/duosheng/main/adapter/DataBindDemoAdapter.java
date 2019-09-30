@@ -3,8 +3,8 @@ package com.qiqia.duosheng.main.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.databinding.ItemBindingBinding;
-import com.qiqia.duosheng.utils.DataBindBaseViewHolder;
 import com.qiqia.duosheng.main.bean.MenuItem;
+import com.qiqia.duosheng.utils.DataBindBaseViewHolder;
 
 public class DataBindDemoAdapter extends BaseQuickAdapter<MenuItem,DataBindBaseViewHolder> {
     public DataBindDemoAdapter() {

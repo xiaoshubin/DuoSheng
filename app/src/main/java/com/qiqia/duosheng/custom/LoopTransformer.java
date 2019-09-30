@@ -1,7 +1,8 @@
 package com.qiqia.duosheng.custom;
 
-import androidx.viewpager.widget.ViewPager;
 import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * 画廊动画效果

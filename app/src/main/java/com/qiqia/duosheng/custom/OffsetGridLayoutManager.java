@@ -1,9 +1,10 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
+import android.view.View;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;

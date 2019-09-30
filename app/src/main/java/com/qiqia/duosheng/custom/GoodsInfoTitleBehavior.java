@@ -1,11 +1,12 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
 
 public class GoodsInfoTitleBehavior extends CoordinatorLayout.Behavior<View> {
     private static final String TAG = "HomeTitleBehavior";

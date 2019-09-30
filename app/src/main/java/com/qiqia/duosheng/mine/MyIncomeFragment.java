@@ -2,12 +2,13 @@ package com.qiqia.duosheng.mine;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.lxj.xpopup.XPopup;
 import com.qiqia.duosheng.R;

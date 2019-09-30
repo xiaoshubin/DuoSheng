@@ -10,6 +10,7 @@ import com.ali.auth.third.ui.context.CallbackContext;
 import com.gyf.immersionbar.ImmersionBar;
 import com.qiqia.duosheng.R;
 import com.qiqia.duosheng.base.BaseActivity;
+import com.qiqia.duosheng.base.BaseWebViewFragment;
 import com.qiqia.duosheng.base.Contants;
 import com.qiqia.duosheng.main.CoordinatorLayoutTestFragment;
 import com.qiqia.duosheng.main.GuideViewPagerFragment;
@@ -49,7 +50,10 @@ public class TransparentBarActivity extends BaseActivity {
         if (TextUtils.isEmpty(intExtra))intExtra= StartupFragment.class.getSimpleName();
         switch (intExtra) {
             case "CoordinatorLayoutTestFragment":
-                loadFragment(CoordinatorLayoutTestFragment.newInstance());
+                loadFragment(new CoordinatorLayoutTestFragment());
+                break;
+            case "BaseWebViewFragment":
+                loadFragment(new BaseWebViewFragment());
                 break;
             case "StartupFragment":
                 loadFragment(StartupFragment.newInstance());

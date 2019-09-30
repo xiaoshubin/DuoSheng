@@ -27,18 +27,39 @@
         tools:ignore="AllowBackup,UnusedAttribute"
         tools:replace="android:allowBackup,android:appComponentFactory"
         tools:targetApi="n">
-        <activity android:name=".activities.SplashActivity"
+        <activity android:name=".activities.BrowserActivity"/>
+        <activity android:name=".activities.QiImageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- 指定分享类型,我这边只能分享video/mp4,image/* -->
+                <data android:mimeType="video/mp4" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <!-- 协议部分，随便设置 -->
+                <data
+                    android:host="goods"
+                    android:path="/goodsDetail"
+                    android:port="8888"
+                    android:scheme="xl" />
+                <!-- 下面这几行也必须得设置 -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="adjustPan"
-            >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 适配华为（huawei）刘海屏 -->
+        </activity> <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
             android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
@@ -53,7 +74,8 @@
             android:name=".activities.WhiteBarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.TransparentBarActivity" android:screenOrientation="portrait"/>
+            android:name=".activities.TransparentBarActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -93,8 +115,7 @@
             tools:replace="android:theme" /> <!-- 百川SDK在Android9上需要配置此项 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!-- Android7 需要通过FileProvider获取图片Uri -->
+            android:required="false" /> <!-- Android7 需要通过FileProvider获取图片Uri -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

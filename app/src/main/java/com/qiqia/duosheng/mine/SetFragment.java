@@ -99,9 +99,13 @@ public class SetFragment extends BaseBindBarFragment<FragmentSetBinding> {
         //版本号设置
         mBinding.tvVersionName.setText(String.format("版本V%s", AppUtils.getVersionName()));
         //淘宝授权信息设置
-        if (AlibcLogin.getInstance().isLogin()) {
-            Session session = AlibcLogin.getInstance().getSession();
-            mBinding.tvTbAuthLogin.setText(session.nick);
+        try {
+            if (AlibcLogin.getInstance().isLogin()) {
+                Session session = AlibcLogin.getInstance().getSession();
+                mBinding.tvTbAuthLogin.setText(session.nick);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //下载更新进度圈
         dialogProgress = new DownloadCircleDialog(_mActivity);

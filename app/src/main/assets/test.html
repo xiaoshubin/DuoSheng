@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <script src="jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="md5.js" type="text/javascript" charset="utf-8"></script>
+</head>
 <body>
-<h1 onClick='takePrompt()'>体能测试</h1>
-<script>
-    function takePrompt(){
-        var result = prompt("请输入你的身高？","170");
-        alert(result);
+<h1 onclick="sha()">sha</h1>
+<h1 onclick="share()">分享文字</h1>
+<span id="tips" style="font-size:30px">配置加载中...</span><br/>
+<script type="text/javascript">
+    //注入权限验证配置
+    window.onload=function() {
+        document.getElementById("tips").innerHTML="配置开始...";
+        var debug = true;
+        var timestamp = Math.round(new Date() / 1000);
+        var appId = "888";
+        var nonceStr = Math.random().toString(36).substr(2);
+        var url = window.location.href;
+        var jsapi_ticket = "sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg";
+        var signature = $.md5("jsapi_ticket=" + jsapi_ticket + "&nonceStr=" + nonceStr + "&timestamp=" + timestamp + "&url=" + url);
+        var jsApiList =["shareText"];
+        qsh.config(url,debug,appId,timestamp,nonceStr,signature,jsApiList);
+        document.getElementById("tips").innerHTML="配置完成！";
+    };
+    function share(){
+        qsh.shareText("来之多省的分享App,http://duosheng.com");
     }
 </script>
+<a href="https://xiaoshubin.github.io/">to xiaoshubin</a>
 </body>
 </html>

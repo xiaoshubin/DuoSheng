@@ -1,9 +1,10 @@
 package com.qiqia.duosheng.utils;
 
-import androidx.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
 
 import com.qiqia.duosheng.R;
 

@@ -56,9 +56,6 @@ public class WebViewFragment extends BaseBarFragment {
         }
 
 
-//        webView.loadUrl("file:///android_asset/javascript.html");
-//        webView.addJavascriptInterface(new AndroidJs(), "test");//AndroidtoJS类对象映射到js的test对象
-
     }
 //百川JSBridge <script src="//g.alicdn.com/mtb/lib-BCJSBridge/0.3.5/bc-jsbridge.js"></script>
     private void initWebSet() {

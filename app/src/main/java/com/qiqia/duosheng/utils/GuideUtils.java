@@ -1,11 +1,12 @@
 package com.qiqia.duosheng.utils;
 
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
 import android.os.Handler;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;

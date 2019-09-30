@@ -8,11 +8,12 @@ package cn.com.smallcake_utils.custom;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 
 public class AutoSplitTextView extends AppCompatTextView {

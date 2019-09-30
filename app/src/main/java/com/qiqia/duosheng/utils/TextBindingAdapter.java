@@ -1,9 +1,10 @@
 package com.qiqia.duosheng.utils;
 
-import androidx.databinding.BindingAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
 
 import org.jetbrains.annotations.Nullable;
 

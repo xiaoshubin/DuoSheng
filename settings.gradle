@@ -1,1 +1,1 @@
-include ':app', ':smallcake-utils', ':smallcake-okhttp3', ':guideview'
+include ':app', ':smallcake-utils', ':smallcake-okhttp3', ':guideview', ':qsh'

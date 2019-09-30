@@ -1,11 +1,12 @@
 package com.qiqia.duosheng.custom;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
 
 import cn.com.smallcake_utils.ScreenUtils;
 
@@ -36,7 +37,7 @@ public class BottomTabPinBehavior extends CoordinatorLayout.Behavior<View> {
      */
     @Override
     public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull View child, @NonNull View dependency) {
-        int transY = ScreenUtils.getRealHight(parent.getContext()) - child.getHeight();
+        int transY = ScreenUtils.getRealHight() - child.getHeight();
         child.setTranslationY(transY);
         return true;
     }
