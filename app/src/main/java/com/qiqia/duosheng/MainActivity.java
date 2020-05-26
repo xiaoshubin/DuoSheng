@@ -112,8 +112,8 @@ public class MainActivity extends BaseActivity {
         conf.setConnectType(ClientConfiguration.NetworkPolicy.WIFI_ONLY);   // 设置缓存日志发送的网络策略。
         SLSLog.enableLog(); // log打印在控制台
         String endpoint = "http://cn-zhangjiakou.log.aliyuncs.com";
-        String AK = "LTAI4FkwHCo7AGkvQhBQR59p";
-        String SK = "drUAusWbJmG4DNooEPzK0iQOVcKsck";
+        String AK = "";
+        String SK = "";
         PlainTextAKSKCredentialProvider credentialProvider =
                 new PlainTextAKSKCredentialProvider(AK, SK);
         logClient = new LOGClient(getApplicationContext(), endpoint, credentialProvider, conf);
